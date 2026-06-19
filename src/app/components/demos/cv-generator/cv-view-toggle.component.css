@@ -1,0 +1,12 @@
+.toggle-buttons {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.toggle-buttons > div {
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  gap: 6px;
+}

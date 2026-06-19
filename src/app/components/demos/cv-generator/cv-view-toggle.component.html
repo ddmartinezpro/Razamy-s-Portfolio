@@ -1,0 +1,11 @@
+<div class="toggle-buttons">
+  <div (click)="isAwsShow.set(true)">
+    <input type="checkbox" [checked]="isAwsShow()">
+    <label>{{ texts().awsFormat }}</label>
+  </div>
+
+  <div (click)="isAwsShow.set(false)">
+    <input type="checkbox" [checked]="!isAwsShow()">
+    <label>{{ texts().visualFormat }}</label>
+  </div>
+</div>
