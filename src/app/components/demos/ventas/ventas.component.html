@@ -1,0 +1,545 @@
+﻿<div class="ventas-page">
+  <div class="page-header">
+    <div>
+      <h1>GestiÃ³n de Ventas</h1>
+      <p>Administra catÃ¡logos, productos y ventas desde una sola vista.</p>
+    </div>
+
+    <button class="btn btn-secondary" (click)="loadAllData()">Recargar todo</button>
+  </div>
+
+  @if (message) {
+  <div class="alert" [class.alert-success]="messageType === 'success'" [class.alert-error]="messageType === 'error'">
+    {{ message }}
+    <button class="alert-close" (click)="clearMessage()">Ã—</button>
+  </div>
+  }
+
+  <div class="tabs">
+    <button [class.active]="activeTab === 'tipoPagos'" (click)="setTab('tipoPagos')">Tipos de pago</button>
+    <button [class.active]="activeTab === 'estadoVentas'" (click)="setTab('estadoVentas')">Estados de venta</button>
+    <button [class.active]="activeTab === 'categoriaProductos'" (click)="setTab('categoriaProductos')">CategorÃ­as</button>
+    <button [class.active]="activeTab === 'proveedores'" (click)="setTab('proveedores')">Proveedores</button>
+    <button [class.active]="activeTab === 'productos'" (click)="setTab('productos')">Productos</button>
+    <button [class.active]="activeTab === 'ventas'" (click)="setTab('ventas')">Ventas</button>
+  </div>
+
+  <!-- ========================= -->
+  <!-- TIPO PAGOS -->
+  <!-- ========================= -->
+  @if (activeTab === 'tipoPagos') {
+  <section class="tab-content">
+    <div class="content-grid">
+      <div class="form-card">
+        <h2>{{ editingTipoPagoId ? 'Editar tipo de pago' : 'Nuevo tipo de pago' }}</h2>
+
+        <div class="form-group">
+          <label>Nombre</label>
+          <input type="text" [(ngModel)]="tipoPagoForm.tipoPagoNombre" placeholder="Ej: Transferencia" />
+        </div>
+
+        <div class="form-actions">
+          <button class="btn btn-primary" (click)="submitTipoPago()">
+            {{ editingTipoPagoId ? 'Actualizar' : 'Crear' }}
+          </button>
+          @if (editingTipoPagoId) {
+            <button class="btn btn-light" (click)="resetTipoPagoForm()">Cancelar</button>
+          }
+        </div>
+      </div>
+
+      <div class="table-card">
+        <h2>Listado</h2>
+
+        <table>
+          <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Creado</th>
+            <th>Acciones</th>
+          </tr>
+          </thead>
+          <tbody>
+          @for (item of tipoPagos; track item.id) {
+          <tr>
+            <td>{{ item.id }}</td>
+            <td>{{ item.tipoPagoNombre }}</td>
+            <td>{{ item.createdAt | date:'short' }}</td>
+            <td class="actions">
+              <button class="btn btn-small btn-warning" (click)="editTipoPago(item)">Editar</button>
+              <button class="btn btn-small btn-danger" (click)="deleteTipoPago(item.id)">Eliminar</button>
+            </td>
+          </tr>
+          } @empty {
+          <tr>
+            <td colspan="4" class="empty">No hay tipos de pago registrados.</td>
+          </tr>
+          }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+  }
+
+  <!-- ========================= -->
+  <!-- ESTADO VENTAS -->
+  <!-- ========================= -->
+  @if (activeTab === 'estadoVentas') {
+  <section class="tab-content">
+    <div class="content-grid">
+      <div class="form-card">
+        <h2>{{ editingEstadoVentaId ? 'Editar estado de venta' : 'Nuevo estado de venta' }}</h2>
+
+        <div class="form-group">
+          <label>Nombre</label>
+          <input type="text" [(ngModel)]="estadoVentaForm.nombre" placeholder="Ej: Pendiente" />
+        </div>
+
+        <div class="form-actions">
+          <button class="btn btn-primary" (click)="submitEstadoVenta()">
+            {{ editingEstadoVentaId ? 'Actualizar' : 'Crear' }}
+          </button>
+          @if (editingEstadoVentaId) {
+            <button class="btn btn-light" (click)="resetEstadoVentaForm()">Cancelar</button>
+          }
+        </div>
+      </div>
+
+      <div class="table-card">
+        <h2>Listado</h2>
+
+        <table>
+          <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Creado</th>
+            <th>Acciones</th>
+          </tr>
+          </thead>
+          <tbody>
+          @for (item of estadoVentas; track item.id) {
+          <tr>
+            <td>{{ item.id }}</td>
+            <td>{{ item.nombre }}</td>
+            <td>{{ item.createdAt | date:'short' }}</td>
+            <td class="actions">
+              <button class="btn btn-small btn-warning" (click)="editEstadoVenta(item)">Editar</button>
+              <button class="btn btn-small btn-danger" (click)="deleteEstadoVenta(item.id)">Eliminar</button>
+            </td>
+          </tr>
+          } @empty {
+          <tr>
+            <td colspan="4" class="empty">No hay estados de venta registrados.</td>
+          </tr>
+          }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+  }
+
+  <!-- ========================= -->
+  <!-- CATEGORIAS -->
+  <!-- ========================= -->
+  @if (activeTab === 'categoriaProductos') {
+  <section class="tab-content">
+    <div class="content-grid">
+      <div class="form-card">
+        <h2>{{ editingCategoriaProductoId ? 'Editar categorÃ­a' : 'Nueva categorÃ­a' }}</h2>
+
+        <div class="form-group">
+          <label>Nombre</label>
+          <input
+            type="text"
+            [(ngModel)]="categoriaProductoForm.categoriaProductoNombre"
+            placeholder="Ej: Abarrotes"
+          />
+        </div>
+
+        <div class="form-actions">
+          <button class="btn btn-primary" (click)="submitCategoriaProducto()">
+            {{ editingCategoriaProductoId ? 'Actualizar' : 'Crear' }}
+          </button>
+          @if (editingCategoriaProductoId) {
+            <button class="btn btn-light" (click)="resetCategoriaProductoForm()">Cancelar</button>
+          }
+        </div>
+      </div>
+
+      <div class="table-card">
+        <h2>Listado</h2>
+
+        <table>
+          <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Creado</th>
+            <th>Acciones</th>
+          </tr>
+          </thead>
+          <tbody>
+          @for (item of categoriaProductos; track item.id) {
+          <tr>
+            <td>{{ item.id }}</td>
+            <td>{{ item.categoriaProductoNombre }}</td>
+            <td>{{ item.createdAt | date:'short' }}</td>
+            <td class="actions">
+              <button class="btn btn-small btn-warning" (click)="editCategoriaProducto(item)">Editar</button>
+              <button class="btn btn-small btn-danger" (click)="deleteCategoriaProducto(item.id)">Eliminar</button>
+            </td>
+          </tr>
+          } @empty {
+          <tr>
+            <td colspan="4" class="empty">No hay categorÃ­as registradas.</td>
+          </tr>
+          }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+  }
+
+  <!-- ========================= -->
+  <!-- PROVEEDORES -->
+  <!-- ========================= -->
+  @if (activeTab === 'proveedores') {
+  <section class="tab-content">
+    <div class="content-grid">
+      <div class="form-card">
+        <h2>{{ editingProveedorId ? 'Editar proveedor' : 'Nuevo proveedor' }}</h2>
+
+        <div class="form-group">
+          <label>Nombre</label>
+          <input type="text" [(ngModel)]="proveedorForm.nombreApellidos" placeholder="Nombre del proveedor" />
+        </div>
+
+        <div class="form-group">
+          <label>TelÃ©fono</label>
+          <input type="text" [(ngModel)]="proveedorForm.proveedorTelefono" placeholder="TelÃ©fono" />
+        </div>
+
+        <div class="form-group">
+          <label>DirecciÃ³n</label>
+          <input type="text" [(ngModel)]="proveedorForm.proveedorDireccion" placeholder="DirecciÃ³n" />
+        </div>
+
+        <div class="form-actions">
+          <button class="btn btn-primary" (click)="submitProveedor()">
+            {{ editingProveedorId ? 'Actualizar' : 'Crear' }}
+          </button>
+          @if (editingProveedorId) {
+            <button class="btn btn-light" (click)="resetProveedorForm()">Cancelar</button>
+          }
+        </div>
+      </div>
+
+      <div class="table-card">
+        <h2>Listado</h2>
+
+        <table>
+          <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>TelÃ©fono</th>
+            <th>DirecciÃ³n</th>
+            <th>Acciones</th>
+          </tr>
+          </thead>
+          <tbody>
+          @for (item of proveedores; track item.id) {
+          <tr>
+            <td>{{ item.id }}</td>
+            <td>{{ item.nombreApellidos }}</td>
+            <td>{{ item.proveedorTelefono || '-' }}</td>
+            <td>{{ item.proveedorDireccion || '-' }}</td>
+            <td class="actions">
+              <button class="btn btn-small btn-warning" (click)="editProveedor(item)">Editar</button>
+              <button class="btn btn-small btn-danger" (click)="deleteProveedor(item.id)">Eliminar</button>
+            </td>
+          </tr>
+          } @empty {
+          <tr>
+            <td colspan="5" class="empty">No hay proveedores registrados.</td>
+          </tr>
+          }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+  }
+
+  <!-- ========================= -->
+  <!-- PRODUCTOS -->
+  <!-- ========================= -->
+  @if (activeTab === 'productos') {
+  <section class="tab-content">
+    <div class="content-grid">
+      <div class="form-card">
+        <h2>{{ editingProductoId ? 'Editar producto' : 'Nuevo producto' }}</h2>
+
+        <div class="form-group">
+          <label>Nombre</label>
+          <input type="text" [(ngModel)]="productoForm.productoNombre" placeholder="Nombre del producto" />
+        </div>
+
+        <div class="form-group">
+          <label>DescripciÃ³n</label>
+          <textarea [(ngModel)]="productoForm.descripcion" rows="3" placeholder="DescripciÃ³n"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>URL Imagen</label>
+          <input type="text" [(ngModel)]="productoForm.productoImg" placeholder="https://..." />
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Cantidad</label>
+            <input type="number" [(ngModel)]="productoForm.cantidad" />
+          </div>
+
+          <div class="form-group">
+            <label>Precio</label>
+            <input type="number" step="0.01" [(ngModel)]="productoForm.precio" />
+          </div>
+
+          <div class="form-group">
+            <label>Precio Venta</label>
+            <input type="number" step="0.01" [(ngModel)]="productoForm.precioVenta" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Fecha AdquisiciÃ³n</label>
+          <input type="date" [(ngModel)]="productoForm.fechaAdquisicion" />
+        </div>
+
+        <div class="form-group">
+          <label>Proveedor</label>
+          <select [(ngModel)]="productoForm.proveedorId">
+            <option [ngValue]="0">Seleccione...</option>
+            @for (item of proveedores; track item.id) {
+            <option [ngValue]="item.id">
+              {{ item.nombreApellidos }}
+            </option>
+            }
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>CategorÃ­a</label>
+          <select [(ngModel)]="productoForm.categoriaProductoId">
+            <option [ngValue]="0">Seleccione...</option>
+            @for (item of categoriaProductos; track item.id) {
+            <option [ngValue]="item.id">
+              {{ item.categoriaProductoNombre }}
+            </option>
+            }
+          </select>
+        </div>
+
+        <div class="form-actions">
+          <button class="btn btn-primary" (click)="submitProducto()">
+            {{ editingProductoId ? 'Actualizar' : 'Crear' }}
+          </button>
+          @if (editingProductoId) {
+            <button class="btn btn-light" (click)="resetProductoForm()">Cancelar</button>
+          }
+        </div>
+      </div>
+
+      <div class="table-card">
+        <h2>Listado</h2>
+
+        <table>
+          <thead>
+          <tr>
+            <th>ID</th>
+            <th>Producto</th>
+            <th>Cantidad</th>
+            <th>Precio</th>
+            <th>Precio Venta</th>
+            <th>Proveedor</th>
+            <th>CategorÃ­a</th>
+            <th>Acciones</th>
+          </tr>
+          </thead>
+          <tbody>
+          @for (item of productos; track item.id) {
+          <tr>
+            <td>{{ item.id }}</td>
+            <td>{{ item.productoNombre }}</td>
+            <td>{{ item.cantidad }}</td>
+            <td>{{ item.precio }}</td>
+            <td>{{ item.precioVenta }}</td>
+            <td>{{ item.proveedor.nombre }}</td>
+            <td>{{ item.categoriaProducto.nombre }}</td>
+            <td class="actions">
+              <button class="btn btn-small btn-warning" (click)="editProducto(item)">Editar</button>
+              <button class="btn btn-small btn-danger" (click)="deleteProducto(item.id)">Eliminar</button>
+            </td>
+          </tr>
+          } @empty {
+          <tr>
+            <td colspan="8" class="empty">No hay productos registrados.</td>
+          </tr>
+          }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+  }
+
+  <!-- ========================= -->
+  <!-- VENTAS -->
+  <!-- ========================= -->
+  @if (activeTab === 'ventas') {
+  <section class="tab-content">
+    <div class="content-grid">
+      <div class="form-card">
+        <h2>{{ editingVentaId ? 'Editar venta' : 'Nueva venta' }}</h2>
+
+        <div class="form-group">
+          <label>Beneficiario</label>
+          <input type="text" [(ngModel)]="ventaForm.beneficiarioNombre" placeholder="Nombre del beneficiario" />
+        </div>
+
+        <div class="form-group">
+          <label>TelÃ©fono</label>
+          <input type="text" [(ngModel)]="ventaForm.beneficiarioTelefono" placeholder="TelÃ©fono" />
+        </div>
+
+        <div class="form-group">
+          <label>DirecciÃ³n</label>
+          <input type="text" [(ngModel)]="ventaForm.beneficiarioDireccion" placeholder="DirecciÃ³n" />
+        </div>
+
+        <div class="form-group">
+          <label>Producto</label>
+          <select [(ngModel)]="ventaForm.productoId">
+            <option [ngValue]="0">Seleccione...</option>
+            @for (item of productos; track item.id) {
+            <option [ngValue]="item.id">
+              {{ item.productoNombre }}
+            </option>
+            }
+          </select>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Cantidad Venta</label>
+            <input type="number" [(ngModel)]="ventaForm.cantidadVenta" />
+          </div>
+
+          <div class="form-group checkbox-group">
+            <label>
+              <input type="checkbox" [(ngModel)]="ventaForm.conDomicilio" />
+              Con domicilio
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Estado de venta</label>
+          <select [(ngModel)]="ventaForm.estadoVentaId">
+            <option [ngValue]="0">Seleccione...</option>
+            @for (item of estadoVentas; track item.id) {
+            <option [ngValue]="item.id">
+              {{ item.nombre }}
+            </option>
+            }
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Tipo de pago</label>
+          <select [(ngModel)]="ventaForm.tipoPagoId">
+            <option [ngValue]="0">Seleccione...</option>
+            @for (item of tipoPagos; track item.id) {
+            <option [ngValue]="item.id">
+              {{ item.tipoPagoNombre }}
+            </option>
+            }
+          </select>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Fecha Venta</label>
+            <input type="date" [(ngModel)]="ventaForm.fechaVenta" />
+          </div>
+
+          <div class="form-group">
+            <label>Fecha Pago</label>
+            <input type="date" [(ngModel)]="ventaForm.fechaPago" />
+          </div>
+
+          <div class="form-group">
+            <label>Fecha LiquidaciÃ³n</label>
+            <input type="date" [(ngModel)]="ventaForm.fechaLiquidacion" />
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button class="btn btn-primary" (click)="submitVenta()">
+            {{ editingVentaId ? 'Actualizar' : 'Crear' }}
+          </button>
+          @if (editingVentaId) {
+            <button class="btn btn-light" (click)="resetVentaForm()">Cancelar</button>
+          }
+        </div>
+      </div>
+
+      <div class="table-card">
+        <h2>Listado</h2>
+
+        <table>
+          <thead>
+          <tr>
+            <th>ID</th>
+            <th>Beneficiario</th>
+            <th>Producto</th>
+            <th>Tipo Pago</th>
+            <th>Estado</th>
+            <th>Cantidad</th>
+            <th>Fecha Venta</th>
+            <th>Acciones</th>
+          </tr>
+          </thead>
+          <tbody>
+          @for (item of ventas; track item.id) {
+          <tr>
+            <td>{{ item.id }}</td>
+            <td>{{ item.beneficiarioNombre }}</td>
+            <td>{{ item.producto.nombre }}</td>
+            <td>{{ item.tipoPago.nombre }}</td>
+            <td>{{ item.estadoVenta.nombre }}</td>
+            <td>{{ item.cantidadVenta }}</td>
+            <td>{{ item.fechaVenta | date:'shortDate' }}</td>
+            <td class="actions">
+              <button class="btn btn-small btn-warning" (click)="editVenta(item)">Editar</button>
+              <button class="btn btn-small btn-danger" (click)="deleteVenta(item.id)">Eliminar</button>
+            </td>
+          </tr>
+          } @empty {
+          <tr>
+            <td colspan="8" class="empty">No hay ventas registradas.</td>
+          </tr>
+          }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+  }
+</div>

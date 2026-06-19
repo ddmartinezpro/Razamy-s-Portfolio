@@ -1,8 +1,6 @@
-import {Component} from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 import {FormsModule} from '@angular/forms';
-import {NgForOf, NgIf} from '@angular/common';
-// @ts-ignore
-import html2pdf from 'html2pdf.js';
+import { CvViewToggleComponent } from './cv-view-toggle.component';
 
 
 interface ICvJson {
@@ -29,7 +27,7 @@ interface ICvJson {
     company: string;
     location: string;
     position: string;
-    website: string;
+    website?: string;
     startDate: string;
     endDate: string;
     sumary: string;
@@ -53,12 +51,13 @@ interface ICvJson {
   }[];
 }
 
+type Language = 'spanish' | 'english';
+
 @Component({
   selector: 'app-cv-generator',
   imports: [
     FormsModule,
-    NgIf,
-    NgForOf,
+    CvViewToggleComponent,
   ],
   templateUrl: './cv-generator.component.html',
   styleUrl: './cv-generator.component.css',
@@ -67,86 +66,221 @@ interface ICvJson {
 export class CvGeneratorComponent {
 
   // Variable para rellenar el CV
-  cvData: ICvJson = {
-    personal: {
-      name: 'David Díaz Martínez',
-      label: 'Desarrollador Web',
-      email: 'lnkddmartinez@gmail.com',
-      phone: '+53 59283769',
-      summary:
-        'Desarrollador Web con experiencia en LogicPlaces, especializado en la creación de sitios web responsivos utilizando Angular. Destacado en la optimización de procesos mediante RxJS y en el diseño de interfaces de usuario, demostrando sólidas habilidades de resolución de problemas y diseño. Experiencia comprobada en desarrollo full-stack, depuración de aplicaciones y experiencia de usuario.',
+  readonly cvData = signal<ICvJson>({
+    "personal": {
+      "name": "David Díaz Martínez",
+      "label": "Desarrollador Web Full Stack",
+      "email": "lnkddmartinez@gmail.com",
+      "phone": "+53 59283769",
+      "summary": "Desarrollador Web con más de 3 años de experiencia especializado en Angular y ecosistema TypeScript. He trabajado en proyectos de gestión empresarial, software de cadena de suministro y sistemas de tickets. Enfoque en calidad de código, experiencia de usuario y soluciones escalables."
     },
-    location: {
-      postalCode: '50100',
-      city: 'Villa Clara',
-      country: 'Cuba',
+    "location": {
+      "postalCode": "50100",
+      "city": "Villa Clara",
+      "country": "Cuba"
     },
-    profiles: [
+    "profiles": [
       {
-        network: 'LinkedIn',
-        username: 'lnkddmartinez',
-        url: 'https://linkedin.com/in/david-díaz-martínez-3b0b71321',
-      },
+        "network": "LinkedIn",
+        "username": "lnkddmartinez",
+        "url": "https://linkedin.com/in/david-díaz-martínez-3b0b71321"
+      }
     ],
-    work: [
+    "work": [
       {
-        company: 'LogicPlaces',
-        location: 'Valencia (En remoto)',
-        position: 'Desarrollador Web',
-        website: 'https://app.logicplaces.com',
-        startDate: 'Enero 2023',
-        endDate: 'Enero 2025',
-        sumary: 'Desarrollo full-stack y edición de diseño en una herramienta web de inmobiliaria.',
-        highlights: [
-          'Desarrollo y mantenimiento de páginas web funcionales y responsivas utilizando Angular, Bootstrap y NgZorro.',
-          'Optimización de procesos mediante RxJS, guards, interceptors y servicios, además de pruebas unitarias e integradas con Jest.',
-          'Diseño e implementación de APIs REST y gestión de modelos de bases de datos relacionales utilizando Sequelize, Postman y PostgreSQL.',
-          'Edición y personalización de diseños empleando Figma.',
-          'Gestión de control de versiones con Git para colaboración en equipo y seguimiento de cambios.',
-        ],
+        "company": "Mojito360",
+        "location": "Remoto",
+        "position": "Desarrollador Frontend",
+        "website": "https://www.mojito360.com/en/",
+        "startDate": "Noviembre 2025",
+        "endDate": "Actualidad",
+        "sumary": "Desarrollo frontend con Angular para software de gestión de cadena de suministro.",
+        "highlights": [
+          "Creación de nuevas vistas y flujos para clientes",
+          "Gestión de envíos, documentación y personal"
+        ]
       },
+      {
+        "company": "HelpDesk (Proyecto para Mojito360)",
+        "location": "Remoto",
+        "position": "Desarrollador Full Stack",
+        "website": "https://help-desk-mojito360.vercel.app/",
+        "startDate": "Enero 2026",
+        "endDate": "Enero 2026",
+        "sumary": "Aplicación independiente de gestión de tickets con integración a Mojito360.",
+        "highlights": [
+          "Arquitectura completa con Supabase (BD, autenticación)",
+          "Sistema de chats, notificaciones y configuraciones de SLA",
+          "Despliegue y CI/CD con Vercel"
+        ]
+      },
+      {
+        "company": "SourTrack",
+        "location": "Remoto",
+        "position": "Desarrollador Frontend",
+        "website": "https://app.sourtrack.com/",
+        "startDate": "Febrero 2025",
+        "endDate": "Noviembre 2025",
+        "sumary": "Aplicación web Angular para gestión de proyectos y flujos analíticos.",
+        "highlights": [
+          "Gestión de proyectos: Servicios → Órdenes → Operaciones",
+          "Generación de Estados de Pago y Órdenes de Compra",
+          "Soporte y mantenimiento continuo"
+        ]
+      },
+      {
+        "company": "LogicPlaces",
+        "location": "Valencia (En remoto)",
+        "position": "Desarrollador Web",
+        "website": "https://app.logicplaces.com",
+        "startDate": "Enero 2023",
+        "endDate": "Enero 2025",
+        "sumary": "Herramienta web de inmobiliaria con desarrollo full-stack.",
+        "highlights": [
+          "Desarrollo responsivo con Angular, Bootstrap y NgZorro",
+          "APIs REST con Node.js, Sequelize y PostgreSQL",
+          "Aplicaciones híbridas con Capacitor"
+        ]
+      }
     ],
-    education: [
+    "education": [
       {
-        institution: "Universidad Central 'Marta Abreu' de las Villas",
-        studyType: 'Título universitario de Ingeniería en Automatización',
-        startDate: 'Septiembre 2018',
-        endDate: 'Diciembre 2023',
-        gpa: '4.3',
-      },
+        "institution": "Universidad Central 'Marta Abreu' de las Villas",
+        "studyType": "Título universitario de Ingeniería en Automatización",
+        "startDate": "Septiembre 2018",
+        "endDate": "Diciembre 2023",
+        "gpa": "4.3"
+      }
     ],
-    skills: [
+    "skills": [
       {
-        name: 'Frontend',
-        level: 'Expert',
-        keywords: ['Angular', 'RxJS', 'HTML', 'CSS', 'SASS', 'JavaScript', 'TypeScript', 'Jest', 'NgZorro', 'Bootstrap', 'NgPrime'],
+        "name": "Frontend",
+        "level": "Expert",
+        "keywords": [
+          "Angular",
+          "RxJS",
+          "TypeScript",
+          "HTML/CSS/SASS",
+          "Jest",
+          "NgZorro",
+          "Bootstrap",
+          "Tabulator"
+        ]
       },
       {
-        name: 'Backend',
-        level: 'Advanced',
-        keywords: ['Node.js', 'Sequelize', 'API Rest', 'Puppeteer', 'PostgresSQL', 'OAuth'],
+        "name": "Backend",
+        "level": "Advanced",
+        "keywords": [
+          "Node.js",
+          "Supabase",
+          "PostgreSQL",
+          "Sequelize",
+          "API Rest",
+          "OAuth/OIDC",
+          "Webhooks"
+        ]
       },
       {
-        name: 'Diseño web',
-        level: 'Advanced',
-        keywords: ['Figma', 'Inkscape'],
-      },
-      {
-        name: 'Control de versiones y otros',
-        level: 'Advanced',
-        keywords: ['Git', 'GitHub', 'Docker', 'Postman'],
-      },
+        "name": "Herramientas",
+        "level": "Advanced",
+        "keywords": [
+          "Git",
+          "Docker",
+          "Vercel",
+          "Figma",
+          "Capacitor",
+          "Postman"
+        ]
+      }
     ],
-    languages: [
-      {language: 'Español', fluency: 'Nativo'},
-      {language: 'Inglés', fluency: 'B2'},
-    ],
-  };
+    "languages": [
+      {
+        "language": "Español",
+        "fluency": "Nativo"
+      },
+      {
+        "language": "Inglés",
+        "fluency": "B2"
+      }
+    ]
+  });
+
+  // Enana
+  // cvData: ICvJson = {
+  //   personal: {
+  //     name: 'Laury Machado Espinosa',
+  //     label: 'Desarrolladora web y administradora de redes',
+  //     email: 'lauryespinosa1505@gmail.com',
+  //     phone: '+53 56419770',
+  //     summary: 'Ingeniera en Telecomunicaciones con experiencia en desarrollo web y administración de redes. Especialista en Laravel, diseño de interfaces con Blade y Livewire, APIs REST y bases de datos relacionales. Competente en virtualización de servidores, gestión de infraestructuras de TI y control de versiones.',
+  //   },
+  //   location: {
+  //     postalCode: '50100',
+  //     city: 'Villa Clara',
+  //     country: 'Cuba',
+  //   },
+  //   profiles: [
+  //     {
+  //       network: 'LinkedIn',
+  //       username: 'lauryespinosa1505',
+  //       url: 'https://www.linkedin.com/in/laury-rosa-machado-espinosa-8a0821253',
+  //     },
+  //   ],
+  //   work: [
+  //     {
+  //       company: 'CUPET',
+  //       location: 'Villa Clara',
+  //       position: 'Desarrolladora web y administradora de redes',
+  //       website: undefined,
+  //       startDate: 'Enero 2022',
+  //       endDate: 'Actualidad',
+  //       sumary: 'Desarrollo de varias herramientas web internas y administración de redes.',
+  //       highlights: [
+  //         'Desarrollo y mantenimiento de páginas web funcionales con Laravel',
+  //         'Diseño e implementación de UI con Blade y Livewire.',
+  //         'Diseño e implementación de APIs REST y gestión de modelos de bases de datos relacionales utilizando Eloquent, HeidiSQL y SQL Server.',
+  //         'Gestión de usuarios del directorio activo y virtualización de servidores con Proxmox, Exsi y VMware Workstation Pro.',
+  //         'Gestión de control de versiones con Git para colaboración en equipo y seguimiento de cambios.',
+  //         'Instalación y mantenimiento de firewalls, proxys, antivirus y servidores.',
+  //       ],
+  //     },
+  //   ],
+  //   education: [
+  //     {
+  //       institution: "Universidad Central 'Marta Abreu' de las Villas",
+  //       studyType: 'Título universitario de Ingeniería en Telecomunicaciones',
+  //       startDate: 'Septiembre 2017',
+  //       endDate: 'Diciembre 2022',
+  //       gpa: '4.6',
+  //     },
+  //   ],
+  //   skills: [
+  //     {
+  //       name: 'Desarrollo web',
+  //       level: 'Expert',
+  //       keywords: ['PHP', 'Laravel', 'HTML', 'CSS', 'JavaScript', 'Eloquent', 'Livewire', 'Blade', 'Jetstream', 'Breeze'],
+  //     },
+  //     {
+  //       name: 'Administración de redes y sistemas',
+  //       level: 'Expert',
+  //       keywords: ['Proxmox', 'Exsi', 'VMware Workstation Pro', 'PfSense', 'SQL Server', 'HeidiSQL'],
+  //     },
+  //     {
+  //       name: 'Control de versiones y otros',
+  //       level: 'Advanced',
+  //       keywords: ['Git', 'GitHub', 'Postman', 'PuTTY'],
+  //     },
+  //   ],
+  //   languages: [
+  //     {language: 'Español', fluency: 'Nativo'},
+  //     {language: 'Inglés', fluency: 'B2'},
+  //   ],
+  // };
 
   // Variable auxiliar para mostrar la información como texto JSON
-  cvDataString = JSON.stringify(this.cvData, null, 2); // Formateado para mayor legibilidad
+  readonly cvDataString = signal(JSON.stringify(this.cvData(), null, 2));
 
-  spanishText = {
+  readonly spanishText = {
     spanish: 'Español',
     english: 'Inglés',
     awsFormat: 'Formato AWS',
@@ -161,7 +295,7 @@ export class CvGeneratorComponent {
     contacts: 'Contactos',
     upload: 'Subir img',
   };
-  englishText = {
+  readonly englishText = {
     spanish: 'Spanish',
     english: 'English',
     awsFormat: 'AWS format',
@@ -177,34 +311,27 @@ export class CvGeneratorComponent {
     upload: 'Upload img',
   };
 
-  // variable de los textos en pantalla
-  texts = this.spanishText;
-  selectedLanguage = 'spanish';
+  readonly selectedLanguage = signal<Language>('spanish');
+  readonly texts = computed(() => (this.selectedLanguage() === 'english' ? this.englishText : this.spanishText));
 
   // Variable para mostrar el formato sencillo o el visual
-  isAwsShow = false;
+  readonly isAwsShow = signal(false);
 
-  profilePicture = 'assets/img/profile_picture.jpg';
+  readonly profilePicture = signal('assets/img/profile_picture.jpg');
+
 
   toggleView(value: boolean): void {
-    this.isAwsShow = value;
+    this.isAwsShow.set(value);
   }
 
-  // Cambia el idioma según la selección
-  changeLanguage() {
-    if (this.selectedLanguage === 'spanish') {
-      this.texts = this.spanishText;
-    } else if (this.selectedLanguage === 'english') {
-      this.texts = this.englishText;
-    }
+  changeLanguage(language: Language): void {
+    this.selectedLanguage.set(language);
   }
 
-  // Manejar el arrastre de archivos sobre el área
   onDragOver(event: DragEvent): void {
-    event.preventDefault(); // Evita que el navegador abra el archivo
+    event.preventDefault();
   }
 
-  // Manejar la acción de soltar un archivo
   onDrop(event: DragEvent): void {
     event.preventDefault();
     if (event.dataTransfer && event.dataTransfer.files.length > 0) {
@@ -213,7 +340,6 @@ export class CvGeneratorComponent {
     }
   }
 
-  // Manejar la selección de archivo desde el navegador
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
@@ -222,29 +348,27 @@ export class CvGeneratorComponent {
     }
   }
 
-  // Actualizar la imagen de perfil
   private setProfilePicture(file: File): void {
     const reader = new FileReader();
     reader.onload = () => {
-      this.profilePicture = reader.result as string; // Convertir el archivo a un blob URL
+      this.profilePicture.set(reader.result as string);
     };
-    reader.readAsDataURL(file); // Leer el archivo como una URL de datos
+    reader.readAsDataURL(file);
   }
 
-  // Método para actualizar cvData cuando cambia el contenido del input
   onCvDataChange(newValue: string): void {
+    this.cvDataString.set(newValue);
     try {
-      this.cvData = JSON.parse(newValue); // Convierte el texto JSON a un objeto
+      this.cvData.set(JSON.parse(newValue) as ICvJson);
     } catch (error) {
       console.error('Error al analizar el JSON:', error);
     }
   }
 
-  downloadPDF(): void {
-    // Seleccionar el elemento que deseas convertir
-    const element = document.getElementById(this.isAwsShow ? 'aws-cv' : 'visual-cv');
+  async downloadPDF(): Promise<void> {
+    const element = document.getElementById(this.isAwsShow() ? 'aws-cv' : 'visual-cv');
+    if (!element) return;
 
-    // Configurar las opciones para html2pdf.js
     const options = {
       margin: 0,
       filename: 'CV_David_Diaz.pdf',
@@ -256,7 +380,7 @@ export class CvGeneratorComponent {
       jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
     };
 
-    // Generar y descargar el PDF
-    html2pdf().set(options).from(element).save();
+    const { default: html2pdf } = await import('html2pdf.js');
+    html2pdf().set(options as any).from(element as any).save();
   }
 }

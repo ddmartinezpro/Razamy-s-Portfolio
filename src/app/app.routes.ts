@@ -1,13 +1,26 @@
 import { Routes } from '@angular/router';
-import {HomeComponent} from './components/home/home.component';
-import {AboutMeComponent} from './components/about-me/about-me.component';
-import {DemosComponent} from './components/demos/demos.component';
-import {CvGeneratorComponent} from './components/demos/cv-generator/cv-generator.component';
 
 export const routes: Routes = [
-  { path: '', component: HomeComponent },
-  { path: 'about-me', component: AboutMeComponent },
-  { path: 'demos/cv-generator', component: CvGeneratorComponent },
-  { path: 'demos', component: DemosComponent },
-  { path: '*', component: HomeComponent },
+  {
+    path: '',
+    loadComponent: () => import('./components/home/home.component').then((m) => m.HomeComponent)
+  },
+  {
+    path: 'about-me',
+    loadComponent: () => import('./components/about-me/about-me.component').then((m) => m.AboutMeComponent)
+  },
+  {
+    path: 'demos',
+    loadComponent: () => import('./components/demos/demos.component').then((m) => m.DemosComponent)
+  },
+  {
+    path: 'demos/cv-generator',
+    loadComponent: () =>
+      import('./components/demos/cv-generator/cv-generator.component').then((m) => m.CvGeneratorComponent)
+  },
+  {
+    path: 'demos/ventas',
+    loadComponent: () => import('./components/demos/ventas/ventas.component').then((m) => m.VentasComponent)
+  },
+  { path: '**', redirectTo: '' }
 ];

@@ -1,27 +1,17 @@
 <div class="container">
   <section>
-    <select [(ngModel)]="selectedLanguage" (change)="changeLanguage()">
-      <option value="spanish">{{texts.spanish}}</option>
-      <option value="english">{{texts.english}}</option>
+    <select [ngModel]="selectedLanguage()" (ngModelChange)="changeLanguage($event)">
+      <option value="spanish">{{texts().spanish}}</option>
+      <option value="english">{{texts().english}}</option>
     </select>
 
-    <div class="toggle-buttons">
-      <div (click)="toggleView(true)">
-        <input type="checkbox" [checked]="isAwsShow">
-        <label>{{texts.awsFormat}}</label>
-      </div>
-
-      <div (click)="toggleView(false)">
-        <input type="checkbox" [checked]="!isAwsShow">
-        <label>{{texts.visualFormat}}</label>
-      </div>
-    </div>
+    <app-cv-view-toggle [texts]="texts()" [(isAwsShow)]="isAwsShow" />
 
     <div class="drag-drop"
          (dragover)="onDragOver($event)"
          (drop)="onDrop($event)"
          (click)="fileInput.click()">
-      <p>{{texts.upload}}</p>
+      <p>{{texts().upload}}</p>
     </div>
 
     <input
@@ -32,29 +22,31 @@
       (change)="onFileSelected($event)"
     >
 
-    <button (click)="downloadPDF()" [title]="texts.downloadBtnTooltip">{{texts.download}}</button>
+    <button (click)="downloadPDF()" [title]="texts().downloadBtnTooltip">{{texts().download}}</button>
 
     <!-- Vinculación del input con la variable cvData -->
     <textarea
       rows="50"
-      [(ngModel)]="cvDataString"
+      [ngModel]="cvDataString()"
       (ngModelChange)="onCvDataChange($event)">
 </textarea>
   </section>
   <section>
-    @if (isAwsShow) {
+    @if (isAwsShow()) {
       <div id="aws-cv" class="page-format">
         <!--    Header    -->
         <div class="cv-header">
           <div>
-            <h3>{{cvData.personal.name}}</h3>
-            <h4>{{cvData.personal.label}}</h4>
+            <h3>{{cvData().personal.name}}</h3>
+            <h4>{{cvData().personal.label}}</h4>
           </div>
           <div>
-            <p><a [href]="'mailto:' + cvData.personal.email">{{cvData.personal.email}}</a></p>
-            <p>{{cvData.personal.phone}}</p>
-            <p *ngIf="cvData.personal.website">{{cvData.personal.website}}</p>
-            @for (perfil of cvData.profiles; track perfil.url) {
+            <p><a [href]="'mailto:' + cvData().personal.email">{{cvData().personal.email}}</a></p>
+            <p>{{cvData().personal.phone}}</p>
+            @if (cvData().personal.website) {
+              <p>{{cvData().personal.website}}</p>
+            }
+            @for (perfil of cvData().profiles; track perfil.url) {
               <p><a [href]="perfil.url">{{perfil.username}} ({{perfil.network}})</a></p>
             }
           </div>
@@ -62,15 +54,15 @@
 
         <!--    Resumen    -->
         <div class="cv-section">
-          <h5>{{texts.summary}}</h5>
+          <h5>{{texts().summary}}</h5>
           <hr>
-          <p>{{cvData.personal.summary}}</p>
+          <p>{{cvData().personal.summary}}</p>
         </div>
         <!--    Educacion    -->
         <div class="cv-section">
-          <h5>{{texts.education}}</h5>
+          <h5>{{texts().education}}</h5>
           <hr>
-          @for (education of cvData.education; track education) {
+          @for (education of cvData().education; track education) {
             <div>
               <div>
                 <span><strong>{{education.institution}}</strong></span>
@@ -86,12 +78,12 @@
 
         <!--    Experiencia    -->
         <div class="cv-section">
-          <h5>{{texts.experience}}</h5>
+          <h5>{{texts().experience}}</h5>
           <hr>
-          @for (exp of cvData.work; track exp) {
+          @for (exp of cvData().work; track exp) {
             <div>
               <div>
-                <span><strong><a [href]="exp.website">{{exp.company}}</a></strong></span>
+                <span><strong><a [href]="exp.website ? exp.website : null">{{exp.company}}</a></strong></span>
                 <span>{{exp.location}}</span>
               </div>
               <div>
@@ -110,24 +102,24 @@
 
         <!--    Habilidades    -->
         <div class="cv-section">
-          <h5>{{texts.skills}}</h5>
+          <h5>{{texts().skills}}</h5>
           <hr>
-          <div *ngFor="let skill of cvData.skills">
+          @for (skill of cvData().skills; track skill.name) {
             <p>
               <strong>{{skill.name}}:</strong>
-              <ng-container *ngFor="let kw of skill.keywords; let last = last">
+              @for (kw of skill.keywords; track kw; let last = $last) {
                 <span> {{kw}}{{last ? '.' : ','}}</span>
-              </ng-container>
+              }
             </p>
-          </div>
+          }
         </div>
 
 
         <!--    Idiomas    -->
         <div class="cv-section">
-          <h5>{{texts.language}}</h5>
+          <h5>{{texts().language}}</h5>
           <hr>
-          @for (leng of cvData.languages; track leng.language) {
+          @for (leng of cvData().languages; track leng.language) {
             <p><strong>{{leng.language}}: </strong> {{leng.fluency}}.</p>
           }
         </div>
@@ -143,59 +135,61 @@
           <!--   Foto de perfil   -->
           <div class="picture">
             <div class="decorative"></div>
-            <img [src]="profilePicture" alt="profile-picture">
+            <img [src]="profilePicture()" alt="profile-picture">
           </div>
 
           <!--   Summary   -->
           <div class="summary">
-            <h5>{{texts.summary}}</h5>
-            <p>{{cvData.personal.summary}}</p>
+            <h5>{{texts().summary}}</h5>
+            <p>{{cvData().personal.summary}}</p>
           </div>
 
           <!--   Contactos   -->
           <div class="contacts">
-            <h5>{{texts.contacts}}</h5>
+            <h5>{{texts().contacts}}</h5>
             <div>
               <img src="assets/icons/phone.svg" alt="phone-icon">
-              <p>{{cvData.personal.phone}}</p>
+              <p>{{cvData().personal.phone}}</p>
             </div>
             <div>
               <img src="assets/icons/mail.svg" alt="mail-icon">
-              <a [href]="'mailto:' + cvData.personal.email"><p>{{cvData.personal.email}}</p></a>
+              <a [href]="'mailto:' + cvData().personal.email"><p>{{cvData().personal.email}}</p></a>
             </div>
             <div>
               <img src="assets/icons/map-pin.svg" alt="phone-icon">
-              <p>{{cvData.location.city}}, {{cvData.location.country}}</p>
+              <p>{{cvData().location.city}}, {{cvData().location.country}}</p>
             </div>
             <div>
               <img src="assets/icons/brand-linkedin.svg" alt="phone-icon">
-              <a [href]="cvData.profiles[0].url"><p>{{cvData.profiles[0].username}}</p></a>
+              <a [href]="cvData().profiles[0].url"><p>{{cvData().profiles[0].username}}</p></a>
             </div>
-            <div *ngIf="cvData.personal.website">
+            @if (cvData().personal.website) {
+            <div>
               <img src="assets/icons/world.svg" alt="phone-icon">
-              <a [href]="cvData.personal.website"><p>{{cvData.personal.website}}</p></a>
+              <a [href]="cvData().personal.website"><p>{{cvData().personal.website}}</p></a>
             </div>
+            }
           </div>
 
           <!--   Habilidades   -->
           <div>
-            <h5>{{texts.skills}}</h5>
+            <h5>{{texts().skills}}</h5>
             <ul>
-              <div *ngFor="let skill of cvData.skills">
+              @for (skill of cvData().skills; track skill.name) {
                 <li>
                   <strong>{{skill.name}}:</strong>
-                  <ng-container *ngFor="let kw of skill.keywords; let last = last">
+                  @for (kw of skill.keywords; track kw; let last = $last) {
                     <span> {{kw}}{{last ? '.' : ','}}</span>
-                  </ng-container>
+                  }
                 </li>
-              </div>
+              }
             </ul>
           </div>
 
           <!--    Idiomas    -->
           <div class="languages">
-            <h5>{{texts.language}}</h5>
-            @for (leng of cvData.languages; track leng.language) {
+            <h5>{{texts().language}}</h5>
+            @for (leng of cvData().languages; track leng.language) {
               <p><strong>{{leng.language}}: </strong> {{leng.fluency}}.</p>
             }
           </div>
@@ -206,14 +200,14 @@
 
           <!--   Nombre y label   -->
           <div class="name">
-            <h3>{{cvData.personal.name}}</h3>
-            <h4>{{cvData.personal.label}}</h4>
+            <h3>{{cvData().personal.name}}</h3>
+            <h4>{{cvData().personal.label}}</h4>
           </div>
 
           <!--   Educacion   -->
           <div class="education">
-            <h5>{{texts.education}}</h5>
-            @for (ed of cvData.education; track ed.studyType) {
+            <h5>{{texts().education}}</h5>
+            @for (ed of cvData().education; track ed.studyType) {
               <div class="wrapper">
                 <p class="date">({{ed.startDate}} - {{ed.endDate}})</p>
                 <p class="strong">{{ed.institution}}</p>
@@ -225,8 +219,8 @@
 
           <!--   Experiencia   -->
           <div class="experience">
-            <h5>{{texts.experience}}</h5>
-            @for (ex of cvData.work; track ex) {
+            <h5>{{texts().experience}}</h5>
+            @for (ex of cvData().work; track ex) {
               <div class="wrapper">
                 <p class="date">({{ex.startDate}} - {{ex.endDate}})</p>
                 <div class="company">
@@ -247,3 +241,4 @@
     }
   </section>
 </div>
+

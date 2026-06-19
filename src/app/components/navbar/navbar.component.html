@@ -1,5 +1,9 @@
 <nav>
-  <div #razamyLogoContainer id="razamy-logo-container" style="width: 100px; height: 50px;" (click)="toggleTheme()"></div>
+  @defer (on idle) {
+    <app-three-logo />
+  } @placeholder {
+    <img class="logo-placeholder" src="assets/img/logo_navbar.png" alt="Razamy logo">
+  }
 
 <!--  <div>-->
 <!--    <a [routerLink]="''">Home</a>-->
