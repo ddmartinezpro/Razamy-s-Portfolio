@@ -20,7 +20,7 @@ export class ParticleBackgroundComponent implements AfterViewInit, OnDestroy {
   private animationFrame = 0;
   private context: CanvasRenderingContext2D | null = null;
   private mouse = { x: -9999, y: -9999 };
-  private cleanupListeners: Array<() => void> = [];
+  private cleanupListeners: (() => void)[] = [];
   private readonly reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   private readonly smallScreenWidth = 760;
   private particleColor = 'rgba(80, 115, 148, 0.38)';

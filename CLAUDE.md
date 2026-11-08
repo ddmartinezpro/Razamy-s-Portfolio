@@ -12,12 +12,18 @@ Personal portfolio site for David Díaz Martínez ("Razamy"), built with Angular
 npm start                 # ng serve on http://localhost:4200
 npm run build             # production build -> dist/razamy-portfolio (service worker enabled)
 npm run watch             # dev build in watch mode
-npm test                  # Karma + Jasmine (Chrome)
-npx ng test --include=src/app/components/home/home.component.spec.ts   # single spec
-npx ng test --watch=false --browsers=ChromeHeadless                    # CI-style run
+npm test                  # Karma + Jasmine (Chrome, watch mode)
+npm run test:ci           # single headless run (what CI uses)
+npx ng test --include=src/app/services/theme.service.spec.ts   # single spec
+npm run lint              # angular-eslint over src/**/*.ts and *.html
+npm run format            # Prettier (config in .prettierrc.json)
 ```
 
-`ng test` currently fails before running any spec ("The public asset path must start with the project source root"): the Karma builder in angular.json lists `"public"` as a plain string asset; it needs the object form `{ "glob": "**/*", "input": "public" }`. Existing specs are CLI "should create" stubs. No linter is configured. `.claude/launch.json` defines an `ng-serve` preview config on port 4200.
+CI (`.github/workflows/ci.yml`, Node 24) runs lint → `test:ci` → build on every push to `main` and on PRs; keep all three green. The project is zoneless (no zone.js): in specs call `fixture.detectChanges()` explicitly after interactions, and add `provideRouter([])` for components that use `RouterLink`.
+
+`eslint.config.js` has a **temporary** block that downgrades known a11y/typing issues to warnings for files whose fixes are scheduled in the plan (each line names its task). When finishing one of those tasks, delete its entry there so the rules become errors again. Prettier is configured but the codebase has not been mass-formatted yet (plan task F0.4b) — don't reformat unrelated files in feature commits.
+
+`.claude/launch.json` defines an `ng-serve` preview config on port 4200.
 
 Production build budgets (angular.json) are strict: **component styles error above 20kB** (warn at 18kB), initial bundle errors at 2MB. Large component CSS files will fail `ng build` — split styles or move shared rules to `src/styles.css`.
 

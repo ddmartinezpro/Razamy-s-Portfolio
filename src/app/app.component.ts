@@ -11,6 +11,4 @@ import {ParticleBackgroundComponent} from './components/particle-background/part
   styleUrl: './app.component.css',
   standalone: true,
 })
-export class AppComponent {
-  title = 'RazamyPortfolio';
-}
+export class AppComponent {}

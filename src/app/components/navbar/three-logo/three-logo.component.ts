@@ -18,7 +18,7 @@ export class ThreeLogoComponent implements AfterViewInit, OnDestroy {
   private directionalLight: THREE.DirectionalLight | null = null;
   private renderer: THREE.WebGLRenderer | null = null;
   private camera: THREE.PerspectiveCamera | null = null;
-  private cleanupListeners: Array<() => void> = [];
+  private cleanupListeners: (() => void)[] = [];
 
   ngAfterViewInit(): void {
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
@@ -120,7 +120,7 @@ export class VentasService {
   // Cambia esta URL según tu backend
   private readonly apiUrl = 'http://localhost:5297/api';
 
-  constructor(private http: HttpClient) {}
+  private readonly http = inject(HttpClient);
 
   // =========================
   // TipoPagos

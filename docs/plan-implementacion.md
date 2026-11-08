@@ -36,20 +36,23 @@ Objetivo: el código en GitHub al día, con tests, lint y CI funcionando, y la w
   - La futura demo con Capacitor (F8.3) se creará desde cero, no con la carpeta antigua.
   - *Hecho cuando:* `git status` limpio y `origin/main` igual a `main`.
 
-- [ ] **F0.2 · Alta — Arreglar `ng test`**
+- [x] **F0.2 · Alta — Arreglar `ng test`** *(hecho 2026-11-07; también se corrigió el spec de `HomeComponent`, que no tenía router)*
   - En `angular.json`, target `test`, cambiar el asset `"public"` por `{ "glob": "**/*", "input": "public" }` (el builder de Karma no acepta la forma de texto).
   - *Hecho cuando:* `npx ng test --watch=false --browsers=ChromeHeadless` termina en verde.
 
-- [ ] **F0.3 · Media — Tests mínimos razonables**
+- [x] **F0.3 · Media — Tests mínimos razonables** *(hecho 2026-11-07: 19 tests en verde; los specs de `about-me` y `demos` se borran en F1.2)*
   - Sustituir los specs "should create" por tests reales de: `PortfolioLanguageService` (idioma inicial, persistencia, `<html lang>`), `ThemeService` (tema inicial, toggle, `data-theme`) y `NavbarComponent` (abrir/cerrar menú, Escape).
   - Borrar los specs de componentes eliminados (`about-me`, `demos`).
   - Sin objetivo de cobertura.
 
-- [ ] **F0.4 · Media — ESLint y Prettier**
+- [x] **F0.4 · Media — ESLint y Prettier** *(hecho 2026-11-07)*
   - `ng add @angular-eslint/schematics`, configurar Prettier respetando `.editorconfig`, scripts `npm run lint` y `npm run format`.
   - Añadir `charset = utf-8` en `.editorconfig` y quitar el BOM de `navbar.component.ts`, `styles.css` y `ventas.component.ts`.
+  - Resultado: lint con 0 errores. 39 avisos de accesibilidad/tipado ya planificados (F1.5, F5.5, F5.6, F6.5, F8.2) quedan como `warn` en un bloque temporal de `eslint.config.js`; al cerrar cada tarea, quitar su entrada para que vuelvan a ser errores.
+- [ ] **F0.4b · Baja — Formatear todo el código con Prettier**
+  - `npm run format` reformatea 35 archivos. Hacerlo en un commit aparte, sin otros cambios, y después añadir `npm run format:check` al CI.
 
-- [ ] **F0.5 · Media — CI con GitHub Actions**
+- [x] **F0.5 · Media — CI con GitHub Actions** *(creado 2026-11-07 en `.github/workflows/ci.yml`; comprobar que la primera ejecución en GitHub pasa)*
   - Workflow en push y pull request: `npm ci` → lint → tests headless → `ng build`.
 
 - [ ] **F0.6 · Alta — Deploy del front**
@@ -59,13 +62,13 @@ Objetivo: el código en GitHub al día, con tests, lint y CI funcionando, y la w
   - **Antes de publicar** debe estar hecho F1.9 (que Ventas no se vea rota).
   - *Hecho cuando:* la URL pública carga, navega a `/demos/cv-generator` recargando la página sin 404, y la PWA se instala.
 
-- [ ] **F0.7 · Baja — Limpieza de código muerto**
+- [x] **F0.7 · Baja — Limpieza de código muerto** *(hecho 2026-11-07, salvo la decisión sobre los logos `razamy_*`)*
   - Quitar `title` de `AppComponent`.
   - Assets sin uso: `chevron-left.svg`, `database.svg`, `isotipo_transp.png`, `logo_navbar.png`. Revisar si `razamy_icon_just_legs.svg`, `razamy_logo_left_lent.svg` y `razamy_logo_right_lent.svg` se guardan como recursos de marca (si no, borrar). `brand-github.svg` se usa en F2.2.
   - **No borrar**: `three-logo`, `three`, `gsap`, `@types/three` ni `razamy-logo.glb` (se usan en la demo 3D, F8.2).
   - Silenciar los avisos de CommonJS de `html2pdf.js` con `allowedCommonJsDependencies` en `angular.json`.
 
-- [ ] **F0.8 · Baja — README real**
+- [x] **F0.8 · Baja — README real** *(hecho 2026-11-07; añadir la URL cuando exista el deploy)*
   - Descripción, stack, scripts, estructura, cómo desplegar y enlace a la web publicada.
 
 ---
