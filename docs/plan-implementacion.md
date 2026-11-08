@@ -162,13 +162,14 @@ Objetivo: que nada de lo que ve un visitante parezca roto.
 
 ## Fase 3 — Rendimiento, SEO y PWA
 
-- [ ] **F3.1 · Alta — Imágenes optimizadas (lo hace Claude)**
+- [x] **F3.1 · Alta — Imágenes optimizadas (lo hace Claude)** *(hecho 2026-11-07)*
   - Script `scripts/optimize-images.mjs` (con `sharp`) que genera WebP a 960, 1600 y 2560 px de cada captura, y 256/512 px de la foto de perfil (hoy 2099 px y 753 KB, mostrada a 82 px).
   - Usar `NgOptimizedImage` (`ngSrc`, `ngSrcset`, `sizes`, `width`/`height`), `priority` en la foto de la portada y carga diferida en las tarjetas. El modal usa la versión de 2560 px.
   - Mover los originales fuera de `src/assets` (p. ej. `assets-src/`) para no desplegarlos.
   - *Hecho cuando:* la calidad se ve igual y la página carga muchos menos MB.
+  - Resultado: `npm run images` genera 480/960/1600/2560 px por captura (p. ej. el mapa de Mojito360 pasa de 655 kB a 54 kB en 1600 px), `profile-256.webp` (portada) y `profile-640.jpg` (foto del CV Generator). Originales en `assets-src/`. En lugar de `NgOptimizedImage` se usa `srcset`/`sizes` nativo con el helper `src/app/data/responsive-image.ts` (con NgOptimizedImage habría hecho falta un loader propio para estos nombres de archivo); la foto de la portada lleva `fetchpriority="high"`.
 
-- [ ] **F3.2 · Media — Fuentes**
+- [x] **F3.2 · Media — Fuentes** *(hecho 2026-11-07: links en `index.html`, que el build incrusta; Poppins se carga solo en el CV Generator; Roboto → Arial, como ya se veía)*
   - Quitar el `@import` de Google Fonts de `styles.css` → `<link rel="preconnect">` + `<link rel="stylesheet">` en `index.html` (o fuentes alojadas en el propio sitio).
   - CV Generator: cargar Poppins de la misma forma y quitar la referencia a Roboto (no se carga).
 
@@ -177,14 +178,32 @@ Objetivo: que nada de lo que ve un visitante parezca roto.
   - `robots.txt` y `sitemap.xml` en `public/`.
   - Depende del dominio final (F0.6). La imagen OG hay que diseñarla.
   - *Hecho cuando:* el enlace se ve con imagen y texto en LinkedIn (comprobar con su Post Inspector).
+  - **Hecho 2026-11-07:** Open Graph/Twitter sin URL, JSON-LD `Person`, `robots.txt` y la imagen `public/og-image.jpg` (1200×630, 44 kB; plantilla en `scripts/og-image.html`, se regenera con `npm run og-image`).
+  - **Pendiente del dominio:** añadir en `index.html` (con `https://DOMINIO`):
+    ```html
+    <link rel="canonical" href="https://DOMINIO/">
+    <meta property="og:url" content="https://DOMINIO/">
+    <meta property="og:image" content="https://DOMINIO/og-image.jpg">
+    <meta name="twitter:image" content="https://DOMINIO/og-image.jpg">
+    ```
+    y crear `public/sitemap.xml` (una URL: la portada) + la línea `Sitemap: https://DOMINIO/sitemap.xml` en `robots.txt`.
 
-- [ ] **F3.4 · Media — PWA**
+- [x] **F3.4 · Media — PWA** *(hecho 2026-11-07)*
+  - **Además:** el favicon y los iconos de la PWA eran el logo por defecto de Angular. Ahora se generan desde `razamy_logo_icon.svg` con `npm run icons` (`favicon.ico`, `favicon.svg`, iconos `any` y `maskable` de 192/512 y `apple-touch-icon`).
   - Manifest: `name` "David Díaz Martínez — Portfolio", `short_name` "Razamy", `theme_color`/`background_color` de la marca (hoy `#1976d2`/`#fafafa`, los de Angular por defecto), `description`, `lang`.
   - Separar iconos `any` y `maskable` (y comprobar la zona segura de los maskable).
   - Mover `favicon.ico` a `public/` (el `ngsw-config.json` lo espera en `/favicon.ico`) y quitar `/index.csr.html` del config.
 
-- [ ] **F3.5 · Media — Auditoría Lighthouse**
+- [x] **F3.5 · Media — Auditoría Lighthouse** *(hecho 2026-11-07, build de producción servido en local)*
   - Objetivo ≥ 90 en rendimiento, accesibilidad, buenas prácticas y SEO, en móvil y escritorio. Anotar los resultados aquí.
+  - La primera medición en móvil dio 66 de rendimiento: el hero estaba oculto por la animación de aparición y la portada se cargaba como fragmento aparte (LCP 4,3 s), y el footer saltaba al pintarse la portada (CLS 0,277). Arreglado: portada sin carga diferida, hero sin `appReveal`, `main` con `min-height: 100dvh`.
+
+    | Medición (con compresión gzip, como un hosting real) | Rendimiento | Accesibilidad | Buenas prácticas | SEO | LCP | CLS |
+    |---|---|---|---|---|---|---|
+    | Móvil | 96–99 | 100 | 100 | 100 | 2,1–2,4 s | 0,001 |
+    | Escritorio | 100 | 100 | 100 | 100 | 0,7 s | 0,002 |
+
+  - Repetir sobre la URL pública tras el deploy.
 
 - [ ] **F3.6 · Baja — Prerender (SSG) con `@angular/ssr`**
   - Esfuerzo medio: hay que proteger el código que usa `window`, `document` y `localStorage` al arrancar (`PortfolioLanguageService`, `ThemeService`, `HomeComponent`, `NavbarComponent`, `ParticleBackgroundComponent`).

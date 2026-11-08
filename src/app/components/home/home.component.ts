@@ -15,6 +15,7 @@ import { PortfolioProject, portfolioContact, portfolioContent } from '../../data
 import { PortfolioLanguageService } from '../../services/portfolio-language.service';
 import { RevealOnScrollDirective } from '../../directives/reveal-on-scroll.directive';
 import { ExperienceTimelineComponent } from './experience-timeline/experience-timeline.component';
+import { responsiveImage } from '../../data/responsive-image';
 
 type EmailCopyState = 'idle' | 'copied' | 'failed';
 
@@ -33,6 +34,8 @@ export class HomeComponent {
   readonly language = this.languageService.language;
   readonly content = computed(() => portfolioContent[this.language()]);
   readonly contact = portfolioContact;
+  /** Screenshot base path -> `src`/`srcset` for the generated WebP widths. */
+  readonly image = responsiveImage;
   readonly selectedProject = signal<PortfolioProject | null>(null);
   readonly selectedImage = signal('');
   private readonly maxTiltDeg = 8;

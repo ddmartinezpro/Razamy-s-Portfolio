@@ -17,7 +17,12 @@ npm run test:ci           # single headless run (what CI uses)
 npx ng test --include=src/app/services/theme.service.spec.ts   # single spec
 npm run lint              # angular-eslint over src/**/*.ts and *.html
 npm run format            # Prettier (config in .prettierrc.json)
+npm run images            # assets-src/ originals -> WebP screenshots (480/960/1600/2560) + profile images
+npm run icons             # favicon + PWA icons from src/assets/icons/razamy_logo_icon.svg
+npm run og-image          # public/og-image.jpg from scripts/og-image.html (needs Chrome/Edge)
 ```
+
+Image originals live in `assets-src/` (not deployed); never reference them from the app. Project screenshots are stored as `<name>-<width>.webp` and referenced in the content by base path without extension — build `src`/`srcset` with `responsiveImage()` from `src/app/data/responsive-image.ts` (its widths must match the script).
 
 CI (`.github/workflows/ci.yml`, Node 24) runs lint → `test:ci` → build on every push to `main` and on PRs; keep all three green. The project is zoneless (no zone.js): in specs call `fixture.detectChanges()` explicitly after interactions, and add `provideRouter([])` for components that use `RouterLink`.
 
@@ -29,7 +34,7 @@ Production build budgets (angular.json) are strict: **component styles error abo
 
 ## Architecture
 
-- **Routing** (`src/app/app.routes.ts`): every page is lazy-loaded with `loadComponent` — `''` (home), `demos/cv-generator`, `demos/ventas`; unknown paths redirect home (a `/demos` landing page comes back in plan F8.1).
+- **Routing** (`src/app/app.routes.ts`): home (`''`) is eager on purpose (lazy-loading the landing page hurt LCP/CLS); `demos/cv-generator` and `demos/ventas` are lazy with `loadComponent`; unknown paths redirect home (a `/demos` landing page comes back in plan F8.1). Keep the hero free of `appReveal` (content hidden until scroll would delay the LCP).
 - **Section navigation** is owned by `NavbarComponent`, not the router: links call `navigateToSection()` (smooth scroll + active-link lock), an IntersectionObserver highlights the visible section, and on load a `#section` hash scrolls to that section and is then stripped from the URL. Router navigations with a section fragment (e.g. `routerLink="/" fragment="projects"` from the demos) are also scrolled by the navbar, because the router's own anchor scrolling fires before the lazy home has rendered. To add a home section: give it an `id`, add it to `SectionId`/`sectionIds`/`sectionLinks` in the navbar and a `nav.<id>` label in the content.
 - **Home sections** live in `home.component.*`, which is close to the 20kB component-style budget; larger new sections go in their own child component (e.g. `home/experience-timeline`), with the section heading kept in the home template so it reuses the shared section styles.
 - **Project gallery** in home is a native `<dialog>` opened with `showModal()` (top layer, Escape and focus restore are native); every close path ends in `onGalleryClosed()`. A project with `comingSoon: true` in the content shows a "coming soon" badge instead of its demo link.

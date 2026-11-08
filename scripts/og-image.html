@@ -1,0 +1,92 @@
+<!doctype html>
+<!-- Template for public/og-image.jpg (1200x630), rendered by scripts/generate-og-image.mjs. -->
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Open+Sans:wght@400;600&display=block">
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; width: 1200px; height: 630px; overflow: hidden; }
+    body {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr 360px;
+      align-items: center;
+      gap: 40px;
+      padding: 72px 84px;
+      color: #ecf6ff;
+      font-family: 'Open Sans', sans-serif;
+      background:
+        radial-gradient(circle at 8% 12%, rgba(200, 122, 240, 0.28), transparent 38%),
+        radial-gradient(circle at 92% 6%, rgba(154, 183, 211, 0.22), transparent 42%),
+        linear-gradient(160deg, #0c2236 0%, #071826 70%);
+    }
+    .eyebrow {
+      margin: 0 0 22px;
+      color: #9ab7d3;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    h1 {
+      margin: 0;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 84px;
+      font-weight: 700;
+      line-height: 0.98;
+      letter-spacing: -0.045em;
+    }
+    p {
+      max-width: 620px;
+      margin: 28px 0 0;
+      color: #a8b8c9;
+      font-size: 27px;
+      line-height: 1.4;
+    }
+    .visual {
+      position: relative;
+      display: grid;
+      place-items: center;
+      width: 360px;
+      height: 360px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.06);
+    }
+    .visual img.logo { width: 250px; }
+    .visual img.photo {
+      position: absolute;
+      right: -6px;
+      bottom: -6px;
+      width: 132px;
+      height: 132px;
+      border: 4px solid #0c2236;
+      border-radius: 32px;
+      object-fit: cover;
+    }
+    .accent {
+      position: absolute;
+      left: 84px;
+      bottom: 64px;
+      width: 120px;
+      height: 6px;
+      border-radius: 6px;
+      background: #c87af0;
+    }
+  </style>
+</head>
+<body>
+  <div>
+    <div class="eyebrow">Full Stack Developer · Angular · TypeScript</div>
+    <h1>David Díaz Martínez</h1>
+    <p>Aplicaciones web de calidad: sistemas de gestión, supply chain y herramientas internas.</p>
+  </div>
+  <div class="visual">
+    <img class="logo" src="../src/assets/icons/razamy_logo_icon.svg" alt="">
+    <img class="photo" src="../src/assets/img/profile-256.webp" alt="">
+  </div>
+  <div class="accent"></div>
+</body>
+</html>

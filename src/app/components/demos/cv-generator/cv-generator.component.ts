@@ -56,6 +56,16 @@ interface ICvJson {
 
 type Language = 'spanish' | 'english';
 
+const POPPINS_STYLESHEET = 'https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap';
+
+function loadStylesheetOnce(href: string): void {
+  if (document.head.querySelector(`link[href="${href}"]`)) return;
+  const link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.href = href;
+  document.head.appendChild(link);
+}
+
 @Component({
   selector: 'app-cv-generator',
   imports: [
@@ -71,6 +81,11 @@ export class CvGeneratorComponent {
   private readonly languageService = inject(PortfolioLanguageService);
   /** Site-level copy (back link); the CV itself keeps its own language selector. */
   readonly siteNav = computed(() => portfolioContent[this.languageService.language()].nav);
+
+  constructor() {
+    // Poppins is only used by the visual CV: load it with this page instead of on every page of the site.
+    loadStylesheetOnce(POPPINS_STYLESHEET);
+  }
 
   // Variable para rellenar el CV
   readonly cvData = signal<ICvJson>({
@@ -324,7 +339,7 @@ export class CvGeneratorComponent {
   // Variable para mostrar el formato sencillo o el visual
   readonly isAwsShow = signal(false);
 
-  readonly profilePicture = signal('assets/img/profile_picture.jpg');
+  readonly profilePicture = signal('assets/img/profile-640.jpg');
 
 
   toggleView(value: boolean): void {

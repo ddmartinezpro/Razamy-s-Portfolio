@@ -1,5 +1,5 @@
 <section id="home" class="hero section-shell">
-  <div class="hero-copy" appReveal>
+  <div class="hero-copy">
     <span class="eyebrow">{{ content().hero.eyebrow }}</span>
     <h1>{{ content().hero.title }}</h1>
     <p>{{ content().hero.subtitle }}</p>
@@ -13,12 +13,12 @@
     </div>
   </div>
 
-  <div class="hero-visual" appReveal>
+  <div class="hero-visual">
     <div class="brand-orbit" aria-hidden="true">
       <img src="assets/icons/razamy_logo_icon.svg" alt="">
     </div>
     <div class="profile-card">
-      <img src="assets/img/profile_picture.jpg" [alt]="contact.name">
+      <img src="assets/img/profile-256.webp" width="256" height="256" fetchpriority="high" [alt]="contact.name">
       <div>
         <strong>{{ contact.name }}</strong>
         <span>{{ contact.location }}</span>
@@ -125,7 +125,15 @@
           [attr.aria-label]="content().sections.galleryCta + ': ' + project.title"
           (click)="openProjectGallery(project)"
         >
-          <img [src]="project.image" alt="">
+          @let cardImage = image(project.image);
+          <img
+            [src]="cardImage.src"
+            [attr.srcset]="cardImage.srcset"
+            sizes="(max-width: 680px) 100vw, 680px"
+            loading="lazy"
+            decoding="async"
+            alt=""
+          >
         </button>
         <span class="project-index" aria-hidden="true">{{ (i + 1).toString().padStart(2, '0') }}</span>
         <div class="project-body">
@@ -174,20 +182,26 @@
     </div>
 
     <div class="modal-image">
-      <img [src]="selectedImage()" [alt]="project.title + ' (' + (project.images.indexOf(selectedImage()) + 1) + '/' + project.images.length + ')'">
+      @let fullImage = image(selectedImage(), 2560);
+      <img
+        [src]="fullImage.src"
+        [attr.srcset]="fullImage.srcset"
+        sizes="min(1180px, 100vw)"
+        [alt]="project.title + ' (' + (project.images.indexOf(selectedImage()) + 1) + '/' + project.images.length + ')'"
+      >
     </div>
 
     <div class="modal-footer">
       <div class="modal-thumbs">
-        @for (image of project.images; track image; let i = $index) {
+        @for (thumb of project.images; track thumb; let i = $index) {
           <button
             type="button"
-            [class.active]="selectedImage() === image"
-            [attr.aria-pressed]="selectedImage() === image"
+            [class.active]="selectedImage() === thumb"
+            [attr.aria-pressed]="selectedImage() === thumb"
             [attr.aria-label]="project.title + ' ' + (i + 1) + '/' + project.images.length"
-            (click)="selectProjectImage(image)"
+            (click)="selectProjectImage(thumb)"
           >
-            <img [src]="image" alt="">
+            <img [src]="image(thumb, 480).src" loading="lazy" decoding="async" alt="">
           </button>
         }
       </div>

@@ -795,6 +795,21 @@
   object-position: top left;
 }
 
+/* Above the fold the hero never starts hidden (an opacity fade would delay the LCP): just a short rise on load. */
+.hero-copy,
+.hero-visual {
+  animation: heroRise 600ms ease both;
+}
+
+@keyframes heroRise {
+  from {
+    transform: translateY(14px);
+  }
+  to {
+    transform: none;
+  }
+}
+
 /* Hidden until RevealOnScrollDirective marks the element as visible. */
 .reveal:not(.is-visible) {
   opacity: 0;
@@ -928,7 +943,9 @@
   .contact-frame,
   .contact-frame::before,
   .button.cta-pulse::before,
-  .button.cta-pulse::after {
+  .button.cta-pulse::after,
+  .hero-copy,
+  .hero-visual {
     animation: none;
   }
 
