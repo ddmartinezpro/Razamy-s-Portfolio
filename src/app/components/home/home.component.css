@@ -1,0 +1,1196 @@
+:host {
+  display: block;
+}
+
+.section-shell {
+  width: min(1160px, calc(100% - 40px));
+  margin: 0 auto;
+  scroll-margin-top: var(--anchor-offset);
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.92fr);
+  gap: clamp(32px, 6vw, 78px);
+  align-items: center;
+  min-height: calc(100vh - 92px);
+  padding: 64px 0 52px;
+}
+
+.hero-copy h1,
+.section-heading h2,
+.contact-section h2 {
+  margin: 0;
+  color: var(--color-ink);
+  letter-spacing: -0.055em;
+}
+
+.hero-copy h1 {
+  max-width: 760px;
+  font-size: clamp(46px, 7vw, 92px);
+  line-height: 0.92;
+}
+
+.hero-copy p {
+  max-width: 590px;
+  margin: 24px 0 0;
+  color: var(--color-muted);
+  font-family: var(--font-secondary);
+  font-size: clamp(17px, 2vw, 21px);
+}
+
+.eyebrow {
+  display: inline-flex;
+  width: fit-content;
+  margin-bottom: 14px;
+  color: var(--color-blue);
+  font-family: var(--font-primary);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.hero-actions,
+.contact-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 34px;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  padding: 0 20px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-family: var(--font-primary);
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+}
+
+.button:hover {
+  transform: translateY(-2px);
+}
+
+.button.primary {
+  background: var(--color-ink);
+  color: var(--color-on-ink);
+  box-shadow: 0 18px 36px rgba(17, 45, 73, 0.2);
+}
+
+.button.ghost {
+  border-color: var(--color-line);
+  background: var(--surface-card);
+  color: var(--color-ink);
+}
+
+.button.link {
+  color: var(--color-blue);
+}
+
+.hero-visual {
+  position: relative;
+  min-height: 530px;
+}
+
+.brand-orbit {
+  position: absolute;
+  inset: 28px 0 auto auto;
+  display: grid;
+  width: min(440px, 100%);
+  aspect-ratio: 1;
+  place-items: center;
+  border: 1px solid rgba(80, 115, 148, 0.16);
+  border-radius: 44% 56% 52% 48%;
+  background:
+    radial-gradient(circle at 30% 26%, rgba(182, 108, 217, 0.18), transparent 28%),
+    linear-gradient(135deg, rgba(154, 183, 211, 0.26), var(--surface-card-strong));
+  animation: floatShape 9s ease-in-out infinite;
+}
+
+.brand-orbit img {
+  width: 62%;
+  filter: drop-shadow(0 26px 42px rgba(17, 45, 73, 0.2));
+}
+
+.profile-card {
+  position: absolute;
+  right: 0;
+  bottom: 34px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: min(360px, 92%);
+  padding: 16px;
+  border: 1px solid rgba(17, 45, 73, 0.12);
+  border-radius: 28px;
+  background: var(--surface-card-strong);
+  box-shadow: var(--shadow-soft);
+  backdrop-filter: blur(18px);
+}
+
+.profile-card img {
+  width: 82px;
+  aspect-ratio: 1;
+  border-radius: 22px;
+  object-fit: cover;
+}
+
+.profile-card strong,
+.profile-card span {
+  display: block;
+}
+
+.profile-card strong {
+  color: var(--color-ink);
+  font-size: 18px;
+}
+
+.profile-card span {
+  color: var(--color-muted);
+  font-family: var(--font-secondary);
+  font-size: 14px;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 110px;
+}
+
+.stat-card,
+.stack-card,
+.project-card,
+.service-card,
+.contact-frame {
+  border: 1px solid rgba(17, 45, 73, 0.1);
+  background: var(--surface-card);
+  box-shadow: var(--shadow-card);
+  backdrop-filter: blur(16px);
+}
+
+.stat-card {
+  padding: 22px;
+  border-radius: 24px;
+}
+
+.stat-card strong {
+  display: block;
+  color: var(--color-ink);
+  font-size: 28px;
+  line-height: 1;
+}
+
+.stat-card span {
+  display: block;
+  margin-top: 8px;
+  color: var(--color-muted);
+  font-family: var(--font-secondary);
+  font-size: 14px;
+}
+
+.split-section {
+  display: grid;
+  grid-template-columns: 0.82fr 1.18fr;
+  gap: clamp(28px, 5vw, 68px);
+  align-items: start;
+  padding: 0 0 110px;
+}
+
+.section-heading {
+  position: sticky;
+  top: 110px;
+}
+
+.section-heading.centered {
+  position: static;
+  max-width: 650px;
+  margin: 0 auto 34px;
+  text-align: center;
+}
+
+.section-heading h2,
+.contact-section h2 {
+  font-size: clamp(34px, 4.6vw, 58px);
+  line-height: 0.98;
+}
+
+.stack-grid,
+.services-grid {
+  display: grid;
+  gap: 18px;
+}
+
+.stack-card,
+.service-card {
+  border-radius: 28px;
+  padding: 24px;
+}
+
+.stack-card {
+  position: relative;
+}
+
+.stack-icon {
+  display: block;
+  width: 38px;
+  height: 38px;
+  background-color: var(--stack-icon-color);
+  -webkit-mask: var(--icon) center / contain no-repeat;
+  mask: var(--icon) center / contain no-repeat;
+}
+
+.stack-accent {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  width: 34px;
+  height: 34px;
+  color: var(--stack-icon-color);
+  opacity: 0.85;
+  overflow: visible;
+}
+
+.stack-accent path,
+.stack-accent g {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.spark {
+  animation: sparkPulse 2.4s ease-in-out infinite;
+}
+
+.spark-top {
+  animation-delay: 0.6s;
+}
+
+.spark-bottom {
+  animation-delay: 1.2s;
+}
+
+.gear {
+  animation: gearSpin 8s linear infinite;
+}
+
+.rocket {
+  animation: rocketFloat 3s ease-in-out infinite;
+}
+
+.stack-accent .rocket-flame {
+  transform-origin: top right;
+  animation: rocketFlame 0.9s ease-in-out infinite alternate;
+}
+
+.stack-card h3,
+.project-card h3,
+.service-card h3 {
+  margin: 14px 0 12px;
+  color: var(--color-ink);
+  font-size: 22px;
+  line-height: 1.12;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chips span,
+.chips small {
+  border: 1px solid rgba(80, 115, 148, 0.17);
+  border-radius: 999px;
+  background: var(--surface-muted);
+  color: var(--color-blue);
+  font-family: var(--font-secondary);
+  font-size: 13px;
+  font-weight: 700;
+  padding: 7px 10px;
+}
+
+/* Lift the hovered card so its tooltips paint above neighbouring cards. */
+.stack-card:hover,
+.stack-card:focus-within {
+  z-index: 2;
+}
+
+.has-tooltip {
+  position: relative;
+  cursor: help;
+  outline: none;
+}
+
+.has-tooltip:focus-visible {
+  border-color: var(--color-blue);
+}
+
+.has-tooltip::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  z-index: 5;
+  width: max-content;
+  max-width: 240px;
+  padding: 10px 12px;
+  border: 1px solid var(--color-line);
+  border-radius: 14px;
+  background: var(--surface-tooltip);
+  box-shadow: var(--shadow-soft);
+  -webkit-backdrop-filter: blur(28px) saturate(140%);
+  backdrop-filter: blur(28px) saturate(140%);
+  color: var(--color-ink);
+  font-family: var(--font-secondary);
+  font-size: 12.5px;
+  font-weight: 400;
+  line-height: 1.45;
+  text-align: left;
+  white-space: normal;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transform: translate(-50%, 6px);
+  transition: opacity 200ms ease, transform 200ms ease, visibility 0s linear 200ms;
+}
+
+/* Open on keyboard focus or when tapped (.is-open, set by HomeComponent on touch devices). */
+.has-tooltip:focus-visible::after,
+.has-tooltip.is-open::after {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, 0);
+  transition: opacity 200ms ease, transform 200ms ease, visibility 0s;
+}
+
+/* Hover only where a real pointer exists, avoiding "sticky hover" on touch screens. */
+@media (hover: hover) {
+  .has-tooltip:hover::after {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, 0);
+    transition: opacity 200ms ease, transform 200ms ease, visibility 0s;
+  }
+}
+
+.project-body > span {
+  color: var(--color-blue);
+  font-family: var(--font-primary);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.project-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.project-card p,
+.service-card p,
+.contact-section p {
+  color: var(--color-muted);
+  font-family: var(--font-secondary);
+}
+
+.projects-section {
+  padding-bottom: 110px;
+}
+
+.project-grid {
+  display: grid;
+  gap: 16px;
+}
+
+.project-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: clamp(16px, 3vw, 36px);
+  align-items: start;
+  min-height: 250px;
+  padding: clamp(22px, 3vw, 34px);
+  overflow: hidden;
+  border-radius: 32px;
+  transition: transform 220ms ease, box-shadow 220ms ease;
+}
+
+.project-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-strong);
+}
+
+/* Image acts as a semi-background that fades into the card from the right. */
+.project-image {
+  position: absolute;
+  inset: 0 0 0 auto;
+  width: 58%;
+  border: 0;
+  overflow: hidden;
+  background: transparent;
+  cursor: zoom-in;
+  padding: 0;
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 55%);
+  mask-image: linear-gradient(to right, transparent 0%, #000 55%);
+}
+
+.project-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top left;
+  opacity: 0.78;
+  transition: transform 500ms ease, opacity 300ms ease;
+}
+
+.project-card:hover .project-image img {
+  opacity: 1;
+  transform: scale(1.05) translateX(-8px);
+}
+
+.project-index {
+  position: relative;
+  z-index: 1;
+  color: var(--color-blue);
+  font-family: var(--font-primary);
+  font-size: clamp(38px, 5vw, 64px);
+  font-weight: 600;
+  letter-spacing: -0.05em;
+  line-height: 0.9;
+  opacity: 0.35;
+  transition: opacity 220ms ease;
+}
+
+.project-card:hover .project-index {
+  opacity: 0.8;
+}
+
+/* Body sits above the image; only its controls capture clicks so the image stays clickable. */
+.project-body {
+  position: relative;
+  z-index: 1;
+  max-width: min(480px, 48%);
+  pointer-events: none;
+}
+
+.project-body a,
+.project-body button {
+  pointer-events: auto;
+}
+
+.project-body h3 {
+  margin-top: 9px;
+  font-size: clamp(24px, 2.6vw, 32px);
+}
+
+.project-body p {
+  margin: 0 0 16px;
+  font-size: 15px;
+}
+
+/* Shared box for <button> and <a> so both align identically. */
+.project-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  min-height: 38px;
+  margin: 0;
+  padding: 0 16px;
+  border: 1px solid var(--color-line);
+  border-radius: 999px;
+  background: var(--surface-muted);
+  color: var(--color-ink);
+  font-family: var(--font-primary);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  transition: border-color 180ms ease, background 180ms ease, color 180ms ease;
+}
+
+.project-link:hover {
+  border-color: var(--color-blue);
+  background: var(--surface-active);
+  color: var(--color-blue);
+}
+
+.project-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.modal-footer .project-actions {
+  margin-top: 0;
+}
+
+.services-grid {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.service-card {
+  transform: perspective(800px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+  /* Slow, soft return when the pointer leaves. */
+  transition: transform 450ms cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 220ms ease;
+  will-change: transform;
+}
+
+/* Near-instant follow while the pointer moves over the card. */
+.service-card.is-tilting {
+  transition: transform 90ms linear, box-shadow 220ms ease;
+}
+
+.service-card:hover {
+  box-shadow: var(--shadow-strong);
+}
+
+/* `backwards` releases the reveal transform once it ends so the tilt transform can apply. */
+.service-card.reveal.is-visible,
+.project-card.reveal.is-visible {
+  animation-fill-mode: backwards;
+}
+
+.service-card span {
+  display: block;
+  width: 38px;
+  height: 5px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--color-blue), var(--color-accent));
+}
+
+/* Contact stage: anchors flush to the top so the previous section stays out of view. */
+.contact-stage {
+  --frame-top: calc(var(--navbar-height) + 28px + var(--safe-top));
+  --frame-bleed: -40px;
+  --frame-radius: 36px;
+  --frame-x: max(20px, calc((100% - 1160px) / 2));
+  --frame-bottom: 24px;
+  position: relative;
+  display: grid;
+  place-items: center;
+  /* The animated frame itself is 76svh tall; the stage adds the navbar gap and bottom spacing. */
+  min-height: calc(var(--frame-top) + 76vh + var(--frame-bottom));
+  min-height: calc(var(--frame-top) + 76svh + var(--frame-bottom));
+  padding: calc(var(--frame-top) + 12px) var(--frame-x) calc(var(--frame-bottom) + 12px);
+  scroll-margin-top: 0;
+  /* The frame's initial bleed must not widen the page (mobile browsers would zoom out). */
+  overflow-x: clip;
+  view-timeline: --contact-view block;
+}
+
+.contact-frame {
+  position: absolute;
+  inset: var(--frame-top) var(--frame-x) var(--frame-bottom);
+  border-radius: var(--frame-radius);
+  background:
+    radial-gradient(circle at 8% 12%, rgba(182, 108, 217, 0.14), transparent 28%),
+    linear-gradient(135deg, var(--surface-card-strong), var(--surface-card));
+  pointer-events: none;
+}
+
+/* Light that travels along the frame border. */
+.contact-frame::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  padding: 1.5px;
+  border-radius: inherit;
+  background: conic-gradient(
+    from var(--border-angle),
+    transparent 0deg 250deg,
+    var(--color-blue) 300deg,
+    var(--color-accent) 335deg,
+    transparent 360deg
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  animation: borderTravel 6s linear infinite;
+}
+
+/* The frame starts beyond the viewport edges and settles into place while scrolling in. */
+@supports (animation-timeline: view()) {
+  .contact-frame {
+    animation: contactFrameSettle linear both;
+    animation-timeline: --contact-view;
+    animation-range: entry 5% entry 95%;
+  }
+}
+
+.contact-section {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 28px;
+  align-items: center;
+  width: 100%;
+  padding: clamp(28px, 5vw, 54px);
+}
+
+.contact-section p {
+  max-width: 570px;
+  margin: 18px 0 0;
+  font-size: 17px;
+}
+
+.contact-actions {
+  justify-content: flex-end;
+  margin-top: 0;
+}
+
+.button.cta-pulse {
+  position: relative;
+  isolation: isolate;
+}
+
+/* Halo ring that pulses outward. */
+.button.cta-pulse::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  animation: ctaHalo 2.4s ease-out infinite;
+}
+
+/* Diagonal shine that sweeps across the button. */
+.button.cta-pulse::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(110deg, transparent 35%, var(--cta-shine) 50%, transparent 65%) no-repeat;
+  background-size: 250% 100%;
+  pointer-events: none;
+  animation: ctaShine 4s ease-in-out infinite;
+}
+
+.button.cta-pulse:hover::before,
+.button.cta-pulse:hover::after {
+  animation-play-state: paused;
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: grid;
+  place-items: center;
+  padding: 28px;
+  background: rgba(3, 13, 24, 0.56);
+  backdrop-filter: blur(14px);
+  animation: fadeIn 180ms ease both;
+}
+
+.project-modal {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  width: min(1180px, 100%);
+  max-height: min(860px, calc(100vh - 56px));
+  border: 1px solid var(--color-line);
+  border-radius: 34px;
+  background: var(--surface-card-strong);
+  box-shadow: var(--shadow-strong);
+  overflow: hidden;
+}
+
+.modal-header,
+.modal-footer {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px 24px;
+}
+
+.modal-header h2 {
+  margin: 0;
+  color: var(--color-ink);
+  font-size: clamp(28px, 4vw, 44px);
+  line-height: 1;
+}
+
+.modal-close {
+  min-height: 42px;
+  border: 1px solid var(--color-line);
+  border-radius: 999px;
+  background: var(--surface-muted);
+  color: var(--color-ink);
+  font-family: var(--font-primary);
+  font-weight: 700;
+  padding: 0 16px;
+}
+
+.modal-image {
+  min-height: 0;
+  background: rgba(7, 24, 38, 0.08);
+  overflow: auto;
+}
+
+.modal-image img {
+  display: block;
+  width: 100%;
+  min-height: 100%;
+  object-fit: contain;
+}
+
+.modal-thumbs {
+  display: flex;
+  gap: 10px;
+  min-width: 0;
+  overflow: auto;
+}
+
+.modal-thumbs button {
+  flex: 0 0 92px;
+  height: 58px;
+  border: 2px solid transparent;
+  border-radius: 14px;
+  background: var(--surface-muted);
+  overflow: hidden;
+  padding: 0;
+}
+
+.modal-thumbs button.active {
+  border-color: var(--color-accent);
+}
+
+.modal-thumbs img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top left;
+}
+
+/* Hidden until RevealOnScrollDirective marks the element as visible. */
+.reveal:not(.is-visible) {
+  opacity: 0;
+  transform: translateY(18px);
+}
+
+.reveal.is-visible {
+  animation: sectionReveal 700ms ease var(--reveal-delay, 0ms) both;
+}
+
+@keyframes sectionReveal {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes sparkPulse {
+  0%,
+  100% {
+    transform: scale(0.7);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+}
+
+@keyframes gearSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes rocketFloat {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(2px, -3px);
+  }
+}
+
+@keyframes rocketFlame {
+  from {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+  to {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+}
+
+@keyframes borderTravel {
+  to {
+    --border-angle: 360deg;
+  }
+}
+
+@keyframes contactFrameSettle {
+  from {
+    inset: calc(var(--frame-top) - 48px) var(--frame-bleed) var(--frame-bleed);
+    border-radius: 0;
+  }
+  to {
+    inset: var(--frame-top) var(--frame-x) var(--frame-bottom);
+    border-radius: var(--frame-radius);
+  }
+}
+
+@keyframes ctaHalo {
+  0% {
+    box-shadow: 0 0 0 0 var(--cta-halo);
+  }
+  70%,
+  100% {
+    box-shadow: 0 0 0 14px transparent;
+  }
+}
+
+@keyframes ctaShine {
+  0%,
+  55% {
+    background-position: 130% 0;
+  }
+  100% {
+    background-position: -30% 0;
+  }
+}
+
+@keyframes floatShape {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-2deg);
+    border-radius: 44% 56% 52% 48%;
+  }
+  50% {
+    transform: translateY(-18px) rotate(2deg);
+    border-radius: 56% 44% 46% 54%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal:not(.is-visible) {
+    opacity: 1;
+    transform: none;
+  }
+
+  .reveal.is-visible,
+  .brand-orbit,
+  .spark,
+  .gear,
+  .rocket,
+  .stack-accent .rocket-flame,
+  .contact-frame,
+  .contact-frame::before,
+  .button.cta-pulse::before,
+  .button.cta-pulse::after {
+    animation: none;
+  }
+
+  .button,
+  .project-card,
+  .project-image img,
+  .service-card {
+    transition: none;
+  }
+}
+
+@media (max-width: 980px) {
+  .hero,
+  .split-section,
+  .contact-section {
+    grid-template-columns: 1fr;
+  }
+
+  .hero {
+    min-height: auto;
+    padding-top: 44px;
+  }
+
+  .hero-visual {
+    min-height: 440px;
+  }
+
+  .stats,
+  .services-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .project-body {
+    max-width: 58%;
+  }
+
+  .section-heading {
+    position: static;
+  }
+
+  .contact-actions {
+    justify-content: flex-start;
+  }
+}
+
+
+@media (max-width: 680px) {
+  .section-shell {
+    width: min(100% - 28px, 1160px);
+  }
+
+  /* Hero: copy first with full-width CTAs, then a compact visual. */
+  .hero {
+    gap: 28px;
+    padding: 28px 0 40px;
+  }
+
+  .hero-copy h1 {
+    font-size: clamp(38px, 12vw, 56px);
+  }
+
+  .hero-copy p {
+    margin-top: 18px;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    margin-top: 26px;
+  }
+
+  .hero-actions .button {
+    width: 100%;
+    min-height: 48px;
+  }
+
+  .hero-visual {
+    min-height: 280px;
+  }
+
+  /* Centered with auto margins: `transform` is owned by the floatShape animation. */
+  .brand-orbit {
+    inset: 0 0 auto;
+    width: 220px;
+    margin: 0 auto;
+  }
+
+  .profile-card {
+    right: 50%;
+    bottom: 0;
+    width: min(320px, 100%);
+    padding: 12px;
+    border-radius: 22px;
+    transform: translateX(50%);
+  }
+
+  .profile-card img {
+    width: 64px;
+    border-radius: 18px;
+  }
+
+  .stats {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-bottom: 72px;
+  }
+
+  .stat-card {
+    padding: 18px;
+    border-radius: 20px;
+  }
+
+  .stat-card strong {
+    font-size: 24px;
+  }
+
+  .split-section,
+  .projects-section {
+    padding-bottom: 72px;
+  }
+
+  .services-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stack-card,
+  .service-card {
+    padding: 20px;
+    border-radius: 24px;
+  }
+
+  .chips span {
+    display: inline-flex;
+    align-items: center;
+    min-height: 36px;
+  }
+
+  /* Tooltips hang from the chip's left edge (or right edge for chips on the right half). */
+  .has-tooltip::after {
+    left: 0;
+    max-width: min(240px, 70vw);
+    transform: translateY(6px);
+  }
+
+  .has-tooltip.align-end::after {
+    right: 0;
+    left: auto;
+  }
+
+  .has-tooltip:focus-visible::after,
+  .has-tooltip.is-open::after,
+  .has-tooltip:hover::after {
+    transform: translateY(0);
+  }
+
+  /* Projects: image becomes a fading banner above the content. */
+  .project-card {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    min-height: 0;
+    padding: 160px 20px 22px;
+    border-radius: 26px;
+  }
+
+  .project-image {
+    inset: 0 0 auto;
+    width: 100%;
+    height: 190px;
+    -webkit-mask-image: linear-gradient(to bottom, #000 40%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 40%, transparent 100%);
+  }
+
+  .project-index {
+    font-size: 34px;
+  }
+
+  .project-body {
+    max-width: none;
+  }
+
+  .project-body h3 {
+    font-size: 22px;
+  }
+
+  /* Contact: tighter frame, stacked full-width actions (pulsing CTA first). */
+  .contact-stage {
+    --frame-top: calc(90px + var(--safe-top));
+    --frame-x: 14px;
+    --frame-bleed: -16px;
+    --frame-radius: 24px;
+  }
+
+  .contact-section {
+    padding: 28px 20px;
+  }
+
+  .contact-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .contact-actions .button {
+    min-height: 48px;
+  }
+
+  .modal-backdrop {
+    padding: 12px;
+  }
+
+  .project-modal {
+    max-height: calc(100dvh - 24px);
+    border-radius: 24px;
+  }
+
+  .modal-header,
+  .modal-footer {
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 16px;
+  }
+
+  .modal-header {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .modal-close {
+    flex-shrink: 0;
+    min-height: 44px;
+  }
+
+  .modal-thumbs {
+    width: 100%;
+    scroll-snap-type: x mandatory;
+  }
+
+  .modal-thumbs button {
+    scroll-snap-align: start;
+  }
+}
+
+@media (max-width: 400px) {
+  .hero-copy h1 {
+    font-size: clamp(34px, 11vw, 42px);
+  }
+
+  .hero-visual {
+    min-height: 250px;
+  }
+
+  .brand-orbit {
+    width: 190px;
+  }
+
+  .stats {
+    grid-template-columns: 1fr;
+  }
+
+  .stack-accent {
+    top: 20px;
+    right: 20px;
+    width: 28px;
+    height: 28px;
+  }
+
+  .project-card .project-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .project-card .project-link {
+    width: 100%;
+  }
+}
+
+/* Touch screens: show project images fully and skip hover-only motion. */
+@media (hover: none) {
+  .project-image img {
+    opacity: 1;
+  }
+
+  .project-card:hover,
+  .project-card:hover .project-image img,
+  .button:hover {
+    transform: none;
+  }
+}

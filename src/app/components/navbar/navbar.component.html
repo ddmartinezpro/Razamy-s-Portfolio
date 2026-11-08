@@ -1,14 +1,69 @@
-<nav>
-  @defer (on idle) {
-    <app-three-logo />
-  } @placeholder {
-    <img class="logo-placeholder" src="assets/img/logo_navbar.png" alt="Razamy logo">
-  }
+<nav class="navbar" aria-label="Main navigation">
+  <a class="brand" href="#home" aria-label="Razamy portfolio home" (click)="navigateToSection('home', $event)">
+    <img src="assets/icons/razamy_logo_icon.svg" alt="">
+    <span>Razamy</span>
+  </a>
 
-<!--  <div>-->
-<!--    <a [routerLink]="''">Home</a>-->
-<!--    <a [routerLink]="'/about-me'">About me</a>-->
-<!--    <a [routerLink]="'/demos'">Demos</a>-->
-<!--  </div>-->
+  <div class="nav-links">
+    @for (link of sectionLinks; track link) {
+      <a [href]="'#' + link" [class.active]="activeSection() === link" (click)="navigateToSection(link, $event)">
+        {{ content()[link] }}
+      </a>
+    }
+  </div>
+
+  <div class="nav-actions">
+    <button type="button" class="language-toggle desktop-only" (click)="toggleLanguage()" [attr.aria-label]="content().language">
+      {{ language().toUpperCase() }}
+    </button>
+    <button type="button" class="theme-toggle desktop-only" (click)="toggleTheme()" [attr.aria-label]="content().theme">
+      {{ theme() === 'dark' ? 'Light' : 'Dark' }}
+    </button>
+    <a class="cv-link" [href]="content().cvFile" download [attr.aria-label]="content().cvDownloadLabel" [attr.title]="content().cvDownloadLabel">
+      {{ content().cv }}
+    </a>
+    <button
+      #menuButton
+      type="button"
+      class="menu-toggle"
+      [class.is-open]="menuOpen()"
+      aria-controls="mobile-menu"
+      [attr.aria-expanded]="menuOpen()"
+      [attr.aria-label]="menuOpen() ? content().menuClose : content().menuOpen"
+      (click)="toggleMenu()"
+    >
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
 </nav>
 
+<div class="menu-backdrop" [class.is-open]="menuOpen()" (click)="closeMenu()" aria-hidden="true"></div>
+
+<div id="mobile-menu" class="mobile-menu" [class.is-open]="menuOpen()" [attr.aria-hidden]="!menuOpen()" [attr.inert]="menuOpen() ? null : ''">
+  <ul class="mobile-links">
+    @for (link of sectionLinks; track link; let i = $index) {
+      <li [style.--item-index]="i">
+        <a [href]="'#' + link" [class.active]="activeSection() === link" (click)="navigateToSection(link, $event)">
+          {{ content()[link] }}
+        </a>
+      </li>
+    }
+  </ul>
+
+  <div class="mobile-settings">
+    <div class="segmented" role="group" [attr.aria-label]="content().language">
+      <button type="button" [class.active]="language() === 'es'" [attr.aria-pressed]="language() === 'es'" (click)="setLanguage('es')">ES</button>
+      <button type="button" [class.active]="language() === 'en'" [attr.aria-pressed]="language() === 'en'" (click)="setLanguage('en')">EN</button>
+    </div>
+    <div class="segmented" role="group" [attr.aria-label]="content().theme">
+      <button type="button" [class.active]="theme() === 'light'" [attr.aria-pressed]="theme() === 'light'" (click)="selectTheme('light')">
+        {{ content().themeLight }}
+      </button>
+      <button type="button" [class.active]="theme() === 'dark'" [attr.aria-pressed]="theme() === 'dark'" (click)="selectTheme('dark')">
+        {{ content().themeDark }}
+      </button>
+    </div>
+  </div>
+</div>

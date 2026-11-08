@@ -1,1 +1,5 @@
-<p>&copy; 2024 Mi Portafolio</p>
+<footer class="footer">
+  <span>© 2026 {{ contact.name }}</span>
+  <a [href]="'mailto:' + contact.email">{{ contact.email }}</a>
+  <a [href]="contact.linkedinUrl" target="_blank" rel="noreferrer">{{ content().contactActions.linkedin }}</a>
+</footer>

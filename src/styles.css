@@ -1,53 +1,155 @@
-/* Importación de fuentes */
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Open+Sans:wght@400;600&display=swap');
+﻿@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Open+Sans:wght@400;600&display=swap');
 
-/* Variables globales (modo claro por defecto) */
 :root {
-  --bg-color: #ffffff;
-  --text-color: #1f1f42;
-  --heading-color: #333333;
+  --navbar-height: 76px;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  --anchor-offset: calc(132px + var(--safe-top));
+  --color-bg: #f6f9fb;
+  --color-paper: #ffffff;
+  --color-ink: #112d49;
+  --color-on-ink: #ffffff;
+  --color-blue: #507394;
+  --color-mist: #9ab7d3;
+  --color-accent: #b66cd9;
+  --color-muted: #647184;
+  --color-line: rgba(17, 45, 73, 0.12);
+  --surface-body-start: #f9fbfd;
+  --surface-body-end: #eef4f8;
+  --surface-card: rgba(255, 255, 255, 0.76);
+  --surface-card-strong: rgba(255, 255, 255, 0.94);
+  --surface-nav: rgba(255, 255, 255, 0.78);
+  --surface-tooltip: rgba(255, 255, 255, 0.9);
+  --surface-muted: rgba(246, 249, 251, 0.7);
+  --surface-active: rgba(80, 115, 148, 0.11);
+  --shadow-soft: 0 18px 52px rgba(17, 45, 73, 0.1);
+  --shadow-card: 0 18px 50px rgba(17, 45, 73, 0.08);
+  --shadow-strong: 0 28px 70px rgba(17, 45, 73, 0.13);
+  --particle-color: rgba(80, 115, 148, 0.34);
+  --particle-line: rgba(80, 115, 148, 0.14);
+  --stack-icon-color: #000000;
+  --cta-halo: rgba(182, 108, 217, 0.45);
+  --cta-shine: rgba(255, 255, 255, 0.42);
   --font-primary: 'Montserrat', sans-serif;
   --font-secondary: 'Open Sans', sans-serif;
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--anchor-offset);
 }
 
-/* Modo oscuro */
-.dark-mode {
-  --bg-color: #112d49;
-  --text-color: #ffffff;
-  --heading-color: #e0e0e0;
+:root[data-theme='dark'] {
+  --color-bg: #071826;
+  --color-paper: #f6f9fb;
+  --color-ink: #ecf6ff;
+  --color-on-ink: #071826;
+  --color-blue: #9ab7d3;
+  --color-mist: #507394;
+  --color-accent: #c87af0;
+  --color-muted: #a8b8c9;
+  --color-line: rgba(255, 255, 255, 0.11);
+  --surface-body-start: #071826;
+  --surface-body-end: #0c2236;
+  --surface-card: rgba(255, 255, 255, 0.065);
+  --surface-card-strong: rgba(255, 255, 255, 0.095);
+  --surface-nav: rgba(10, 29, 46, 0.76);
+  --surface-tooltip: rgba(10, 29, 46, 0.9);
+  --surface-muted: rgba(255, 255, 255, 0.055);
+  --surface-active: rgba(154, 183, 211, 0.13);
+  --shadow-soft: 0 18px 52px rgba(0, 0, 0, 0.28);
+  --shadow-card: 0 18px 50px rgba(0, 0, 0, 0.24);
+  --shadow-strong: 0 30px 80px rgba(0, 0, 0, 0.34);
+  --particle-color: rgba(154, 183, 211, 0.38);
+  --particle-line: rgba(154, 183, 211, 0.13);
+  --stack-icon-color: #ecf6ff;
+  --cta-halo: rgba(200, 122, 240, 0.5);
+  --cta-shine: rgba(200, 122, 240, 0.34);
+}
+
+/* Registered so conic-gradient borders can animate their angle smoothly. */
+@property --border-angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--color-bg);
 }
 
 body {
-  background-color: var(--bg-color);
-  color: var(--text-color);
+  min-width: 320px;
+  margin: 0;
+  background:
+    radial-gradient(circle at 4% 8%, rgba(182, 108, 217, 0.11), transparent 26vw),
+    radial-gradient(circle at 90% 0%, rgba(154, 183, 211, 0.22), transparent 34vw),
+    linear-gradient(180deg, var(--surface-body-start) 0%, var(--color-bg) 42%, var(--surface-body-end) 100%);
+  color: var(--color-ink);
   font-family: var(--font-primary);
   font-weight: 400;
   line-height: 1.6;
   overflow: hidden auto;
-  margin: 0;
-  transition: background-color 0.3s, color 0.3s;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-secondary);
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--color-ink);
+  font-family: var(--font-primary);
   font-weight: 600;
-  color: var(--heading-color);
 }
 
-nav {
-  background-color: transparent;
-  height: 50px;
-  padding: 12px;
-  width: 100%;
-  position: fixed;
-  top: 0;
-  transition: background-color 0.3s, color 0.3s;
+a {
+  color: inherit;
 }
 
 main {
-  padding-top: 105px;
+  position: relative;
+  z-index: 1;
+  padding-top: calc(92px + var(--safe-top));
+  /* Decorative overflow (hidden tooltips, frame bleed) must never widen the mobile layout viewport. */
+  overflow-x: clip;
+}
+
+header,
+footer {
+  position: relative;
+  z-index: 2;
+}
+
+body.modal-open {
+  overflow: hidden;
+}
+
+/* Scoped to the mobile-menu breakpoint so a stale lock can never freeze the desktop page. */
+@media (max-width: 920px) {
+  body.menu-open {
+    overflow: hidden;
+  }
 }
 
 button {
   cursor: pointer;
+}
+
+img {
+  max-width: 100%;
+}
+
+::selection {
+  background: rgba(182, 108, 217, 0.24);
+  color: var(--color-ink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    scroll-behavior: auto;
+  }
 }

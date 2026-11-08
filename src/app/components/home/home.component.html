@@ -1,0 +1,237 @@
+<section id="home" class="hero section-shell">
+  <div class="hero-copy" appReveal>
+    <span class="eyebrow">{{ content().hero.eyebrow }}</span>
+    <h1>{{ content().hero.title }}</h1>
+    <p>{{ content().hero.subtitle }}</p>
+
+    <div class="hero-actions">
+      <a class="button primary" href="#projects">{{ content().hero.primaryCta }}</a>
+      <a class="button ghost" href="#contact">{{ content().hero.secondaryCta }}</a>
+      <a class="button link" [href]="content().nav.cvFile" download [attr.aria-label]="content().nav.cvDownloadLabel">
+        {{ content().hero.cvCta }}
+      </a>
+    </div>
+  </div>
+
+  <div class="hero-visual" appReveal>
+    <div class="brand-orbit" aria-hidden="true">
+      <img src="assets/icons/razamy_logo_icon.svg" alt="">
+    </div>
+    <div class="profile-card">
+      <img src="assets/img/profile_picture.jpg" alt="David Diaz Martinez">
+      <div>
+        <strong>{{ contact.name }}</strong>
+        <span>{{ contact.location }}</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="stats section-shell" aria-label="Portfolio highlights">
+  @for (stat of content().stats; track stat.label) {
+    <article class="stat-card" appReveal>
+      <strong>{{ stat.value }}</strong>
+      <span>{{ stat.label }}</span>
+    </article>
+  }
+</section>
+
+<section id="stack" class="section-shell split-section">
+  <div class="section-heading" appReveal>
+    <span class="eyebrow">{{ content().sections.stackEyebrow }}</span>
+    <h2>{{ content().sections.stackTitle }}</h2>
+  </div>
+
+  <div class="stack-grid">
+    @for (group of content().stack; track group.title) {
+      <article class="stack-card" appReveal>
+        <span class="stack-icon" role="img" [attr.aria-label]="group.title" [style.--icon]="'url(' + group.icon + ')'"></span>
+        <svg
+          [class]="'stack-accent stack-accent--' + group.accentIcon"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.6"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          @switch (group.accentIcon) {
+            @case ('sparkles') {
+              <path class="spark spark-lg" d="M9 18a6 6 0 0 1 6 -6a6 6 0 0 1 -6 -6a6 6 0 0 1 -6 6a6 6 0 0 1 6 6z" />
+              <path class="spark spark-top" d="M16 6a2 2 0 0 1 2 2a2 2 0 0 1 2 -2a2 2 0 0 1 -2 -2a2 2 0 0 1 -2 2z" />
+              <path class="spark spark-bottom" d="M16 18a2 2 0 0 1 2 2a2 2 0 0 1 2 -2a2 2 0 0 1 -2 -2a2 2 0 0 1 -2 2z" />
+            }
+            @case ('gear') {
+              <g class="gear">
+                <path d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z" />
+                <path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" />
+              </g>
+            }
+            @case ('rocket') {
+              <g class="rocket">
+                <path d="M4 13a8 8 0 0 1 7 7a6 6 0 0 0 3 -5a9 9 0 0 0 6 -8a3 3 0 0 0 -3 -3a9 9 0 0 0 -8 6a6 6 0 0 0 -5 3" />
+                <path d="M15 9m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+                <path class="rocket-flame" d="M7 14a6 6 0 0 0 -3 6a6 6 0 0 0 6 -3" />
+              </g>
+            }
+          }
+        </svg>
+        <h3>{{ group.title }}</h3>
+        <div class="chips">
+          @for (item of group.items; track item.name) {
+            <span
+              class="has-tooltip"
+              tabindex="0"
+              [class.is-open]="openTooltip() === item.name"
+              [class.align-end]="openTooltip() === item.name && tooltipAlignEnd()"
+              [attr.data-tooltip]="item.description"
+              [attr.aria-label]="item.name + ': ' + item.description"
+              (click)="toggleTooltip(item.name, $event)"
+            >
+              {{ item.name }}
+            </span>
+          }
+        </div>
+      </article>
+    }
+  </div>
+</section>
+
+<section id="projects" class="section-shell projects-section">
+  <div class="section-heading centered" appReveal>
+    <span class="eyebrow">{{ content().sections.projectsEyebrow }}</span>
+    <h2>{{ content().sections.projectsTitle }}</h2>
+  </div>
+
+  <div class="project-grid">
+    @for (project of content().projects; track project.title; let i = $index) {
+      <article class="project-card" appReveal>
+        <button
+          class="project-image"
+          type="button"
+          [attr.aria-label]="content().sections.galleryCta + ': ' + project.title"
+          (click)="openProjectGallery(project)"
+        >
+          <img [src]="project.image" alt="">
+        </button>
+        <span class="project-index" aria-hidden="true">{{ (i + 1).toString().padStart(2, '0') }}</span>
+        <div class="project-body">
+          <span>{{ project.eyebrow }}</span>
+          <h3>{{ project.title }}</h3>
+          <p>{{ project.description }}</p>
+          <div class="chips">
+            @for (tag of project.tags; track tag) {
+              <small>{{ tag }}</small>
+            }
+          </div>
+          <div class="project-actions">
+            <button class="project-link" type="button" (click)="openProjectGallery(project)">
+              {{ content().sections.galleryCta }}
+            </button>
+            @if (project.externalLink) {
+              <a class="project-link" [href]="project.externalLink" target="_blank" rel="noreferrer">
+                {{ content().sections.projectCta }}
+              </a>
+            }
+            @if (project.internalLink) {
+              <a class="project-link" [routerLink]="project.internalLink" (click)="closeProjectGallery()">
+                {{ content().sections.demoCta }}
+              </a>
+            }
+          </div>
+        </div>
+      </article>
+    }
+  </div>
+</section>
+
+@if (selectedProject(); as project) {
+  <div class="modal-backdrop" role="presentation" (click)="closeProjectGallery()">
+    <section
+      class="project-modal"
+      role="dialog"
+      aria-modal="true"
+      [attr.aria-label]="project.title"
+      (click)="$event.stopPropagation()"
+    >
+      <div class="modal-header">
+        <div>
+          <span class="eyebrow">{{ project.eyebrow }}</span>
+          <h2>{{ project.title }}</h2>
+        </div>
+        <button type="button" class="modal-close" (click)="closeProjectGallery()">
+          {{ content().sections.closeModal }}
+        </button>
+      </div>
+
+      <div class="modal-image">
+        <img [src]="selectedImage()" [alt]="project.title">
+      </div>
+
+      <div class="modal-footer">
+        <div class="modal-thumbs">
+          @for (image of project.images; track image) {
+            <button
+              type="button"
+              [class.active]="selectedImage() === image"
+              (click)="selectProjectImage(image)"
+            >
+              <img [src]="image" [alt]="project.title">
+            </button>
+          }
+        </div>
+
+        <div class="project-actions">
+          @if (project.externalLink) {
+            <a class="project-link" [href]="project.externalLink" target="_blank" rel="noreferrer">
+              {{ content().sections.projectCta }}
+            </a>
+          }
+          @if (project.internalLink) {
+            <a class="project-link" [routerLink]="project.internalLink" (click)="closeProjectGallery()">
+              {{ content().sections.demoCta }}
+            </a>
+          }
+        </div>
+      </div>
+    </section>
+  </div>
+}
+
+<section id="services" class="section-shell split-section services-section">
+  <div class="section-heading" appReveal>
+    <span class="eyebrow">{{ content().sections.servicesEyebrow }}</span>
+    <h2>{{ content().sections.servicesTitle }}</h2>
+  </div>
+
+  <div class="services-grid">
+    @for (service of content().services; track service.title) {
+      <article class="service-card" appReveal (pointerenter)="startTilt($event)" (pointermove)="tiltCard($event)" (pointerleave)="resetTilt($event)">
+        <span></span>
+        <h3>{{ service.title }}</h3>
+        <p>{{ service.description }}</p>
+      </article>
+    }
+  </div>
+</section>
+
+<section id="contact" class="contact-stage">
+  <div class="contact-frame" aria-hidden="true"></div>
+
+  <div class="contact-section" appReveal>
+    <div>
+      <span class="eyebrow">{{ content().sections.contactEyebrow }}</span>
+      <h2>{{ content().sections.contactTitle }}</h2>
+      <p>{{ content().sections.contactText }}</p>
+    </div>
+
+    <div class="contact-actions">
+      <a class="button primary cta-pulse" [href]="'mailto:' + contact.email">{{ content().contactActions.email }}</a>
+      <a class="button ghost" [href]="'tel:' + contact.phone.replaceAll(' ', '')">{{ content().contactActions.phone }}</a>
+      <a class="button link" [href]="contact.linkedinUrl" target="_blank" rel="noreferrer">
+        {{ content().contactActions.linkedin }}
+      </a>
+    </div>
+  </div>
+</section>
