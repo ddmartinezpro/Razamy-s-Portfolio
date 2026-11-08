@@ -18,7 +18,7 @@
       <img src="assets/icons/razamy_logo_icon.svg" alt="">
     </div>
     <div class="profile-card">
-      <img src="assets/img/profile_picture.jpg" alt="David Diaz Martinez">
+      <img src="assets/img/profile_picture.jpg" [alt]="contact.name">
       <div>
         <strong>{{ contact.name }}</strong>
         <span>{{ contact.location }}</span>
@@ -27,7 +27,7 @@
   </div>
 </section>
 
-<section class="stats section-shell" aria-label="Portfolio highlights">
+<section class="stats section-shell" [attr.aria-label]="content().sections.statsLabel">
   @for (stat of content().stats; track stat.label) {
     <article class="stat-card" appReveal>
       <strong>{{ stat.value }}</strong>
@@ -96,6 +96,18 @@
       </article>
     }
   </div>
+</section>
+
+<section id="experience" class="section-shell split-section">
+  <div class="section-heading" appReveal>
+    <span class="eyebrow">{{ content().sections.experienceEyebrow }}</span>
+    <h2>{{ content().sections.experienceTitle }}</h2>
+    <a class="button ghost experience-cv" [href]="content().nav.cvFile" download>
+      {{ content().sections.experienceCvCta }}
+    </a>
+  </div>
+
+  <app-experience-timeline appReveal [items]="content().experience" />
 </section>
 
 <section id="projects" class="section-shell projects-section">
@@ -227,10 +239,25 @@
 
     <div class="contact-actions">
       <a class="button primary cta-pulse" [href]="'mailto:' + contact.email">{{ content().contactActions.email }}</a>
+      <button type="button" class="button ghost" (click)="copyEmail()">
+        @switch (emailCopyState()) {
+          @case ('copied') { {{ content().contactActions.emailCopied }} }
+          @case ('failed') { {{ content().contactActions.copyFailed }} }
+          @default { {{ content().contactActions.copyEmail }} }
+        }
+      </button>
       <a class="button ghost" [href]="'tel:' + contact.phone.replaceAll(' ', '')">{{ content().contactActions.phone }}</a>
       <a class="button link" [href]="contact.linkedinUrl" target="_blank" rel="noreferrer">
         {{ content().contactActions.linkedin }}
       </a>
+      <a class="button link" [href]="contact.githubUrl" target="_blank" rel="noreferrer">
+        {{ content().contactActions.github }}
+      </a>
     </div>
+    <!-- Announces the copy result to screen readers (the button label changes too). -->
+    <span class="sr-only" aria-live="polite">
+      @if (emailCopyState() === 'copied') { {{ content().contactActions.emailCopied }} }
+      @if (emailCopyState() === 'failed') { {{ content().contactActions.copyFailed }} }
+    </span>
   </div>
 </section>

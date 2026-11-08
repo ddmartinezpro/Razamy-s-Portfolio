@@ -37,6 +37,7 @@ export interface PortfolioContent {
   nav: {
     home: string;
     stack: string;
+    experience: string;
     projects: string;
     services: string;
     contact: string;
@@ -49,6 +50,9 @@ export interface PortfolioContent {
     theme: string;
     themeLight: string;
     themeDark: string;
+    mainNavLabel: string;
+    homeLabel: string;
+    backToPortfolio: string;
   };
   hero: {
     eyebrow: string;
@@ -64,6 +68,8 @@ export interface PortfolioContent {
     stackTitle: string;
     experienceEyebrow: string;
     experienceTitle: string;
+    experienceCvCta: string;
+    statsLabel: string;
     projectsEyebrow: string;
     projectsTitle: string;
     projectCta: string;
@@ -83,8 +89,12 @@ export interface PortfolioContent {
   services: { title: string; description: string }[];
   contactActions: {
     email: string;
+    copyEmail: string;
+    emailCopied: string;
+    copyFailed: string;
     phone: string;
     linkedin: string;
+    github: string;
   };
 }
 
@@ -94,7 +104,11 @@ export const portfolioContact = {
   phone: '+53 59283769',
   location: 'Villa Clara, Cuba',
   linkedinUrl: 'https://www.linkedin.com/in/david-d%C3%ADaz-mart%C3%ADnez-3b0b71321/',
+  githubUrl: 'https://github.com/ddmartinezpro',
 };
+
+/** Whole years since the first professional role (January 2023), so the stat never goes stale. */
+const yearsOfExperience = Math.floor((Date.now() - new Date(2023, 0, 1).getTime()) / (365.25 * 24 * 60 * 60 * 1000));
 
 export const portfolioContent: Record<PortfolioLanguage, PortfolioContent> = {
   es: {
@@ -106,6 +120,7 @@ export const portfolioContent: Record<PortfolioLanguage, PortfolioContent> = {
     nav: {
       home: 'Inicio',
       stack: 'Stack',
+      experience: 'Experiencia',
       projects: 'Proyectos',
       services: 'Servicios',
       contact: 'Contacto',
@@ -118,6 +133,9 @@ export const portfolioContent: Record<PortfolioLanguage, PortfolioContent> = {
       theme: 'Tema',
       themeLight: 'Claro',
       themeDark: 'Oscuro',
+      mainNavLabel: 'Navegación principal',
+      homeLabel: 'Ir al inicio del portfolio',
+      backToPortfolio: 'Volver al portfolio',
     },
     hero: {
       eyebrow: 'Full Stack Developer · Angular · TypeScript',
@@ -126,10 +144,10 @@ export const portfolioContent: Record<PortfolioLanguage, PortfolioContent> = {
         'Desarrollador web con experiencia en sistemas de gestión, supply chain, tickets y herramientas internas.',
       primaryCta: 'Ver proyectos',
       secondaryCta: 'Contactar',
-      cvCta: 'Ver CV',
+      cvCta: 'Descargar CV',
     },
     stats: [
-      { value: '3+', label: 'años de experiencia' },
+      { value: `${yearsOfExperience}+`, label: 'años de experiencia' },
       { value: 'Angular', label: 'frontend principal' },
       { value: 'Full Stack', label: 'APIs, datos y UI' },
       { value: 'Remoto', label: 'empleo y freelance' },
@@ -139,6 +157,8 @@ export const portfolioContent: Record<PortfolioLanguage, PortfolioContent> = {
       stackTitle: 'Stack enfocado en productos escalables',
       experienceEyebrow: 'Trayectoria',
       experienceTitle: 'Experiencia reciente',
+      experienceCvCta: 'Descargar CV completo',
+      statsLabel: 'Datos destacados',
       projectsEyebrow: 'Trabajo visual',
       projectsTitle: 'Proyectos y demos destacados',
       projectCta: 'Abrir proyecto',
@@ -173,6 +193,8 @@ export const portfolioContent: Record<PortfolioLanguage, PortfolioContent> = {
         accentIcon: 'gear',
         items: [
           { name: 'Node.js', description: 'Permite ejecutar JavaScript en el servidor para crear APIs y servicios.' },
+          { name: 'C# / .NET', description: 'Lenguaje y plataforma de Microsoft para crear APIs robustas con ASP.NET Core.' },
+          { name: 'EF Core', description: 'ORM de .NET: trabaja con la base de datos usando clases de C# y migraciones.' },
           { name: 'Supabase', description: 'Plataforma que ofrece base de datos, usuarios y almacenamiento listos para usar.' },
           { name: 'PostgreSQL', description: 'Base de datos robusta donde se guarda la información de una aplicación.' },
           { name: 'Sequelize', description: 'Traduce objetos de JavaScript a tablas de base de datos sin escribir SQL a mano.' },
@@ -227,7 +249,7 @@ export const portfolioContent: Record<PortfolioLanguage, PortfolioContent> = {
     projects: [
       {
         title: 'Mojito360',
-        eyebrow: 'Supply chain platform',
+        eyebrow: 'Plataforma de supply chain',
         description: 'Flujos de envíos, documentación, mapas y operaciones para equipos logísticos.',
         image: 'assets/img/projects/mojito360-map.png',
         images: [
@@ -240,7 +262,7 @@ export const portfolioContent: Record<PortfolioLanguage, PortfolioContent> = {
       },
       {
         title: 'HelpDesk',
-        eyebrow: 'Ticketing system',
+        eyebrow: 'Sistema de tickets',
         description: 'Gestión de tickets con tableros, estados, chats, notificaciones y reglas SLA.',
         image: 'assets/img/projects/helpdesk-kanban.png',
         images: ['assets/img/projects/helpdesk-kanban.png', 'assets/img/projects/helpdesk-list.png'],
@@ -249,7 +271,7 @@ export const portfolioContent: Record<PortfolioLanguage, PortfolioContent> = {
       },
       {
         title: 'SourTrack',
-        eyebrow: 'Project operations',
+        eyebrow: 'Operaciones de proyectos',
         description: 'Gestión de proyectos, servicios, órdenes, operaciones y estados de pago.',
         image: 'assets/img/projects/sourtrack-projects.png',
         images: ['assets/img/projects/sourtrack-projects.png'],
@@ -258,7 +280,7 @@ export const portfolioContent: Record<PortfolioLanguage, PortfolioContent> = {
       },
       {
         title: 'CV Generator',
-        eyebrow: 'Interactive demo',
+        eyebrow: 'Demo interactiva',
         description: 'Editor visual de CV con cambio de idioma, formatos y descarga en PDF.',
         image: 'assets/img/projects/cv-generator-preview.svg',
         images: ['assets/img/projects/cv-generator-preview.svg'],
@@ -267,7 +289,7 @@ export const portfolioContent: Record<PortfolioLanguage, PortfolioContent> = {
       },
       {
         title: 'Gestión de Ventas',
-        eyebrow: 'Admin demo',
+        eyebrow: 'Demo administrativa',
         description: 'CRUD administrativo para catálogos, productos, proveedores y ventas.',
         image: 'assets/img/projects/admin-orders.png',
         images: ['assets/img/projects/admin-orders.png'],
@@ -284,8 +306,12 @@ export const portfolioContent: Record<PortfolioLanguage, PortfolioContent> = {
     ],
     contactActions: {
       email: 'Enviar email',
+      copyEmail: 'Copiar email',
+      emailCopied: '¡Email copiado!',
+      copyFailed: 'No se pudo copiar',
       phone: 'Llamar',
       linkedin: 'LinkedIn',
+      github: 'GitHub',
     },
   },
   en: {
@@ -297,6 +323,7 @@ export const portfolioContent: Record<PortfolioLanguage, PortfolioContent> = {
     nav: {
       home: 'Home',
       stack: 'Stack',
+      experience: 'Experience',
       projects: 'Projects',
       services: 'Services',
       contact: 'Contact',
@@ -309,6 +336,9 @@ export const portfolioContent: Record<PortfolioLanguage, PortfolioContent> = {
       theme: 'Theme',
       themeLight: 'Light',
       themeDark: 'Dark',
+      mainNavLabel: 'Main navigation',
+      homeLabel: 'Go to the portfolio home',
+      backToPortfolio: 'Back to portfolio',
     },
     hero: {
       eyebrow: 'Full Stack Developer · Angular · TypeScript',
@@ -317,10 +347,10 @@ export const portfolioContent: Record<PortfolioLanguage, PortfolioContent> = {
         'Web developer experienced in management systems, supply chain platforms, ticketing apps and internal tools.',
       primaryCta: 'View projects',
       secondaryCta: 'Contact',
-      cvCta: 'View CV',
+      cvCta: 'Download CV',
     },
     stats: [
-      { value: '3+', label: 'years of experience' },
+      { value: `${yearsOfExperience}+`, label: 'years of experience' },
       { value: 'Angular', label: 'main frontend stack' },
       { value: 'Full Stack', label: 'APIs, data and UI' },
       { value: 'Remote', label: 'jobs and freelance' },
@@ -330,6 +360,8 @@ export const portfolioContent: Record<PortfolioLanguage, PortfolioContent> = {
       stackTitle: 'Stack focused on scalable products',
       experienceEyebrow: 'Background',
       experienceTitle: 'Recent experience',
+      experienceCvCta: 'Download full CV',
+      statsLabel: 'Highlights',
       projectsEyebrow: 'Visual work',
       projectsTitle: 'Featured projects and demos',
       projectCta: 'Open project',
@@ -340,7 +372,7 @@ export const portfolioContent: Record<PortfolioLanguage, PortfolioContent> = {
       servicesEyebrow: 'Collaboration',
       servicesTitle: 'How I can help',
       contactEyebrow: 'Contact',
-      contactTitle: 'Let us talk about a role or project.',
+      contactTitle: "Let's talk about a role or project.",
       contactText: 'Available for remote opportunities, freelance collaboration and Angular-based web products.',
     },
     stack: [
@@ -364,6 +396,8 @@ export const portfolioContent: Record<PortfolioLanguage, PortfolioContent> = {
         accentIcon: 'gear',
         items: [
           { name: 'Node.js', description: 'Runs JavaScript on the server to build APIs and services.' },
+          { name: 'C# / .NET', description: "Microsoft's language and platform for building robust APIs with ASP.NET Core." },
+          { name: 'EF Core', description: '.NET ORM: works with the database through C# classes and migrations.' },
           { name: 'Supabase', description: 'Platform that provides a database, user accounts and storage out of the box.' },
           { name: 'PostgreSQL', description: 'Robust database where an application\'s information is stored.' },
           { name: 'Sequelize', description: 'Maps JavaScript objects to database tables without writing SQL by hand.' },
@@ -475,8 +509,12 @@ export const portfolioContent: Record<PortfolioLanguage, PortfolioContent> = {
     ],
     contactActions: {
       email: 'Send email',
+      copyEmail: 'Copy email',
+      emailCopied: 'Email copied!',
+      copyFailed: "Couldn't copy",
       phone: 'Call',
       linkedin: 'LinkedIn',
+      github: 'GitHub',
     },
   },
 };

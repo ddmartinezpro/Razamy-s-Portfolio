@@ -20,6 +20,10 @@
   color: var(--color-ink);
 }
 
+.ventas-page .back-link {
+  margin-bottom: 20px;
+}
+
 .page-header {
   display: flex;
   align-items: center;

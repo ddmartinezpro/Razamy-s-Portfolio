@@ -14,11 +14,13 @@ import { RouterLink } from '@angular/router';
 import { PortfolioProject, portfolioContact, portfolioContent } from '../../data/portfolio-content';
 import { PortfolioLanguageService } from '../../services/portfolio-language.service';
 import { RevealOnScrollDirective } from '../../directives/reveal-on-scroll.directive';
+import { ExperienceTimelineComponent } from './experience-timeline/experience-timeline.component';
 
+type EmailCopyState = 'idle' | 'copied' | 'failed';
 
 @Component({
   selector: 'app-home',
-  imports: [RouterLink, RevealOnScrollDirective],
+  imports: [RouterLink, RevealOnScrollDirective, ExperienceTimelineComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
   standalone: true,
@@ -39,10 +41,27 @@ export class HomeComponent {
   private readonly canHover = window.matchMedia('(hover: hover)');
   readonly openTooltip = signal<string | null>(null);
   readonly tooltipAlignEnd = signal(false);
+  readonly emailCopyState = signal<EmailCopyState>('idle');
+  private emailCopyTimer: number | undefined;
 
   constructor() {
-    // Navigating away with the gallery open (e.g. its demo link) must not leave the page scroll locked.
-    inject(DestroyRef).onDestroy(() => document.body.classList.remove('modal-open'));
+    inject(DestroyRef).onDestroy(() => {
+      // Navigating away with the gallery open (e.g. its demo link) must not leave the page scroll locked.
+      document.body.classList.remove('modal-open');
+      window.clearTimeout(this.emailCopyTimer);
+    });
+  }
+
+  // `mailto:` does nothing without a configured mail app, so the address can also be copied.
+  async copyEmail(): Promise<void> {
+    try {
+      await navigator.clipboard.writeText(this.contact.email);
+      this.emailCopyState.set('copied');
+    } catch {
+      this.emailCopyState.set('failed');
+    }
+    window.clearTimeout(this.emailCopyTimer);
+    this.emailCopyTimer = window.setTimeout(() => this.emailCopyState.set('idle'), 2500);
   }
 
   openProjectGallery(project: PortfolioProject): void {

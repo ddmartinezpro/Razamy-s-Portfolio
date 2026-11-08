@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
 
 import { CvGeneratorComponent } from './cv-generator.component';
 
@@ -8,7 +9,8 @@ describe('CvGeneratorComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CvGeneratorComponent]
+      imports: [CvGeneratorComponent],
+      providers: [provideRouter([])],
     })
     .compileComponents();
 

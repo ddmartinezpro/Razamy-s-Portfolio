@@ -1,5 +1,8 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import {FormsModule} from '@angular/forms';
+import { RouterLink } from '@angular/router';
+import { portfolioContent } from '../../../data/portfolio-content';
+import { PortfolioLanguageService } from '../../../services/portfolio-language.service';
 import { CvViewToggleComponent } from './cv-view-toggle.component';
 
 
@@ -57,6 +60,7 @@ type Language = 'spanish' | 'english';
   selector: 'app-cv-generator',
   imports: [
     FormsModule,
+    RouterLink,
     CvViewToggleComponent,
   ],
   templateUrl: './cv-generator.component.html',
@@ -64,6 +68,9 @@ type Language = 'spanish' | 'english';
   standalone: true,
 })
 export class CvGeneratorComponent {
+  private readonly languageService = inject(PortfolioLanguageService);
+  /** Site-level copy (back link); the CV itself keeps its own language selector. */
+  readonly siteNav = computed(() => portfolioContent[this.languageService.language()].nav);
 
   // Variable para rellenar el CV
   readonly cvData = signal<ICvJson>({

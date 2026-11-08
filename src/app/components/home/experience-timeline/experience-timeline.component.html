@@ -1,0 +1,21 @@
+<ol class="timeline">
+  @for (item of items(); track item.company) {
+    <li class="timeline-item">
+      <span class="timeline-period">{{ item.period }}</span>
+      <div class="timeline-body">
+        <h3>
+          {{ item.role }}
+          <span class="timeline-company">
+            ·
+            @if (item.link) {
+              <a [href]="item.link" target="_blank" rel="noreferrer">{{ item.company }}</a>
+            } @else {
+              {{ item.company }}
+            }
+          </span>
+        </h3>
+        <p>{{ item.highlights.join(' · ') }}</p>
+      </div>
+    </li>
+  }
+</ol>

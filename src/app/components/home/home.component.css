@@ -209,6 +209,10 @@
   top: 110px;
 }
 
+.experience-cv {
+  margin-top: 28px;
+}
+
 .section-heading.centered {
   position: static;
   max-width: 650px;
@@ -645,8 +649,10 @@
   font-size: 17px;
 }
 
+/* Capped width so five actions wrap into two rows instead of squeezing the copy column. */
 .contact-actions {
   justify-content: flex-end;
+  max-width: 440px;
   margin-top: 0;
 }
 
@@ -1173,8 +1179,8 @@
     width: 190px;
   }
 
-  .stats {
-    grid-template-columns: 1fr;
+  .stat-card strong {
+    font-size: 21px;
   }
 
   .stack-accent {

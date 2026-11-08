@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, inject, resource, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 import { firstValueFrom, Observable } from 'rxjs';
 import {
   CategoriaProducto,
@@ -17,6 +18,8 @@ import {
   VentaPayload,
   VentasService
 } from '../../../services/ventas.service';
+import { portfolioContent } from '../../../data/portfolio-content';
+import { PortfolioLanguageService } from '../../../services/portfolio-language.service';
 
 type TabKey =
   | 'tipoPagos'
@@ -29,12 +32,15 @@ type TabKey =
 @Component({
   selector: 'app-ventas',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './ventas.component.html',
   styleUrl: './ventas.component.css'
 })
 export class VentasComponent {
   private readonly ventasService = inject(VentasService);
+  private readonly languageService = inject(PortfolioLanguageService);
+  /** Site-level copy (back link); the rest of the demo is translated in plan F6.4. */
+  readonly siteNav = computed(() => portfolioContent[this.languageService.language()].nav);
 
   private readonly activeTabState = signal<TabKey>('tipoPagos');
   private readonly loadingState = signal(false);

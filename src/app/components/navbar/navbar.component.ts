@@ -15,7 +15,7 @@ import { PortfolioLanguage, portfolioContent } from '../../data/portfolio-conten
 import { PortfolioLanguageService } from '../../services/portfolio-language.service';
 import { PortfolioTheme, ThemeService } from '../../services/theme.service';
 
-type SectionId = 'home' | 'stack' | 'projects' | 'services' | 'contact';
+type SectionId = 'home' | 'stack' | 'experience' | 'projects' | 'services' | 'contact';
 type SectionLink = Exclude<SectionId, 'home'>;
 
 const MOBILE_MENU_QUERY = '(max-width: 920px)';
@@ -32,7 +32,7 @@ export class NavbarComponent implements AfterViewInit, OnDestroy {
   private readonly router = inject(Router);
   private readonly menuButton = viewChild<ElementRef<HTMLButtonElement>>('menuButton');
   private readonly mobileMenuQuery = window.matchMedia(MOBILE_MENU_QUERY);
-  private readonly sectionIds: SectionId[] = ['home', 'stack', 'projects', 'services', 'contact'];
+  private readonly sectionIds: SectionId[] = ['home', 'stack', 'experience', 'projects', 'services', 'contact'];
   private routerSubscription: Subscription | null = null;
   private readonly userScrollEvents = ['wheel', 'touchstart', 'keydown'] as const;
   private observer: IntersectionObserver | null = null;
@@ -45,7 +45,7 @@ export class NavbarComponent implements AfterViewInit, OnDestroy {
   readonly content = computed(() => portfolioContent[this.language()].nav);
   readonly activeSection = signal<SectionId>('home');
   readonly menuOpen = signal(false);
-  readonly sectionLinks: SectionLink[] = ['stack', 'projects', 'services', 'contact'];
+  readonly sectionLinks: SectionLink[] = ['stack', 'experience', 'projects', 'services', 'contact'];
 
   constructor() {
     // Prevent the browser from restoring the previous scroll position on reload.
@@ -61,9 +61,18 @@ export class NavbarComponent implements AfterViewInit, OnDestroy {
     this.mobileMenuQuery.addEventListener('change', this.onMobileQueryChange);
 
     // Sections only exist on the home route: re-attach the observer whenever we land there.
+    // Router links with a section fragment (e.g. the demos' "back to portfolio" → /#projects) scroll once the
+    // lazy home has rendered; the router's own anchorScrolling fires too early for that.
     this.routerSubscription = this.router.events
       .pipe(filter((event): event is NavigationEnd => event instanceof NavigationEnd))
-      .subscribe(() => window.setTimeout(() => this.initSectionObserver(), 120));
+      .subscribe((event) => {
+        window.setTimeout(() => this.initSectionObserver(), 120);
+
+        const fragment = this.router.parseUrl(event.urlAfterRedirects).fragment as SectionId | null;
+        if (fragment && fragment !== 'home' && this.sectionIds.includes(fragment)) {
+          this.scrollToSectionWhenRendered(fragment);
+        }
+      });
   }
 
   ngOnDestroy(): void {
@@ -250,14 +259,31 @@ export class NavbarComponent implements AfterViewInit, OnDestroy {
 
   // The home route is lazy-loaded: wait (up to ~2s) for the section to exist before jumping to it.
   private scrollToSectionWhenRendered(sectionId: SectionId, attemptsLeft = 40): void {
-    if (document.getElementById(sectionId)) {
-      this.activateAndLockSection(sectionId);
-      this.scrollToSection(sectionId, 'instant');
+    if (!document.getElementById(sectionId)) {
+      if (attemptsLeft > 0) {
+        window.setTimeout(() => this.scrollToSectionWhenRendered(sectionId, attemptsLeft - 1), 50);
+      }
       return;
     }
-    if (attemptsLeft > 0) {
-      window.setTimeout(() => this.scrollToSectionWhenRendered(sectionId, attemptsLeft - 1), 50);
-    }
+
+    this.activateAndLockSection(sectionId);
+
+    // Content above the section keeps growing for a few frames after it first exists (fonts, nested
+    // components), which would leave the jump short: re-align a few times unless the user starts scrolling.
+    let userMoved = false;
+    const markMoved = (): void => {
+      userMoved = true;
+    };
+    this.userScrollEvents.forEach((type) => window.addEventListener(type, markMoved, { passive: true, once: true }));
+    [0, 120, 300, 600].forEach((delay) =>
+      window.setTimeout(() => {
+        if (!userMoved) this.scrollToSection(sectionId, 'instant');
+      }, delay),
+    );
+    window.setTimeout(
+      () => this.userScrollEvents.forEach((type) => window.removeEventListener(type, markMoved)),
+      700,
+    );
   }
 
   private scrollToSection(sectionId: SectionId, behavior: ScrollBehavior = 'smooth'): void {

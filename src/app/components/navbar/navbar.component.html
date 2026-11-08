@@ -1,5 +1,5 @@
-<nav class="navbar" aria-label="Main navigation">
-  <a class="brand" href="#home" aria-label="Razamy portfolio home" (click)="navigateToSection('home', $event)">
+<nav class="navbar" [attr.aria-label]="content().mainNavLabel">
+  <a class="brand" href="#home" [attr.aria-label]="content().homeLabel" (click)="navigateToSection('home', $event)">
     <img src="assets/icons/razamy_logo_icon.svg" alt="">
     <span>Razamy</span>
   </a>
@@ -16,8 +16,14 @@
     <button type="button" class="language-toggle desktop-only" (click)="toggleLanguage()" [attr.aria-label]="content().language">
       {{ language().toUpperCase() }}
     </button>
-    <button type="button" class="theme-toggle desktop-only" (click)="toggleTheme()" [attr.aria-label]="content().theme">
-      {{ theme() === 'dark' ? 'Light' : 'Dark' }}
+    <!-- Shows the theme it switches to, like the language toggle shows its target language. -->
+    <button
+      type="button"
+      class="theme-toggle desktop-only"
+      (click)="toggleTheme()"
+      [attr.aria-label]="content().theme + ': ' + (theme() === 'dark' ? content().themeLight : content().themeDark)"
+    >
+      {{ theme() === 'dark' ? content().themeLight : content().themeDark }}
     </button>
     <a class="cv-link" [href]="content().cvFile" download [attr.aria-label]="content().cvDownloadLabel" [attr.title]="content().cvDownloadLabel">
       {{ content().cv }}

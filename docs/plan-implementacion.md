@@ -124,19 +124,19 @@ Objetivo: que nada de lo que ve un visitante parezca roto.
 
 ## Fase 2 — Contenido y textos
 
-- [ ] **F2.1 · Alta — Sección de experiencia (línea de tiempo compacta)**
+- [x] **F2.1 · Alta — Sección de experiencia (línea de tiempo compacta)** *(hecho 2026-11-07: componente `home/experience-timeline`)*
   - Entre Stack y Proyectos, con los datos que ya existen en `portfolioContent.experience`.
   - Una fila por empresa: periodo · puesto · empresa (con enlace) y como mucho una línea de descripción. Debe ocupar menos de una pantalla.
   - Cierre con botón "Descargar CV completo".
   - Añadir "Experiencia" al menú (desktop y móvil) y al observador de secciones activas.
 
-- [ ] **F2.2 · Alta — Enlace a GitHub**
+- [x] **F2.2 · Alta — Enlace a GitHub** *(hecho 2026-11-07: enlaces de texto en contacto y footer, sin icono para mantener el estilo del resto)*
   - En contacto y footer, con el icono `brand-github.svg`. Perfil: `https://github.com/ddmartinezpro` (confirmar) y, si es público, enlace al repo del portfolio.
 
-- [ ] **F2.3 · Media — Botón "Copiar email"**
+- [x] **F2.3 · Media — Botón "Copiar email"** *(hecho 2026-11-07)*
   - Junto a "Enviar email", con la Clipboard API y confirmación visual ("Copiado"). `mailto:` no funciona si no hay un programa de correo configurado.
 
-- [ ] **F2.4 · Media — Textos y traducciones pendientes**
+- [x] **F2.4 · Media — Textos y traducciones pendientes** *(hecho 2026-11-07)*
   - Botón de tema en desktop: hoy dice "Light"/"Dark" fijo en inglés → usar `themeLight`/`themeDark`.
   - Etiquetas accesibles en inglés fijas ("Main navigation", "Razamy portfolio home", "Portfolio highlights") → al contenido traducido.
   - Subtítulos de proyectos en español en la versión ES ("Plataforma de supply chain", "Demo interactiva", …).
@@ -144,16 +144,16 @@ Objetivo: que nada de lo que ve un visitante parezca roto.
   - "Ver CV" / "View CV" → "Descargar CV" / "Download CV" (el enlace descarga).
   - `alt` de la foto con tildes: "David Díaz Martínez".
 
-- [ ] **F2.5 · Media — Stack actualizado**
+- [x] **F2.5 · Media — Stack actualizado** *(hecho 2026-11-07: Jest se mantiene hasta que David decida)*
   - Añadir C# / .NET (ASP.NET Core) y Entity Framework Core al grupo Backend.
   - Revisar si Jest sigue siendo representativo.
 
-- [ ] **F2.6 · Media — Portada y estadísticas**
+- [x] **F2.6 · Media — Portada y estadísticas** *(hecho 2026-11-07: años calculados desde enero 2023; el resto de cifras reales queda pendiente de que David las aporte)*
   - Años de experiencia: desde enero 2023 son casi 4 → "4+" o calcularlo.
   - Estadísticas con cifras reales donde sea posible (proyectos entregados, empresas, demos públicas…).
   - Móvil: estadísticas en cuadrícula 2×2 en lugar de una por fila.
 
-- [ ] **F2.7 · Media — Botón "Volver al portfolio" en las demos**
+- [x] **F2.7 · Media — Botón "Volver al portfolio" en las demos** *(hecho 2026-11-07: vuelve a /#projects; el navbar gestiona los fragmentos tras la navegación)*
 
 - [ ] **F2.8 · Baja — Casos de estudio en proyectos**
   - En el modal de cada proyecto: problema → solución → resultado (2–3 líneas cada uno), además de las capturas.
