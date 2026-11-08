@@ -52,11 +52,12 @@ Objetivo: el código en GitHub al día, con tests, lint y CI funcionando, y la w
 - [ ] **F0.4b · Baja — Formatear todo el código con Prettier**
   - `npm run format` reformatea 35 archivos. Hacerlo en un commit aparte, sin otros cambios, y después añadir `npm run format:check` al CI.
 
-- [x] **F0.5 · Media — CI con GitHub Actions** *(creado 2026-11-07 en `.github/workflows/ci.yml`; comprobar que la primera ejecución en GitHub pasa)*
+- [x] **F0.5 · Media — CI con GitHub Actions** *(hecho 2026-11-07; `.github/workflows/ci.yml` en verde en GitHub)*
   - Workflow en push y pull request: `npm ci` → lint → tests headless → `ng build`.
 
 - [ ] **F0.6 · Alta — Deploy del front**
   - Elegir entre Vercel y Cloudflare Pages (ver [Anexo B](#anexo-b--opciones-de-hosting-gratuito)); ambos sirven para un portfolio personal gratis.
+  - **GitHub Pages ya está activado en el repo** (modo antiguo, desde `main` /raíz): publica el README y `docs/` como web Jekyll en `ddmartinezpro.github.io/Razamy-s-Portfolio/`, no la app Angular. Si el front va a Vercel o Cloudflare, desactivarlo en Settings → Pages. Tercera opción: publicar la app en GitHub Pages con un workflow de Actions (gratis, solo estático; requiere `--base-href /Razamy-s-Portfolio/` y copiar `index.html` a `404.html` para las rutas del SPA).
   - Configurar: directorio de salida `dist/razamy-portfolio/browser`, regla de SPA (toda ruta → `index.html`), `ngsw-worker.js` y `ngsw.json` sin caché (`Cache-Control: no-cache`), previews por pull request.
   - Dominio propio opcional.
   - **Antes de publicar** debe estar hecho F1.9 (que Ventas no se vea rota).
