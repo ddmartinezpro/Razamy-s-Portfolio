@@ -43,7 +43,7 @@ module.exports = defineConfig([
   },
   // TEMPORARY: known accessibility/typing debt that docs/plan-implementacion.md already schedules.
   // Downgraded to warnings so CI stays green; remove each entry when its task is done.
-  //   home modal backdrop          -> F1.5 (native <dialog>)
+  //   home stack chips (span+click) -> F4.2
   //   cv-generator, cv-view-toggle -> F5.5 / F5.6
   //   ventas                       -> F6.5
   //   three-logo                   -> F8.2

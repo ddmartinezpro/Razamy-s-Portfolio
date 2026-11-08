@@ -14,4 +14,5 @@ export class FooterComponent {
 
   readonly content = computed(() => portfolioContent[this.languageService.language()]);
   readonly contact = portfolioContact;
+  readonly year = new Date().getFullYear();
 }

@@ -134,8 +134,10 @@
                 {{ content().sections.projectCta }}
               </a>
             }
-            @if (project.internalLink) {
-              <a class="project-link" [routerLink]="project.internalLink" (click)="closeProjectGallery()">
+            @if (project.comingSoon) {
+              <span class="project-link project-soon">{{ content().sections.comingSoon }}</span>
+            } @else if (project.internalLink) {
+              <a class="project-link" [routerLink]="project.internalLink">
                 {{ content().sections.demoCta }}
               </a>
             }
@@ -146,58 +148,55 @@
   </div>
 </section>
 
-@if (selectedProject(); as project) {
-  <div class="modal-backdrop" role="presentation" (click)="closeProjectGallery()">
-    <section
-      class="project-modal"
-      role="dialog"
-      aria-modal="true"
-      [attr.aria-label]="project.title"
-      (click)="$event.stopPropagation()"
-    >
-      <div class="modal-header">
-        <div>
-          <span class="eyebrow">{{ project.eyebrow }}</span>
-          <h2>{{ project.title }}</h2>
-        </div>
-        <button type="button" class="modal-close" (click)="closeProjectGallery()">
-          {{ content().sections.closeModal }}
-        </button>
+<!-- Native modal dialog: top layer (always above header/footer), Escape closes it and focus returns to the opener. -->
+<dialog #galleryDialog class="project-modal" [attr.aria-label]="selectedProject()?.title" (close)="onGalleryClosed()">
+  @if (selectedProject(); as project) {
+    <div class="modal-header">
+      <div>
+        <span class="eyebrow">{{ project.eyebrow }}</span>
+        <h2>{{ project.title }}</h2>
+      </div>
+      <button type="button" class="modal-close" (click)="closeProjectGallery()">
+        {{ content().sections.closeModal }}
+      </button>
+    </div>
+
+    <div class="modal-image">
+      <img [src]="selectedImage()" [alt]="project.title + ' (' + (project.images.indexOf(selectedImage()) + 1) + '/' + project.images.length + ')'">
+    </div>
+
+    <div class="modal-footer">
+      <div class="modal-thumbs">
+        @for (image of project.images; track image; let i = $index) {
+          <button
+            type="button"
+            [class.active]="selectedImage() === image"
+            [attr.aria-pressed]="selectedImage() === image"
+            [attr.aria-label]="project.title + ' ' + (i + 1) + '/' + project.images.length"
+            (click)="selectProjectImage(image)"
+          >
+            <img [src]="image" alt="">
+          </button>
+        }
       </div>
 
-      <div class="modal-image">
-        <img [src]="selectedImage()" [alt]="project.title">
+      <div class="project-actions">
+        @if (project.externalLink) {
+          <a class="project-link" [href]="project.externalLink" target="_blank" rel="noreferrer">
+            {{ content().sections.projectCta }}
+          </a>
+        }
+        @if (project.comingSoon) {
+          <span class="project-link project-soon">{{ content().sections.comingSoon }}</span>
+        } @else if (project.internalLink) {
+          <a class="project-link" [routerLink]="project.internalLink" (click)="closeProjectGallery()">
+            {{ content().sections.demoCta }}
+          </a>
+        }
       </div>
-
-      <div class="modal-footer">
-        <div class="modal-thumbs">
-          @for (image of project.images; track image) {
-            <button
-              type="button"
-              [class.active]="selectedImage() === image"
-              (click)="selectProjectImage(image)"
-            >
-              <img [src]="image" [alt]="project.title">
-            </button>
-          }
-        </div>
-
-        <div class="project-actions">
-          @if (project.externalLink) {
-            <a class="project-link" [href]="project.externalLink" target="_blank" rel="noreferrer">
-              {{ content().sections.projectCta }}
-            </a>
-          }
-          @if (project.internalLink) {
-            <a class="project-link" [routerLink]="project.internalLink" (click)="closeProjectGallery()">
-              {{ content().sections.demoCta }}
-            </a>
-          }
-        </div>
-      </div>
-    </section>
-  </div>
-}
+    </div>
+  }
+</dialog>
 
 <section id="services" class="section-shell split-section services-section">
   <div class="section-heading" appReveal>

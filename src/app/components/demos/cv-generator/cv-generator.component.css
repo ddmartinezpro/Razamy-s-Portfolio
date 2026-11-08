@@ -5,40 +5,50 @@ section:not(:first-child) {
   justify-content: center;
   align-items: start;
 }
-/* General */
-h3, h4, h5, span, p, li, label, a {
+/* Theme: the editor panel follows the site tokens; the CV sheet (.page-format) is always white paper. */
+:host {
+  color-scheme: light;
+}
+
+:host-context(:root[data-theme='dark']) {
+  color-scheme: dark;
+}
+
+/* General (scoped to the CV sheet so the editor panel keeps the theme colors) */
+.page-format h3, .page-format h4, .page-format h5, .page-format span,
+.page-format p, .page-format li, .page-format label, .page-format a {
   color: #000000;
   margin: 0;
   font-family: 'Roboto', sans-serif;
   text-decoration: none;
 }
 
-a {
+.page-format a {
   font-size: 14px;
 }
 
-h3 {
+.page-format h3 {
   font-size: 32px;
   font-weight: bold; /* Encabezado principal */
 }
 
-h4 {
+.page-format h4 {
   font-size: 18px;
   font-weight: 600; /* Subencabezado */
 }
 
-h5 {
+.page-format h5 {
   font-size: 16px;
   font-weight: bold; /* Títulos de secciones */
   color: #007bff;
   text-align: center;
 }
 
-span, p {
+.page-format span, .page-format p {
   font-size: 14px;
 }
 
-ul li {
+.page-format ul li {
   font-size: 14px;
   line-height: 1.5;
 }
@@ -70,6 +80,8 @@ input[type="file"] {
   height: 1080px;
   border: 1px solid #000;
   padding: 20px 15px;
+  background: #ffffff;
+  color: #000000;
 }
 
 /* Header */
@@ -111,10 +123,12 @@ input[type="file"] {
 section:first-child {
   flex: 1;
   max-width: 30%;
-  background: #fff;
+  border: 1px solid var(--color-line);
+  background: var(--surface-card-strong);
+  color: var(--color-ink);
   padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+  box-shadow: var(--shadow-card);
   min-width: 250px;
 }
 
@@ -136,44 +150,52 @@ select, button, textarea, .drag-drop {
   margin-bottom: 15px;
   padding: 10px;
   font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  border: 1px solid var(--color-line);
+  border-radius: 12px;
+  background: var(--surface-muted);
+  color: var(--color-ink);
   box-sizing: border-box;
 }
 
 .drag-drop {
-  border: 1px dashed #000;
+  border: 1px dashed var(--color-muted);
   cursor: pointer;
   p {
+    margin: 0;
     font-size: 16px;
     text-align: center;
   }
 
   &:hover {
     p {
-      color: #007bff;
+      color: var(--color-blue);
     }
-    border-color: #007bff;
+    border-color: var(--color-blue);
   }
 }
 
 button {
-  background-color: #007bff;
-  color: white;
+  border-color: var(--color-ink);
+  border-radius: 999px;
+  background-color: var(--color-ink);
+  color: var(--color-on-ink);
+  font-family: var(--font-primary);
+  font-weight: 700;
   cursor: pointer;
 }
 
 button:hover {
-  background-color: #0056b3;
+  opacity: 0.88;
 }
 
 /* Right Section */
 section:last-child {
   flex: 3;
-  background: #fff;
+  border: 1px solid var(--color-line);
+  background: var(--surface-card-strong);
   padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+  box-shadow: var(--shadow-card);
 }
 
 /* Seccion visual start */

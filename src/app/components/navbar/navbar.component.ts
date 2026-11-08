@@ -230,15 +230,34 @@ export class NavbarComponent implements AfterViewInit, OnDestroy {
     sections.forEach((section) => this.observer?.observe(section));
   }
 
-  // A reload always starts at the top with a clean URL (no section hash).
+  // A shared link like `/#contact` lands on that section; otherwise a reload starts at the top.
+  // Either way the URL is left clean (section links never write a hash either).
   private handleInitialPosition(): void {
+    const target = window.location.hash.slice(1) as SectionId;
     if (window.location.hash) {
       window.history.replaceState(null, '', window.location.pathname + window.location.search);
+    }
+
+    if (target && target !== 'home' && this.sectionIds.includes(target)) {
+      this.scrollToSectionWhenRendered(target);
+      return;
     }
 
     // 'instant' bypasses the global `scroll-behavior: smooth`.
     window.scrollTo({ top: 0, behavior: 'instant' });
     this.activeSection.set('home');
+  }
+
+  // The home route is lazy-loaded: wait (up to ~2s) for the section to exist before jumping to it.
+  private scrollToSectionWhenRendered(sectionId: SectionId, attemptsLeft = 40): void {
+    if (document.getElementById(sectionId)) {
+      this.activateAndLockSection(sectionId);
+      this.scrollToSection(sectionId, 'instant');
+      return;
+    }
+    if (attemptsLeft > 0) {
+      window.setTimeout(() => this.scrollToSectionWhenRendered(sectionId, attemptsLeft - 1), 50);
+    }
   }
 
   private scrollToSection(sectionId: SectionId, behavior: ScrollBehavior = 'smooth'): void {

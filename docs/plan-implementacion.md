@@ -78,44 +78,44 @@ Objetivo: el código en GitHub al día, con tests, lint y CI funcionando, y la w
 
 Objetivo: que nada de lo que ve un visitante parezca roto.
 
-- [ ] **F1.1 · Alta — Texto corrupto en Ventas**
+- [x] **F1.1 · Alta — Texto corrupto en Ventas** *(hecho 2026-11-07)*
   - `ventas.component.html` tiene 22 líneas con caracteres mal codificados ("GestiÃ³n", "CategorÃ­as", "Ã—"). Reescribir con los caracteres correctos y guardar en UTF-8 sin BOM.
   - *Hecho cuando:* `grep "Ã" src -r` no devuelve nada.
 
-- [ ] **F1.2 · Alta — Quitar rutas vacías**
+- [x] **F1.2 · Alta — Quitar rutas vacías** *(hecho 2026-11-07)*
   - Eliminar la ruta y el componente `/about-me`.
   - Eliminar la ruta y el componente placeholder `/demos` (se recrea en F8.1). Mantener `/demos/cv-generator` y `/demos/ventas`.
 
-- [ ] **F1.3 · Alta — Las demos respetan el tema claro/oscuro**
+- [x] **F1.3 · Alta — Las demos respetan el tema claro/oscuro** *(hecho 2026-11-07)*
   - Hoy, en oscuro, los títulos de Ventas salen blanco sobre blanco (heredan `h1–h6 { color: var(--color-ink) }`) y en el CV Generator no se leen "Formato AWS" / "Formato Visual".
   - Ventas y el panel del CV Generator pasan a usar los tokens de `src/styles.css`. La hoja del CV (el "papel") sigue blanca con colores propios, pero acotados a su contenedor para que no le afecte el tema.
   - *Hecho cuando:* ambas demos se ven bien en claro y oscuro.
 
-- [ ] **F1.4 · Alta — CV en inglés**
+- [ ] **F1.4 · Alta — CV en inglés** *(JSON ES/EN creados 2026-11-07 en `cv-generator/data/`; falta que David revise el inglés y generar el PDF EN)*
   - Hoy `David-Diaz-Martinez-CV-EN.pdf` y `-ES.pdf` son el mismo archivo (en español).
   - Claude traduce el JSON del CV al inglés → David revisa la redacción → se genera el PDF EN con el CV Generator (formato visual).
   - Guardar los JSON fuente en el repo (p. ej. `src/app/components/demos/cv-generator/data/cv-david.es.json` y `.en.json`) para poder regenerar.
   - Cuando exista la opción "PDF con texto" (F5.4) se regeneran los dos (F5.10).
 
-- [ ] **F1.5 · Alta — Modal de la galería**
+- [x] **F1.5 · Alta — Modal de la galería** *(hecho 2026-11-07)*
   - Problemas: el footer se pinta encima cuando está en pantalla (el `<main>` crea un contexto de apilamiento con `z-index: 1` y el footer tiene `z-index: 2`), Escape no cierra y el foco no entra en el modal.
   - Solución recomendada: usar el elemento nativo `<dialog>` con `showModal()`. Va en la capa superior (adiós al problema de z-index), cierra con Escape, deja inerte el resto de la página y devuelve el foco al cerrar. Estilizar el fondo con `::backdrop`.
   - Mover el foco al botón Cerrar al abrir; `alt` distinto por miniatura ("Mojito360 — captura 2 de 3").
 
-- [ ] **F1.6 · Media — Footer**
+- [x] **F1.6 · Media — Footer** *(hecho 2026-11-07)*
   - Quitar el `<footer>` que envuelve a `<app-footer>` en `app.component.html` (hoy hay un footer dentro de otro).
   - Año del copyright dinámico.
 
-- [ ] **F1.7 · Media — Idioma en el documento**
+- [x] **F1.7 · Media — Idioma en el documento** *(hecho 2026-11-07)*
   - `<html lang>` se sincroniza también al cargar (hoy solo al cambiar idioma).
   - `document.title` y `<meta name="description">` según idioma (servicios `Title` y `Meta` de Angular).
   - `<noscript>` bilingüe.
 
-- [ ] **F1.8 · Media — Enlaces directos a secciones**
+- [x] **F1.8 · Media — Enlaces directos a secciones** *(hecho 2026-11-07)*
   - Hoy `/#contact` siempre abre arriba porque `handleInitialPosition` (`navbar.component.ts`) borra el hash.
   - Nuevo comportamiento: si la URL trae `#seccion`, hacer scroll a esa sección al cargar; si no, empezar arriba.
 
-- [ ] **F1.9 · Alta — Ventas sin back público**
+- [x] **F1.9 · Alta — Ventas sin back público** *(hecho 2026-11-07: flag `comingSoon` en portfolio-content y aviso de API no disponible en la demo)*
   - Hasta F7, la demo de Ventas no puede funcionar en la web publicada.
   - La tarjeta de Ventas muestra "Próximamente" sin enlace a la demo (o la ruta muestra un aviso de "demo en construcción"), y la página no debe lanzar errores en consola si la API no responde (hoy lanza `ResourceValueError`).
   - Se revierte en F7.8.

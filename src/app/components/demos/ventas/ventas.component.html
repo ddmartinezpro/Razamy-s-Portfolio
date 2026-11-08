@@ -1,24 +1,32 @@
-﻿<div class="ventas-page">
+<div class="ventas-page">
   <div class="page-header">
     <div>
-      <h1>GestiÃ³n de Ventas</h1>
-      <p>Administra catÃ¡logos, productos y ventas desde una sola vista.</p>
+      <h1>Gestión de Ventas</h1>
+      <p>Administra catálogos, productos y ventas desde una sola vista.</p>
     </div>
 
     <button class="btn btn-secondary" (click)="loadAllData()">Recargar todo</button>
   </div>
 
+  @if (apiUnavailable()) {
+  <div class="alert alert-error" role="alert">
+    No se pudo conectar con la API de la demo. Esta demo necesita su backend (.NET + PostgreSQL), que todavía no
+    está publicado.
+    <button class="btn btn-secondary" (click)="loadAllData()">Reintentar</button>
+  </div>
+  }
+
   @if (message) {
   <div class="alert" [class.alert-success]="messageType === 'success'" [class.alert-error]="messageType === 'error'">
     {{ message }}
-    <button class="alert-close" (click)="clearMessage()">Ã—</button>
+    <button class="alert-close" (click)="clearMessage()">×</button>
   </div>
   }
 
   <div class="tabs">
     <button [class.active]="activeTab === 'tipoPagos'" (click)="setTab('tipoPagos')">Tipos de pago</button>
     <button [class.active]="activeTab === 'estadoVentas'" (click)="setTab('estadoVentas')">Estados de venta</button>
-    <button [class.active]="activeTab === 'categoriaProductos'" (click)="setTab('categoriaProductos')">CategorÃ­as</button>
+    <button [class.active]="activeTab === 'categoriaProductos'" (click)="setTab('categoriaProductos')">Categorías</button>
     <button [class.active]="activeTab === 'proveedores'" (click)="setTab('proveedores')">Proveedores</button>
     <button [class.active]="activeTab === 'productos'" (click)="setTab('productos')">Productos</button>
     <button [class.active]="activeTab === 'ventas'" (click)="setTab('ventas')">Ventas</button>
@@ -149,7 +157,7 @@
   <section class="tab-content">
     <div class="content-grid">
       <div class="form-card">
-        <h2>{{ editingCategoriaProductoId ? 'Editar categorÃ­a' : 'Nueva categorÃ­a' }}</h2>
+        <h2>{{ editingCategoriaProductoId ? 'Editar categoría' : 'Nueva categoría' }}</h2>
 
         <div class="form-group">
           <label>Nombre</label>
@@ -195,7 +203,7 @@
           </tr>
           } @empty {
           <tr>
-            <td colspan="4" class="empty">No hay categorÃ­as registradas.</td>
+            <td colspan="4" class="empty">No hay categorías registradas.</td>
           </tr>
           }
           </tbody>
@@ -220,13 +228,13 @@
         </div>
 
         <div class="form-group">
-          <label>TelÃ©fono</label>
-          <input type="text" [(ngModel)]="proveedorForm.proveedorTelefono" placeholder="TelÃ©fono" />
+          <label>Teléfono</label>
+          <input type="text" [(ngModel)]="proveedorForm.proveedorTelefono" placeholder="Teléfono" />
         </div>
 
         <div class="form-group">
-          <label>DirecciÃ³n</label>
-          <input type="text" [(ngModel)]="proveedorForm.proveedorDireccion" placeholder="DirecciÃ³n" />
+          <label>Dirección</label>
+          <input type="text" [(ngModel)]="proveedorForm.proveedorDireccion" placeholder="Dirección" />
         </div>
 
         <div class="form-actions">
@@ -247,8 +255,8 @@
           <tr>
             <th>ID</th>
             <th>Nombre</th>
-            <th>TelÃ©fono</th>
-            <th>DirecciÃ³n</th>
+            <th>Teléfono</th>
+            <th>Dirección</th>
             <th>Acciones</th>
           </tr>
           </thead>
@@ -291,8 +299,8 @@
         </div>
 
         <div class="form-group">
-          <label>DescripciÃ³n</label>
-          <textarea [(ngModel)]="productoForm.descripcion" rows="3" placeholder="DescripciÃ³n"></textarea>
+          <label>Descripción</label>
+          <textarea [(ngModel)]="productoForm.descripcion" rows="3" placeholder="Descripción"></textarea>
         </div>
 
         <div class="form-group">
@@ -318,7 +326,7 @@
         </div>
 
         <div class="form-group">
-          <label>Fecha AdquisiciÃ³n</label>
+          <label>Fecha Adquisición</label>
           <input type="date" [(ngModel)]="productoForm.fechaAdquisicion" />
         </div>
 
@@ -335,7 +343,7 @@
         </div>
 
         <div class="form-group">
-          <label>CategorÃ­a</label>
+          <label>Categoría</label>
           <select [(ngModel)]="productoForm.categoriaProductoId">
             <option [ngValue]="0">Seleccione...</option>
             @for (item of categoriaProductos; track item.id) {
@@ -368,7 +376,7 @@
             <th>Precio</th>
             <th>Precio Venta</th>
             <th>Proveedor</th>
-            <th>CategorÃ­a</th>
+            <th>Categoría</th>
             <th>Acciones</th>
           </tr>
           </thead>
@@ -414,13 +422,13 @@
         </div>
 
         <div class="form-group">
-          <label>TelÃ©fono</label>
-          <input type="text" [(ngModel)]="ventaForm.beneficiarioTelefono" placeholder="TelÃ©fono" />
+          <label>Teléfono</label>
+          <input type="text" [(ngModel)]="ventaForm.beneficiarioTelefono" placeholder="Teléfono" />
         </div>
 
         <div class="form-group">
-          <label>DirecciÃ³n</label>
-          <input type="text" [(ngModel)]="ventaForm.beneficiarioDireccion" placeholder="DirecciÃ³n" />
+          <label>Dirección</label>
+          <input type="text" [(ngModel)]="ventaForm.beneficiarioDireccion" placeholder="Dirección" />
         </div>
 
         <div class="form-group">
@@ -485,7 +493,7 @@
           </div>
 
           <div class="form-group">
-            <label>Fecha LiquidaciÃ³n</label>
+            <label>Fecha Liquidación</label>
             <input type="date" [(ngModel)]="ventaForm.fechaLiquidacion" />
           </div>
         </div>

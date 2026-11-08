@@ -21,9 +21,12 @@ describe('PortfolioLanguageService', () => {
     expect(createService().language()).toBe('es');
   });
 
-  it('restores English when it was stored', () => {
+  it('restores English when it was stored and applies it to the document right away', () => {
     localStorage.setItem(STORAGE_KEY, 'en');
+
     expect(createService().language()).toBe('en');
+    expect(document.documentElement.lang).toBe('en');
+    expect(document.title).toContain('Full Stack Developer');
   });
 
   it('ignores unknown stored values', () => {
@@ -31,13 +34,15 @@ describe('PortfolioLanguageService', () => {
     expect(createService().language()).toBe('es');
   });
 
-  it('setLanguage updates the signal, <html lang> and storage', () => {
+  it('setLanguage updates the signal, <html lang>, title, description and storage', () => {
     const service = createService();
 
     service.setLanguage('en');
 
     expect(service.language()).toBe('en');
     expect(document.documentElement.lang).toBe('en');
+    expect(document.title).toBe('David Díaz Martínez | Full Stack Developer');
+    expect(document.querySelector('meta[name="description"]')?.getAttribute('content')).toContain('Portfolio of');
     expect(localStorage.getItem(STORAGE_KEY)).toBe('en');
   });
 

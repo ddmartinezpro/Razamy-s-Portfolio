@@ -682,28 +682,43 @@
   animation-play-state: paused;
 }
 
-.modal-backdrop {
-  position: fixed;
-  inset: 0;
-  z-index: 40;
+.project-modal {
+  width: min(1180px, calc(100% - 56px));
+  max-width: none;
+  max-height: min(860px, calc(100dvh - 56px));
+  margin: auto;
+  padding: 0;
+  border: 1px solid var(--color-line);
+  border-radius: 34px;
+  background: var(--surface-card-strong);
+  box-shadow: var(--shadow-strong);
+  color: var(--color-ink);
+  overflow: hidden;
+}
+
+/* Only while open: a display value on the closed <dialog> would override its hidden state. */
+.project-modal[open] {
   display: grid;
-  place-items: center;
-  padding: 28px;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  animation: fadeIn 180ms ease both;
+}
+
+.project-modal::backdrop {
   background: rgba(3, 13, 24, 0.56);
   backdrop-filter: blur(14px);
   animation: fadeIn 180ms ease both;
 }
 
-.project-modal {
-  display: grid;
-  grid-template-rows: auto minmax(0, 1fr) auto;
-  width: min(1180px, 100%);
-  max-height: min(860px, calc(100vh - 56px));
-  border: 1px solid var(--color-line);
-  border-radius: 34px;
-  background: var(--surface-card-strong);
-  box-shadow: var(--shadow-strong);
-  overflow: hidden;
+.project-soon {
+  border-style: dashed;
+  color: var(--color-muted);
+  cursor: default;
+}
+
+.project-soon:hover {
+  border-color: var(--color-line);
+  background: var(--surface-muted);
+  color: var(--color-muted);
 }
 
 .modal-header,
@@ -1112,11 +1127,8 @@
     min-height: 48px;
   }
 
-  .modal-backdrop {
-    padding: 12px;
-  }
-
   .project-modal {
+    width: calc(100% - 24px);
     max-height: calc(100dvh - 24px);
     border-radius: 24px;
   }

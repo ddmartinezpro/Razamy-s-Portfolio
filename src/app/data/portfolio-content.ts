@@ -9,6 +9,8 @@ export interface PortfolioProject {
   tags: string[];
   externalLink?: string;
   internalLink?: string;
+  /** Demo not public yet: the card shows the "coming soon" badge instead of the demo link. */
+  comingSoon?: boolean;
 }
 
 export interface PortfolioExperience {
@@ -27,6 +29,11 @@ export interface StackItem {
 }
 
 export interface PortfolioContent {
+  /** Document <title> and meta description for this language. */
+  meta: {
+    title: string;
+    description: string;
+  };
   nav: {
     home: string;
     stack: string;
@@ -63,6 +70,7 @@ export interface PortfolioContent {
     galleryCta: string;
     demoCta: string;
     closeModal: string;
+    comingSoon: string;
     servicesEyebrow: string;
     servicesTitle: string;
     contactEyebrow: string;
@@ -90,6 +98,11 @@ export const portfolioContact = {
 
 export const portfolioContent: Record<PortfolioLanguage, PortfolioContent> = {
   es: {
+    meta: {
+      title: 'David Díaz Martínez | Desarrollador Full Stack',
+      description:
+        'Portfolio de David Díaz Martínez, desarrollador web Full Stack especializado en Angular y TypeScript.',
+    },
     nav: {
       home: 'Inicio',
       stack: 'Stack',
@@ -132,6 +145,7 @@ export const portfolioContent: Record<PortfolioLanguage, PortfolioContent> = {
       galleryCta: 'Ver imágenes',
       demoCta: 'Ver demo',
       closeModal: 'Cerrar',
+      comingSoon: 'Próximamente',
       servicesEyebrow: 'Colaboración',
       servicesTitle: 'Cómo puedo aportar',
       contactEyebrow: 'Contacto',
@@ -259,6 +273,7 @@ export const portfolioContent: Record<PortfolioLanguage, PortfolioContent> = {
         images: ['assets/img/projects/admin-orders.png'],
         tags: ['Angular', 'REST API', 'Forms'],
         internalLink: '/demos/ventas',
+        comingSoon: true,
       },
     ],
     services: [
@@ -274,6 +289,11 @@ export const portfolioContent: Record<PortfolioLanguage, PortfolioContent> = {
     },
   },
   en: {
+    meta: {
+      title: 'David Díaz Martínez | Full Stack Developer',
+      description:
+        'Portfolio of David Díaz Martínez, a Full Stack web developer specialized in Angular and TypeScript.',
+    },
     nav: {
       home: 'Home',
       stack: 'Stack',
@@ -316,6 +336,7 @@ export const portfolioContent: Record<PortfolioLanguage, PortfolioContent> = {
       galleryCta: 'View images',
       demoCta: 'View demo',
       closeModal: 'Close',
+      comingSoon: 'Coming soon',
       servicesEyebrow: 'Collaboration',
       servicesTitle: 'How I can help',
       contactEyebrow: 'Contact',
@@ -443,6 +464,7 @@ export const portfolioContent: Record<PortfolioLanguage, PortfolioContent> = {
         images: ['assets/img/projects/admin-orders.png'],
         tags: ['Angular', 'REST API', 'Forms'],
         internalLink: '/demos/ventas',
+        comingSoon: true,
       },
     ],
     services: [

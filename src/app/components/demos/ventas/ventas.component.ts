@@ -65,6 +65,18 @@ export class VentasComponent {
       this.ventasResource.isLoading()
   );
 
+  // A resource in error state throws on value(): getters read through hasValue() and the page shows this flag instead.
+  readonly apiUnavailable = computed(() =>
+    [
+      this.tipoPagosResource,
+      this.estadoVentasResource,
+      this.categoriaProductosResource,
+      this.proveedoresResource,
+      this.productosResource,
+      this.ventasResource,
+    ].some((item) => item.error() !== undefined),
+  );
+
   get activeTab(): TabKey {
     return this.activeTabState();
   }
@@ -82,27 +94,27 @@ export class VentasComponent {
   }
 
   get tipoPagos(): TipoPago[] {
-    return this.tipoPagosResource.value() ?? [];
+    return this.tipoPagosResource.hasValue() ? this.tipoPagosResource.value() : [];
   }
 
   get estadoVentas(): EstadoVenta[] {
-    return this.estadoVentasResource.value() ?? [];
+    return this.estadoVentasResource.hasValue() ? this.estadoVentasResource.value() : [];
   }
 
   get categoriaProductos(): CategoriaProducto[] {
-    return this.categoriaProductosResource.value() ?? [];
+    return this.categoriaProductosResource.hasValue() ? this.categoriaProductosResource.value() : [];
   }
 
   get proveedores(): Proveedor[] {
-    return this.proveedoresResource.value() ?? [];
+    return this.proveedoresResource.hasValue() ? this.proveedoresResource.value() : [];
   }
 
   get productos(): Producto[] {
-    return this.productosResource.value() ?? [];
+    return this.productosResource.hasValue() ? this.productosResource.value() : [];
   }
 
   get ventas(): Venta[] {
-    return this.ventasResource.value() ?? [];
+    return this.ventasResource.hasValue() ? this.ventasResource.value() : [];
   }
 
   get editingTipoPagoId(): number | null {

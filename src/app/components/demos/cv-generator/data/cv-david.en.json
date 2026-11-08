@@ -1,0 +1,138 @@
+{
+  "personal": {
+    "name": "David Díaz Martínez",
+    "label": "Full Stack Web Developer",
+    "email": "lnkddmartinez@gmail.com",
+    "phone": "+53 59283769",
+    "summary": "Web Developer with 3+ years of experience specializing in Angular and the TypeScript ecosystem, working on enterprise management, supply chain and ticketing systems. Focused on code quality, user experience and scalable solutions."
+  },
+  "location": {
+    "postalCode": "50100",
+    "city": "Villa Clara",
+    "country": "Cuba"
+  },
+  "profiles": [
+    {
+      "network": "LinkedIn",
+      "username": "lnkddmartinez",
+      "url": "https://linkedin.com/in/david-díaz-martínez-3b0b71321"
+    }
+  ],
+  "work": [
+    {
+      "company": "Mojito360",
+      "location": "Remote",
+      "position": "Frontend Developer",
+      "website": "https://www.mojito360.com/en/",
+      "startDate": "November 2025",
+      "endDate": "Present",
+      "sumary": "Frontend development with Angular for supply chain management software.",
+      "highlights": [
+        "Built new customer-facing views and workflows",
+        "Built shipment, documentation and staff management features"
+      ]
+    },
+    {
+      "company": "HelpDesk (Project for Mojito360)",
+      "location": "Remote",
+      "position": "Full Stack Developer",
+      "website": "https://help-desk-mojito360.vercel.app/",
+      "startDate": "January 2026",
+      "endDate": "January 2026",
+      "sumary": "Standalone ticket management application integrated with Mojito360.",
+      "highlights": [
+        "Designed the full architecture with Supabase (database, authentication)",
+        "Implemented chat, notifications, and SLA configuration",
+        "Set up deployment and CI/CD with Vercel"
+      ]
+    },
+    {
+      "company": "SourTrack",
+      "location": "Remote",
+      "position": "Frontend Developer",
+      "website": "https://app.sourtrack.com/",
+      "startDate": "February 2025",
+      "endDate": "November 2025",
+      "sumary": "Angular web application for project management and analytics workflows.",
+      "highlights": [
+        "Project management: Services → Orders → Operations",
+        "Built payment statement and purchase order generation",
+        "Provided ongoing support and maintenance"
+      ]
+    },
+    {
+      "company": "LogicPlaces",
+      "location": "Valencia (Remote)",
+      "position": "Web Developer",
+      "website": "https://app.logicplaces.com",
+      "startDate": "January 2023",
+      "endDate": "January 2025",
+      "sumary": "Full-stack real estate web tool.",
+      "highlights": [
+        "Built responsive UIs with Angular, Bootstrap, and NgZorro",
+        "Developed REST APIs with Node.js, Sequelize, and PostgreSQL",
+        "Built hybrid apps with Capacitor"
+      ]
+    }
+  ],
+  "education": [
+    {
+      "institution": "Universidad Central 'Marta Abreu' de las Villas",
+      "studyType": "B.Sc. in Automation Engineering",
+      "startDate": "September 2018",
+      "endDate": "December 2023",
+      "gpa": "4.3"
+    }
+  ],
+  "skills": [
+    {
+      "name": "Frontend",
+      "level": "Expert",
+      "keywords": [
+        "Angular",
+        "RxJS",
+        "TypeScript",
+        "HTML/CSS/SASS",
+        "Jest",
+        "NgZorro",
+        "Bootstrap",
+        "Tabulator"
+      ]
+    },
+    {
+      "name": "Backend",
+      "level": "Advanced",
+      "keywords": [
+        "Node.js",
+        "Supabase",
+        "PostgreSQL",
+        "Sequelize",
+        "API Rest",
+        "OAuth/OIDC",
+        "Webhooks"
+      ]
+    },
+    {
+      "name": "Tools",
+      "level": "Advanced",
+      "keywords": [
+        "Git",
+        "Docker",
+        "Vercel",
+        "Figma",
+        "Capacitor",
+        "Postman"
+      ]
+    }
+  ],
+  "languages": [
+    {
+      "language": "Spanish",
+      "fluency": "Native"
+    },
+    {
+      "language": "English",
+      "fluency": "B2"
+    }
+  ]
+}
