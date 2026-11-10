@@ -12,7 +12,8 @@
     "format:check": "prettier --check \"src/**/*.{ts,html,css}\"",
     "images": "node scripts/optimize-images.mjs",
     "icons": "node scripts/generate-icons.mjs",
-    "og-image": "node scripts/generate-og-image.mjs"
+    "og-image": "node scripts/generate-og-image.mjs",
+    "cv-pdfs": "node scripts/generate-cv-pdfs.mjs"
   },
   "private": true,
   "dependencies": {

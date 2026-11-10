@@ -1,247 +1,320 @@
 <a class="back-link demo-back" routerLink="/" fragment="projects">← {{ siteNav().backToPortfolio }}</a>
 <h1 class="sr-only">CV Generator</h1>
 
-<div class="container">
-  <section>
-    <select [ngModel]="selectedLanguage()" (ngModelChange)="changeLanguage($event)">
-      <option value="spanish">{{texts().spanish}}</option>
-      <option value="english">{{texts().english}}</option>
-    </select>
+<!-- Phones and narrow windows: one panel at a time. -->
+<div class="panel-switch" role="group" aria-label="CV Generator">
+  <button type="button" [class.active]="activePanel() === 'editor'" [attr.aria-pressed]="activePanel() === 'editor'" (click)="showPanel('editor')">
+    {{ texts().tabEditor }}
+  </button>
+  <button type="button" [class.active]="activePanel() === 'preview'" [attr.aria-pressed]="activePanel() === 'preview'" (click)="showPanel('preview')">
+    {{ texts().tabPreview }}
+  </button>
+</div>
 
-    <app-cv-view-toggle [texts]="texts()" [(isAwsShow)]="isAwsShow" />
-
-    <div class="drag-drop"
-         (dragover)="onDragOver($event)"
-         (drop)="onDrop($event)"
-         (click)="fileInput.click()">
-      <p>{{texts().upload}}</p>
+<div class="cv-layout" [attr.data-panel]="activePanel()">
+  <section class="editor-panel" [attr.aria-label]="texts().tabEditor">
+    <div class="field">
+      <label for="cv-language">{{ texts().cvLanguage }}</label>
+      <select id="cv-language" [ngModel]="cvLanguage()" (ngModelChange)="setLanguage($event)">
+        <option value="spanish">{{ texts().spanish }}</option>
+        <option value="english">{{ texts().english }}</option>
+      </select>
     </div>
 
-    <input
-      type="file"
-      accept="image/*"
-      style="display: none"
-      #fileInput
-      (change)="onFileSelected($event)"
-    >
+    <app-cv-view-toggle class="field" [texts]="texts()" [format]="cvFormat()" (formatChange)="setFormat($event)" />
 
-    <button (click)="downloadPDF()" [title]="texts().downloadBtnTooltip">{{texts().download}}</button>
+    <div class="field">
+      <button
+        type="button"
+        class="drop-zone"
+        (click)="photoInput.click()"
+        (dragover)="onPhotoDragOver($event)"
+        (drop)="onPhotoDrop($event)"
+      >
+        <strong>{{ texts().upload }}</strong>
+        <span>{{ texts().uploadHint }}</span>
+      </button>
+      <input #photoInput type="file" accept="image/*" tabindex="-1" aria-hidden="true" (change)="onPhotoSelected($event)">
+      @if (photoError()) {
+        <p class="field-error" role="alert">{{ photoError() }}</p>
+      }
+    </div>
 
-    <!-- Vinculación del input con la variable cvData -->
-    <textarea
-      rows="50"
-      [ngModel]="cvDataString()"
-      (ngModelChange)="onCvDataChange($event)">
-</textarea>
-  </section>
-  <section>
-    @if (isAwsShow()) {
-      <div id="aws-cv" class="page-format">
-        <!--    Header    -->
-        <div class="cv-header">
-          <div>
-            <h3>{{cvData().personal.name}}</h3>
-            <h4>{{cvData().personal.label}}</h4>
-          </div>
-          <div>
-            <p><a [href]="'mailto:' + cvData().personal.email">{{cvData().personal.email}}</a></p>
-            <p>{{cvData().personal.phone}}</p>
-            @if (cvData().personal.website) {
-              <p>{{cvData().personal.website}}</p>
-            }
-            @for (perfil of cvData().profiles; track perfil.url) {
-              <p><a [href]="perfil.url">{{perfil.username}} ({{perfil.network}})</a></p>
-            }
-          </div>
-        </div>
+    <div class="field pdf-actions">
+      <button type="button" class="action primary" [disabled]="generating()" aria-describedby="download-hint" (click)="downloadPdf()">
+        {{ generating() ? texts().generating : texts().download }}
+      </button>
+      <p id="download-hint" class="hint">{{ texts().downloadHint }}</p>
+      <button type="button" class="action secondary" aria-describedby="print-hint" (click)="printPdf()">
+        {{ texts().printPdf }}
+      </button>
+      <p id="print-hint" class="hint">{{ texts().printHint }}</p>
+      @if (pdfError()) {
+        <p class="field-error" role="alert">{{ pdfError() }}</p>
+      }
+    </div>
 
-        <!--    Resumen    -->
-        <div class="cv-section">
-          <h5>{{texts().summary}}</h5>
-          <hr>
-          <p>{{cvData().personal.summary}}</p>
-        </div>
-        <!--    Educacion    -->
-        <div class="cv-section">
-          <h5>{{texts().education}}</h5>
-          <hr>
-          @for (education of cvData().education; track education) {
-            <div>
-              <div>
-                <span><strong>{{education.institution}}</strong></span>
-                <span>{{education.startDate}} - {{education.endDate}}</span>
-              </div>
-              <div>
-                <span>{{education.studyType}}</span>
-                <span>{{education.gpa}}</span>
-              </div>
-            </div>
-          }
-        </div>
-
-        <!--    Experiencia    -->
-        <div class="cv-section">
-          <h5>{{texts().experience}}</h5>
-          <hr>
-          @for (exp of cvData().work; track exp) {
-            <div>
-              <div>
-                <span><strong><a [href]="exp.website ? exp.website : null">{{exp.company}}</a></strong></span>
-                <span>{{exp.location}}</span>
-              </div>
-              <div>
-                <span>{{exp.position}}</span>
-                <span>{{exp.startDate}} - {{exp.endDate}}</span>
-              </div>
-              <p>{{exp.sumary}}</p>
-              <ul>
-                @for (hl of exp.highlights; track hl) {
-                  <li>{{hl}}</li>
-                }
-              </ul>
-            </div>
-          }
-        </div>
-
-        <!--    Habilidades    -->
-        <div class="cv-section">
-          <h5>{{texts().skills}}</h5>
-          <hr>
-          @for (skill of cvData().skills; track skill.name) {
-            <p>
-              <strong>{{skill.name}}:</strong>
-              @for (kw of skill.keywords; track kw; let last = $last) {
-                <span> {{kw}}{{last ? '.' : ','}}</span>
-              }
-            </p>
-          }
-        </div>
-
-
-        <!--    Idiomas    -->
-        <div class="cv-section">
-          <h5>{{texts().language}}</h5>
-          <hr>
-          @for (leng of cvData().languages; track leng.language) {
-            <p><strong>{{leng.language}}: </strong> {{leng.fluency}}.</p>
-          }
+    <!-- Dropping a .json/.txt anywhere on the editor imports it. -->
+    <div class="field editor" (dragover)="onEditorDragOver($event)" (drop)="onEditorDrop($event)">
+      <div class="editor-head">
+        <label for="cv-json">{{ texts().editorLabel }}</label>
+        <div class="editor-tools">
+          <button type="button" class="action small" (click)="importInput.click()">{{ texts().importJson }}</button>
+          <button type="button" class="action small" (click)="exportJson()">{{ texts().exportJson }}</button>
         </div>
       </div>
-    } @else {
+      <p id="cv-json-hint" class="hint">{{ texts().editorHint }}</p>
+      <input
+        #importInput
+        type="file"
+        accept=".json,.txt,application/json,text/plain"
+        tabindex="-1"
+        aria-hidden="true"
+        (change)="onImportSelected($event)"
+      >
+      <textarea
+        id="cv-json"
+        rows="28"
+        spellcheck="false"
+        aria-describedby="cv-json-hint cv-json-status"
+        [attr.aria-invalid]="parseError() ? true : null"
+        [ngModel]="editorText()"
+        (ngModelChange)="onEditorChange($event)"
+      ></textarea>
+      <div id="cv-json-status" aria-live="polite">
+        @if (parseErrorMessage()) {
+          <p class="field-error">{{ parseErrorMessage() }}</p>
+        } @else if (editorNotice(); as notice) {
+          <p [class]="notice.kind === 'error' ? 'field-error' : 'field-info'">{{ notice.message }}</p>
+        }
+      </div>
+    </div>
+  </section>
 
-      <!--   Disenno Visual   -->
-      <div id="visual-cv" class="page-format visual-design">
+  <section #previewPanel class="preview-panel" [attr.aria-label]="texts().tabPreview">
+    @if (overflowing()) {
+      <p class="field-error sheet-warning" role="status">{{ texts().overflow }}</p>
+    }
 
-      <!--   Seccion izquierda   -->
-        <div class="profile-section">
-
-          <!--   Foto de perfil   -->
-          <div class="picture">
-            <div class="decorative"></div>
-            <img [src]="profilePicture()" alt="profile-picture">
-          </div>
-
-          <!--   Summary   -->
-          <div class="summary">
-            <h5>{{texts().summary}}</h5>
-            <p>{{cvData().personal.summary}}</p>
-          </div>
-
-          <!--   Contactos   -->
-          <div class="contacts">
-            <h5>{{texts().contacts}}</h5>
-            <div>
-              <img src="assets/icons/phone.svg" alt="phone-icon">
-              <p>{{cvData().personal.phone}}</p>
-            </div>
-            <div>
-              <img src="assets/icons/mail.svg" alt="mail-icon">
-              <a [href]="'mailto:' + cvData().personal.email"><p>{{cvData().personal.email}}</p></a>
-            </div>
-            <div>
-              <img src="assets/icons/map-pin.svg" alt="phone-icon">
-              <p>{{cvData().location.city}}, {{cvData().location.country}}</p>
-            </div>
-            <div>
-              <img src="assets/icons/brand-linkedin.svg" alt="phone-icon">
-              <a [href]="cvData().profiles[0].url"><p>{{cvData().profiles[0].username}}</p></a>
-            </div>
-            @if (cvData().personal.website) {
-            <div>
-              <img src="assets/icons/world.svg" alt="phone-icon">
-              <a [href]="cvData().personal.website"><p>{{cvData().personal.website}}</p></a>
-            </div>
-            }
-          </div>
-
-          <!--   Habilidades   -->
-          <div>
-            <h5>{{texts().skills}}</h5>
-            <ul>
-              @for (skill of cvData().skills; track skill.name) {
-                <li>
-                  <strong>{{skill.name}}:</strong>
-                  @for (kw of skill.keywords; track kw; let last = $last) {
-                    <span> {{kw}}{{last ? '.' : ','}}</span>
-                  }
-                </li>
-              }
-            </ul>
-          </div>
-
-          <!--    Idiomas    -->
-          <div class="languages">
-            <h5>{{texts().language}}</h5>
-            @for (leng of cvData().languages; track leng.language) {
-              <p><strong>{{leng.language}}: </strong> {{leng.fluency}}.</p>
-            }
-          </div>
-        </div>
-
-      <!--   Seccion derecha   -->
-        <div class="experience-section">
-
-          <!--   Nombre y label   -->
-          <div class="name">
-            <h3>{{cvData().personal.name}}</h3>
-            <h4>{{cvData().personal.label}}</h4>
-          </div>
-
-          <!--   Educacion   -->
-          <div class="education">
-            <h5>{{texts().education}}</h5>
-            @for (ed of cvData().education; track ed.studyType) {
-              <div class="wrapper">
-                <p class="date">({{ed.startDate}} - {{ed.endDate}})</p>
-                <p class="strong">{{ed.institution}}</p>
-                <p>{{ed.studyType}}</p>
-                <p>{{ed.gpa}}</p>
+    <!-- The frame reserves the scaled size; the scaler shrinks the full-size A4 sheet to fit. -->
+    <div class="sheet-frame" [style.width.px]="sheetWidth * sheetScale()" [style.height.px]="sheetHeight * sheetScale()">
+      <div class="sheet-scaler" [style.transform]="'scale(' + sheetScale() + ')'">
+        @if (cvFormat() === 'aws') {
+          <div #sheet id="aws-cv" class="page-format">
+            <!--    Header    -->
+            <div class="cv-header">
+              <div>
+                <h3>{{ cvData().personal.name }}</h3>
+                <h4>{{ cvData().personal.label }}</h4>
               </div>
-            }
-          </div>
+              <div>
+                @if (cvData().personal.email) {
+                  <p><a [href]="'mailto:' + cvData().personal.email">{{ cvData().personal.email }}</a></p>
+                }
+                <p>{{ cvData().personal.phone }}</p>
+                @if (cvData().personal.website) {
+                  <p>{{ cvData().personal.website }}</p>
+                }
+                @for (profile of cvData().profiles; track $index) {
+                  <p><a [attr.href]="profile.url || null">{{ profile.username }} ({{ profile.network }})</a></p>
+                }
+              </div>
+            </div>
 
-          <!--   Experiencia   -->
-          <div class="experience">
-            <h5>{{texts().experience}}</h5>
-            @for (ex of cvData().work; track ex) {
-              <div class="wrapper">
-                <p class="date">({{ex.startDate}} - {{ex.endDate}})</p>
-                <div class="company">
-                  <p class="strong"><a [href]="ex.website">{{ex.company}}</a></p>
-                  <p>{{ex.location}}</p>
+            <!--    Resumen    -->
+            <div class="cv-section">
+              <h5>{{ texts().summary }}</h5>
+              <hr>
+              <p>{{ cvData().personal.summary }}</p>
+            </div>
+
+            <!--    Educacion    -->
+            <div class="cv-section">
+              <h5>{{ texts().education }}</h5>
+              <hr>
+              @for (education of cvData().education; track $index) {
+                <div>
+                  <div>
+                    <span><strong>{{ education.institution }}</strong></span>
+                    <span>{{ education.startDate }} - {{ education.endDate }}</span>
+                  </div>
+                  <div>
+                    <span>{{ education.studyType }}</span>
+                    <span>{{ education.gpa }}</span>
+                  </div>
                 </div>
-                <p>{{ex.sumary}}</p>
+              }
+            </div>
+
+            <!--    Experiencia    -->
+            <div class="cv-section">
+              <h5>{{ texts().experience }}</h5>
+              <hr>
+              @for (exp of cvData().work; track $index) {
+                <div>
+                  <div>
+                    <span><strong><a [attr.href]="exp.website || null">{{ exp.company }}</a></strong></span>
+                    <span>{{ exp.location }}</span>
+                  </div>
+                  <div>
+                    <span>{{ exp.position }}</span>
+                    <span>{{ exp.startDate }} - {{ exp.endDate }}</span>
+                  </div>
+                  <p>{{ exp.summary }}</p>
+                  <ul>
+                    @for (hl of exp.highlights; track $index) {
+                      <li>{{ hl }}</li>
+                    }
+                  </ul>
+                </div>
+              }
+            </div>
+
+            <!--    Habilidades    -->
+            <div class="cv-section">
+              <h5>{{ texts().skills }}</h5>
+              <hr>
+              @for (skill of cvData().skills; track $index) {
+                <p>
+                  <strong>{{ skill.name }}:</strong>
+                  @for (kw of skill.keywords; track $index; let last = $last) {
+                    <span> {{ kw }}{{ last ? '.' : ',' }}</span>
+                  }
+                </p>
+              }
+            </div>
+
+            <!--    Idiomas    -->
+            <div class="cv-section">
+              <h5>{{ texts().language }}</h5>
+              <hr>
+              @for (leng of cvData().languages; track $index) {
+                <p><strong>{{ leng.language }}: </strong> {{ leng.fluency }}.</p>
+              }
+            </div>
+          </div>
+        } @else {
+          <!--   Disenno Visual   -->
+          <div #sheet id="visual-cv" class="page-format visual-design">
+            <!--   Seccion izquierda   -->
+            <div class="profile-section">
+              <!--   Foto de perfil   -->
+              <div class="picture">
+                <div class="decorative"></div>
+                <img [src]="profilePicture()" [alt]="texts().photoAlt">
+              </div>
+
+              <!--   Summary   -->
+              <div class="summary">
+                <h5>{{ texts().summary }}</h5>
+                <p>{{ cvData().personal.summary }}</p>
+              </div>
+
+              <!--   Contactos (icons are decorative: the text next to them says it all)   -->
+              <div class="contacts">
+                <h5>{{ texts().contacts }}</h5>
+                @if (cvData().personal.phone) {
+                  <div>
+                    <img src="assets/icons/phone.svg" alt="">
+                    <p>{{ cvData().personal.phone }}</p>
+                  </div>
+                }
+                @if (cvData().personal.email) {
+                  <div>
+                    <img src="assets/icons/mail.svg" alt="">
+                    <a [href]="'mailto:' + cvData().personal.email"><p>{{ cvData().personal.email }}</p></a>
+                  </div>
+                }
+                @if (cvData().location.city || cvData().location.country) {
+                  <div>
+                    <img src="assets/icons/map-pin.svg" alt="">
+                    <p>
+                      {{ cvData().location.city }}{{ cvData().location.city && cvData().location.country ? ', ' : '' }}{{ cvData().location.country }}
+                    </p>
+                  </div>
+                }
+                @if (cvData().profiles[0]; as profile) {
+                  <div>
+                    <img src="assets/icons/brand-linkedin.svg" alt="">
+                    <a [attr.href]="profile.url || null"><p>{{ profile.username }}</p></a>
+                  </div>
+                }
+                @if (cvData().personal.website) {
+                  <div>
+                    <img src="assets/icons/world.svg" alt="">
+                    <a [href]="cvData().personal.website"><p>{{ cvData().personal.website }}</p></a>
+                  </div>
+                }
+              </div>
+
+              <!--   Habilidades   -->
+              <div>
+                <h5>{{ texts().skills }}</h5>
                 <ul>
-                  @for (hl of ex.highlights; track hl) {
-                    <li>{{hl}}</li>
+                  @for (skill of cvData().skills; track $index) {
+                    <li>
+                      <strong>{{ skill.name }}:</strong>
+                      @for (kw of skill.keywords; track $index; let last = $last) {
+                        <span> {{ kw }}{{ last ? '.' : ',' }}</span>
+                      }
+                    </li>
                   }
                 </ul>
               </div>
-            }
+
+              <!--    Idiomas    -->
+              <div class="languages">
+                <h5>{{ texts().language }}</h5>
+                @for (leng of cvData().languages; track $index) {
+                  <p><strong>{{ leng.language }}: </strong> {{ leng.fluency }}.</p>
+                }
+              </div>
+            </div>
+
+            <!--   Seccion derecha   -->
+            <div class="experience-section">
+              <!--   Nombre y label   -->
+              <div class="name">
+                <h3>{{ cvData().personal.name }}</h3>
+                <h4>{{ cvData().personal.label }}</h4>
+              </div>
+
+              <!--   Educacion   -->
+              <div class="education">
+                <h5>{{ texts().education }}</h5>
+                @for (ed of cvData().education; track $index) {
+                  <div class="wrapper">
+                    <p class="date">({{ ed.startDate }} - {{ ed.endDate }})</p>
+                    <p class="strong">{{ ed.institution }}</p>
+                    <p>{{ ed.studyType }}</p>
+                    <p>{{ ed.gpa }}</p>
+                  </div>
+                }
+              </div>
+
+              <!--   Experiencia   -->
+              <div class="experience">
+                <h5>{{ texts().experience }}</h5>
+                @for (ex of cvData().work; track $index) {
+                  <div class="wrapper">
+                    <p class="date">({{ ex.startDate }} - {{ ex.endDate }})</p>
+                    <div class="company">
+                      <p class="strong"><a [attr.href]="ex.website || null">{{ ex.company }}</a></p>
+                      <p>{{ ex.location }}</p>
+                    </div>
+                    <p>{{ ex.summary }}</p>
+                    <ul>
+                      @for (hl of ex.highlights; track $index) {
+                        <li>{{ hl }}</li>
+                      }
+                    </ul>
+                  </div>
+                }
+              </div>
+            </div>
           </div>
-        </div>
+        }
       </div>
-    }
+    </div>
   </section>
 </div>
-

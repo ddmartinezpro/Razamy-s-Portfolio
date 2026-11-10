@@ -225,3 +225,24 @@ main:focus {
     scroll-behavior: auto;
   }
 }
+
+/* CV Generator "Text PDF": printing that page keeps only the A4 sheet (see cv-generator.component.css). */
+@media print {
+  @page {
+    size: A4;
+    margin: 0;
+  }
+
+  body:has(app-cv-generator) {
+    background: #ffffff !important;
+  }
+
+  body:has(app-cv-generator) :is(app-particle-background, header, app-footer, .skip-link) {
+    display: none !important;
+  }
+
+  body:has(app-cv-generator) main {
+    min-height: 0 !important;
+    padding: 0 !important;
+  }
+}

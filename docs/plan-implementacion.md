@@ -227,45 +227,45 @@ Objetivo: que nada de lo que ve un visitante parezca roto.
 
 ## Fase 5 — CV Generator
 
-- [ ] **F5.1 · Alta — Versión móvil**
+- [x] **F5.1 · Alta — Versión móvil** *(hecho 2026-11-10: botones Editor/Vista previa por debajo de 900 px y hoja A4 escalada al ancho (ResizeObserver); se exporta a tamaño real)*
   - Por debajo de ~900 px: pestañas "Editor" / "Vista previa".
   - La hoja A4 se escala al ancho disponible (`transform: scale()` calculado con `ResizeObserver`) sin cambiar su diseño.
   - La descarga usa la hoja a tamaño real (quitar la escala durante la exportación).
 
-- [ ] **F5.2 · Alta — Importar JSON desde archivo**
+- [x] **F5.2 · Alta — Importar JSON desde archivo** *(hecho 2026-11-10: botón "Importar JSON" y arrastrar al editor; .json/.txt hasta 1 MB)*
   - Botón "Importar" y arrastrar y soltar, aceptando `.json` y `.txt`. Se mantiene la opción de pegar el texto.
 
-- [ ] **F5.3 · Alta — Validación y errores**
+- [x] **F5.3 · Alta — Validación y errores** *(hecho 2026-11-10: `cv-parser.ts` valida forma y tipos y nombra el campo que falla; la vista previa conserva el último JSON válido; aviso si el contenido no cabe en una página)*
   - JSON inválido o con forma incorrecta → mensaje visible junto al editor (hoy solo va a la consola y puede dejar la vista previa en blanco).
   - Campos opcionales seguros: sin `website` no se genera `href="undefined"`; `profiles` y `location` opcionales.
 
-- [ ] **F5.4 · Media — Segunda opción: "PDF con texto"**
+- [x] **F5.4 · Media — Segunda opción: "PDF con texto"** *(hecho 2026-11-10: botón "PDF con texto" + estilos de impresión (solo la hoja, A4 exacto con `zoom`, colores conservados))*
   - Comprobado: el PDF actual es una única imagen JPEG por página, sin texto (los filtros automáticos de CV no lo leen; si un visor lo deja seleccionar es porque aplica OCR por su cuenta).
   - Añadir un segundo botón que use la impresión del navegador ("Guardar como PDF") con hoja de estilos de impresión: `@page { size: A4; margin: 0 }`, `print-color-adjust: exact`, y ocultar todo menos la hoja.
   - Mostrar una nota: "En el diálogo, elige Guardar como PDF y desactiva encabezados y pies de página".
   - Probar en Chrome, Edge y Firefox que se mantienen fondos y colores.
   - El botón actual (imagen) se mantiene como opción principal.
 
-- [ ] **F5.5 · Media — Accesibilidad del editor**
+- [x] **F5.5 · Media — Accesibilidad del editor** *(hecho 2026-11-10: etiquetas en selector y editor, formato como grupo de radios, foto como `<button>`, `alt` correctos; entradas temporales de eslint quitadas)*
   - Zona de "Subir img" como `<button>`/`<label>` usable con teclado.
   - Selector AWS/Visual como grupo de radios con etiquetas asociadas (hoy son dos checkboxes dentro de un `div` con `click`).
   - Etiquetas para el selector de idioma y el editor; `alt` correctos en los iconos (hoy todos dicen "phone-icon").
 
-- [ ] **F5.6 · Media — Exportación robusta**
+- [x] **F5.6 · Media — Exportación robusta** *(hecho 2026-11-10: try/catch con aviso, estado "Generando…", espera a las fuentes, nombre `CV_<nombre>_<ES|EN>.pdf`, tipos de html2pdf sin `any`. Sin saltos de página: el CV es de una sola página y se avisa si no cabe)*
   - `try/catch`, estado "Generando…" en el botón, esperar a `document.fonts.ready`.
   - Nombre de archivo según nombre e idioma (`CV_David_Diaz_EN.pdf`).
   - Saltos de página para CV largos (`pagebreak: { mode: ['css', 'legacy'] }` y `break-inside: avoid` en las secciones).
 
-- [ ] **F5.7 · Baja — Orden del código**
+- [x] **F5.7 · Baja — Orden del código** *(hecho 2026-11-10: modelo, textos y validador en archivos propios; datos por defecto desde `data/cv-david.{es,en}.json`; `summary` con compatibilidad para `sumary`; `track $index`. Los datos de Laury siguen comentados en el componente)*
   - Datos del CV y diccionarios a archivos `data/` (los de Laury se quedan comentados de momento).
   - Corregir la errata `sumary` → `summary` aceptando ambas claves para no romper JSON existentes.
   - `track` por índice en las listas que pueden repetir valores.
 
-- [ ] **F5.8 · Baja — Exportar el JSON actual** (botón para descargarlo).
+- [x] **F5.8 · Baja — Exportar el JSON actual** *(hecho 2026-11-10)* (botón para descargarlo).
 
-- [ ] **F5.9 · Baja — Tests** de la validación del JSON.
+- [x] **F5.9 · Baja — Tests** *(hecho 2026-11-10: `cv-parser.spec.ts` y specs del componente (31 tests en total))* de la validación del JSON.
 
-- [ ] **F5.10 · Media — Regenerar los CV del portfolio (ES y EN) con "PDF con texto"** y reemplazar los de `src/assets/cv/`.
+- [ ] **F5.10 · Media — Regenerar los CV del portfolio (ES y EN) con "PDF con texto"** *(ES regenerado 2026-11-10 con `npm run cv-pdfs -- es` (texto seleccionable, 121 kB); EN pendiente de que David apruebe la traducción → `npm run cv-pdfs -- en`)* y reemplazar los de `src/assets/cv/`.
 
 ---
 

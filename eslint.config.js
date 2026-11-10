@@ -43,12 +43,10 @@ module.exports = defineConfig([
   },
   // TEMPORARY: known accessibility/typing debt that docs/plan-implementacion.md already schedules.
   // Downgraded to warnings so CI stays green; remove each entry when its task is done.
-  //   cv-generator, cv-view-toggle -> F5.5 / F5.6
   //   ventas                       -> F6.5
   //   three-logo                   -> F8.2
   {
     files: [
-      "src/app/components/demos/cv-generator/*.html",
       "src/app/components/demos/ventas/*.html",
       "src/app/components/navbar/three-logo/*.html",
     ],
@@ -56,12 +54,6 @@ module.exports = defineConfig([
       "@angular-eslint/template/click-events-have-key-events": "warn",
       "@angular-eslint/template/interactive-supports-focus": "warn",
       "@angular-eslint/template/label-has-associated-control": "warn",
-    },
-  },
-  {
-    files: ["src/app/components/demos/cv-generator/*.ts"],
-    rules: {
-      "@typescript-eslint/no-explicit-any": "warn",
     },
   },
 ]);

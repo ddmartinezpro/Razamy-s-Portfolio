@@ -1,10 +1,6 @@
-section:not(:first-child) {
-  display: flex;
-  justify-content: center;
-  align-items: start;
-}
 /* Theme: the editor panel follows the site tokens; the CV sheet (.page-format) is always white paper. */
 :host {
+  display: block;
   color-scheme: light;
 }
 
@@ -12,7 +8,282 @@ section:not(:first-child) {
   color-scheme: dark;
 }
 
-/* General (scoped to the CV sheet so the editor panel keeps the theme colors) */
+.demo-back {
+  margin: 8px 0 0 20px;
+}
+
+/* ------------------------------------------------------------------ Layout */
+
+.cv-layout {
+  display: grid;
+  grid-template-columns: minmax(280px, 380px) minmax(0, 1fr);
+  gap: 20px;
+  align-items: start;
+  max-width: 1800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.editor-panel,
+.preview-panel {
+  border: 1px solid var(--color-line);
+  border-radius: 20px;
+  background: var(--surface-card-strong);
+  box-shadow: var(--shadow-card);
+}
+
+.editor-panel {
+  display: grid;
+  gap: 18px;
+  padding: 20px;
+  color: var(--color-ink);
+}
+
+.preview-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  padding: 20px;
+}
+
+/* Only below 900px: the editor and the preview become two switchable panels. */
+.panel-switch {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .cv-layout {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 12px;
+  }
+
+  .panel-switch {
+    display: flex;
+    gap: 6px;
+    width: fit-content;
+    margin: 12px auto 0;
+    padding: 4px;
+    border: 1px solid var(--color-line);
+    border-radius: 999px;
+    background: var(--surface-card);
+  }
+
+  .panel-switch button {
+    min-height: 40px;
+    padding: 0 18px;
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    color: var(--color-ink);
+    font-family: var(--font-primary);
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .panel-switch button.active {
+    background: var(--color-ink);
+    color: var(--color-on-ink);
+  }
+
+  .cv-layout[data-panel='editor'] .preview-panel,
+  .cv-layout[data-panel='preview'] .editor-panel {
+    display: none;
+  }
+
+  .preview-panel {
+    padding: 12px;
+  }
+}
+
+/* ------------------------------------------------------------ Editor panel */
+
+.field {
+  display: grid;
+  gap: 8px;
+}
+
+.field > label,
+.editor-head label {
+  color: var(--color-muted);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+select,
+textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--color-line);
+  border-radius: 12px;
+  background: var(--surface-muted);
+  color: var(--color-ink);
+  font-size: 15px;
+}
+
+select {
+  cursor: pointer;
+}
+
+textarea {
+  min-height: 320px;
+  font-family: ui-monospace, 'Cascadia Code', Consolas, monospace;
+  font-size: 13px;
+  line-height: 1.5;
+  resize: vertical;
+}
+
+textarea[aria-invalid='true'] {
+  border-color: #dc2626;
+}
+
+input[type='file'] {
+  display: none;
+}
+
+.drop-zone {
+  display: grid;
+  gap: 2px;
+  width: 100%;
+  padding: 14px;
+  border: 1px dashed var(--color-muted);
+  border-radius: 12px;
+  background: var(--surface-muted);
+  color: var(--color-ink);
+  font-family: var(--font-secondary);
+  text-align: center;
+  cursor: pointer;
+}
+
+.drop-zone span {
+  color: var(--color-muted);
+  font-size: 13px;
+}
+
+.drop-zone:hover {
+  border-color: var(--color-blue);
+  color: var(--color-blue);
+}
+
+.action {
+  width: 100%;
+  min-height: 44px;
+  padding: 0 18px;
+  border: 1px solid var(--color-line);
+  border-radius: 999px;
+  background: var(--surface-card);
+  color: var(--color-ink);
+  font-family: var(--font-primary);
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.action:hover:not(:disabled) {
+  border-color: var(--color-blue);
+}
+
+.action.primary {
+  border-color: var(--color-ink);
+  background: var(--color-ink);
+  color: var(--color-on-ink);
+}
+
+.action.primary:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+.action:disabled {
+  cursor: progress;
+  opacity: 0.7;
+}
+
+.action.small {
+  width: auto;
+  min-height: 34px;
+  padding: 0 12px;
+  font-size: 13px;
+}
+
+.pdf-actions .hint + .action {
+  margin-top: 6px;
+}
+
+.editor-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.editor-tools {
+  display: flex;
+  gap: 6px;
+}
+
+.hint {
+  margin: 0;
+  color: var(--color-muted);
+  font-family: var(--font-secondary);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.field-error,
+.field-info {
+  margin: 0;
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-family: var(--font-secondary);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.field-error {
+  border: 1px solid #dc2626;
+  background: rgba(220, 38, 38, 0.1);
+  color: var(--color-ink);
+}
+
+.field-info {
+  border: 1px solid rgba(22, 163, 74, 0.5);
+  background: rgba(22, 163, 74, 0.1);
+  color: var(--color-ink);
+}
+
+.sheet-warning {
+  width: 100%;
+  max-width: 764px;
+}
+
+/* --------------------------------------------------------- Scaled A4 sheet */
+
+.sheet-frame {
+  flex: none;
+  overflow: hidden;
+}
+
+.sheet-scaler {
+  width: 764px;
+  transform-origin: top left;
+}
+
+/* ------------------------------------------- CV sheet (fixed paper colors) */
+
+.page-format {
+  width: 764px;
+  height: 1080px;
+  overflow: hidden;
+  border: 1px solid #000;
+  padding: 20px 15px;
+  background: #ffffff;
+  color: #000000;
+  /* Own line height: inheriting the site's (1.6) pushed the published one-page CV past the A4 height. */
+  line-height: 1.5;
+}
+
 .page-format h3, .page-format h4, .page-format h5, .page-format span,
 .page-format p, .page-format li, .page-format label, .page-format a {
   color: #000000;
@@ -46,43 +317,16 @@ section:not(:first-child) {
   font-size: 14px;
 }
 
+.page-format ul {
+  margin: 0;
+}
+
 .page-format ul li {
   font-size: 14px;
-  line-height: 1.5;
+  line-height: 1.2;
 }
 
-input[type="file"] {
-  display: none;
-}
-
-.drag-drop {
-
-}
-
-/* Container */
-.container {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  padding: 20px;
-  gap: 20px;
-  max-width: 1800px;
-  margin: auto;
-  min-width: 800px;
-  overflow: auto;
-}
-
-/* Page Format */
-.page-format {
-  width: 764px;
-  height: 1080px;
-  border: 1px solid #000;
-  padding: 20px 15px;
-  background: #ffffff;
-  color: #000000;
-}
-
-/* Header */
+/* AWS format */
 .cv-header {
   display: flex;
   justify-content: space-between;
@@ -97,7 +341,6 @@ input[type="file"] {
   }
 }
 
-/* CV Sections */
 .cv-section {
   margin-bottom: 20px;
 }
@@ -117,86 +360,7 @@ input[type="file"] {
   justify-content: space-between;
 }
 
-/* Left Section */
-section:first-child {
-  flex: 1;
-  max-width: 30%;
-  border: 1px solid var(--color-line);
-  background: var(--surface-card-strong);
-  color: var(--color-ink);
-  padding: 20px;
-  border-radius: 20px;
-  box-shadow: var(--shadow-card);
-  min-width: 250px;
-}
-
-.toggle-buttons {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  margin: 15px 0;
-}
-
-select, select *, .toggle-buttons * {
-  cursor: pointer;
-  width: fit-content;
-}
-
-select, button, textarea, .drag-drop {
-  display: block;
-  width: 100%;
-  margin-bottom: 15px;
-  padding: 10px;
-  font-size: 16px;
-  border: 1px solid var(--color-line);
-  border-radius: 12px;
-  background: var(--surface-muted);
-  color: var(--color-ink);
-  box-sizing: border-box;
-}
-
-.drag-drop {
-  border: 1px dashed var(--color-muted);
-  cursor: pointer;
-  p {
-    margin: 0;
-    font-size: 16px;
-    text-align: center;
-  }
-
-  &:hover {
-    p {
-      color: var(--color-blue);
-    }
-    border-color: var(--color-blue);
-  }
-}
-
-button {
-  border-color: var(--color-ink);
-  border-radius: 999px;
-  background-color: var(--color-ink);
-  color: var(--color-on-ink);
-  font-family: var(--font-primary);
-  font-weight: 700;
-  cursor: pointer;
-}
-
-button:hover {
-  opacity: 0.88;
-}
-
-/* Right Section */
-section:last-child {
-  flex: 3;
-  border: 1px solid var(--color-line);
-  background: var(--surface-card-strong);
-  padding: 20px;
-  border-radius: 20px;
-  box-shadow: var(--shadow-card);
-}
-
-/* Seccion visual start */
+/* Visual format */
 .visual-design {
   display: flex;
   h3, h4, h5, span, p, li, label, a {
@@ -277,9 +441,6 @@ section:last-child {
 
   .contacts {
     margin-bottom: 15px;
-    img {
-      color: white;
-    }
     div {
       display: flex;
       align-items: center;
@@ -314,40 +475,56 @@ section:last-child {
         margin: 0 30px;
       }
     }
-
-    .wrapper {
-      margin: 0px 0;
-    }
-  }
-
-}
-
-.phone-section {
-  max-width: 800px;
-  display: flex;
-  align-items: start;
-  justify-content: space-between;
-}
-
-ul {
-  margin: 0;
-
-  li {
-    line-height: 1.2 !important;
   }
 }
 
-/* Responsive */
-@media (max-width: 1200px) {
-  .container {
-    flex-direction: column;
+/* -------------------------------------------------- "Text PDF" (print) */
+/* Only the sheet is printed, at exactly one A4 page; the rest of the site is hidden in styles.css. */
+@media print {
+  .demo-back,
+  .panel-switch,
+  .editor-panel,
+  .sheet-warning {
+    display: none !important;
   }
 
-  section:first-child {
-    max-width: 100%;
+  .cv-layout,
+  .cv-layout[data-panel] .preview-panel {
+    display: block !important;
+    max-width: none;
+    margin: 0;
+    padding: 0;
   }
-}
 
-.demo-back {
-  margin: 8px 0 0 20px;
+  .preview-panel {
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: none;
+    box-shadow: none;
+  }
+
+  .sheet-frame {
+    width: auto !important;
+    height: auto !important;
+    overflow: visible;
+  }
+
+  .sheet-scaler {
+    transform: none !important;
+  }
+
+  .page-format {
+    /* 764px * 1.0389 = 793.7px = 210mm: the sheet fills the page without reflowing its layout. */
+    zoom: 1.0389;
+    border: 0;
+    break-inside: avoid;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  .page-format * {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
 }

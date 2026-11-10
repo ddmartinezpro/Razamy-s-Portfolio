@@ -26,10 +26,9 @@
       "website": "https://www.mojito360.com/en/",
       "startDate": "Noviembre 2025",
       "endDate": "Actualidad",
-      "sumary": "Desarrollo frontend con Angular para software de gestión de cadena de suministro.",
+      "summary": "Angular para software de gestión de cadena de suministro.",
       "highlights": [
-        "Creación de nuevas vistas y flujos para clientes",
-        "Gestión de envíos, documentación y personal"
+        "Creación de vistas y flujos para clientes"
       ]
     },
     {
@@ -39,11 +38,10 @@
       "website": "https://help-desk-mojito360.vercel.app/",
       "startDate": "Enero 2026",
       "endDate": "Enero 2026",
-      "sumary": "Aplicación independiente de gestión de tickets con integración a Mojito360.",
+      "summary": "Aplicación de gestión de tickets con integración a Mojito360.",
       "highlights": [
-        "Arquitectura completa con Supabase (BD, autenticación)",
-        "Sistema de chats, notificaciones y configuraciones de SLA",
-        "Despliegue y CI/CD con Vercel"
+        "Supabase (BD, autenticación)",
+        "Despliegue con Vercel"
       ]
     },
     {
@@ -53,11 +51,10 @@
       "website": "https://app.sourtrack.com/",
       "startDate": "Febrero 2025",
       "endDate": "Noviembre 2025",
-      "sumary": "Aplicación web Angular para gestión de proyectos y flujos analíticos.",
+      "summary": "Aplicación Angular para gestión de proyectos.",
       "highlights": [
-        "Gestión de proyectos: Servicios → Órdenes → Operaciones",
-        "Generación de Estados de Pago y Órdenes de Compra",
-        "Soporte y mantenimiento continuo"
+        "Gestión de proyectos y flujos analíticos",
+        "Generación de documentos"
       ]
     },
     {
@@ -67,11 +64,10 @@
       "website": "https://app.logicplaces.com",
       "startDate": "Enero 2023",
       "endDate": "Enero 2025",
-      "sumary": "Herramienta web de inmobiliaria con desarrollo full-stack.",
+      "summary": "Herramienta web de inmobiliaria full-stack.",
       "highlights": [
-        "Desarrollo responsivo con Angular, Bootstrap y NgZorro",
-        "APIs REST con Node.js, Sequelize y PostgreSQL",
-        "Aplicaciones híbridas con Capacitor"
+        "Angular, Bootstrap, NgZorro",
+        "APIs REST con Node.js y PostgreSQL"
       ]
     }
   ],

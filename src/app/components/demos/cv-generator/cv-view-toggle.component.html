@@ -1,11 +1,11 @@
-<div class="toggle-buttons">
-  <div (click)="isAwsShow.set(true)">
-    <input type="checkbox" [checked]="isAwsShow()">
-    <label>{{ texts().awsFormat }}</label>
-  </div>
-
-  <div (click)="isAwsShow.set(false)">
-    <input type="checkbox" [checked]="!isAwsShow()">
-    <label>{{ texts().visualFormat }}</label>
-  </div>
-</div>
+<fieldset class="format-toggle">
+  <legend>{{ texts().format }}</legend>
+  <label>
+    <input type="radio" name="cv-format" value="visual" [checked]="format() === 'visual'" (change)="format.set('visual')">
+    {{ texts().visualFormat }}
+  </label>
+  <label>
+    <input type="radio" name="cv-format" value="aws" [checked]="format() === 'aws'" (change)="format.set('aws')">
+    {{ texts().awsFormat }}
+  </label>
+</fieldset>
