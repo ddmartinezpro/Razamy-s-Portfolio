@@ -3,7 +3,9 @@ import {
   Component,
   ElementRef,
   HostListener,
+  Injector,
   OnDestroy,
+  afterNextRender,
   computed,
   inject,
   signal,
@@ -30,7 +32,9 @@ export class NavbarComponent implements AfterViewInit, OnDestroy {
   private readonly languageService = inject(PortfolioLanguageService);
   private readonly themeService = inject(ThemeService);
   private readonly router = inject(Router);
+  private readonly injector = inject(Injector);
   private readonly menuButton = viewChild<ElementRef<HTMLButtonElement>>('menuButton');
+  private readonly mobileMenu = viewChild<ElementRef<HTMLElement>>('mobileMenu');
   private readonly mobileMenuQuery = window.matchMedia(MOBILE_MENU_QUERY);
   private readonly sectionIds: SectionId[] = ['home', 'stack', 'experience', 'projects', 'services', 'contact'];
   private routerSubscription: Subscription | null = null;
@@ -124,11 +128,45 @@ export class NavbarComponent implements AfterViewInit, OnDestroy {
   private setMenuOpen(open: boolean): void {
     this.menuOpen.set(open);
     document.body.classList.toggle('menu-open', open);
+    if (open) {
+      // The menu is `inert` until this render removes the attribute: focus its first link afterwards.
+      afterNextRender(() => this.menuFocusables()[1]?.focus(), { injector: this.injector });
+    }
   }
 
   @HostListener('document:keydown.escape')
   onEscape(): void {
     this.closeMenu();
+  }
+
+  // While the mobile menu is open, Tab / Shift+Tab cycle through the menu button and the menu items only.
+  @HostListener('document:keydown', ['$event'])
+  trapMenuFocus(event: KeyboardEvent): void {
+    if (event.key !== 'Tab' || !this.menuOpen()) return;
+
+    const items = this.menuFocusables();
+    if (!items.length) return;
+
+    const first = items[0];
+    const last = items[items.length - 1];
+    const active = document.activeElement as HTMLElement | null;
+    const insideMenu = active !== null && items.includes(active);
+
+    if (event.shiftKey && (active === first || !insideMenu)) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && (active === last || !insideMenu)) {
+      event.preventDefault();
+      first.focus();
+    }
+  }
+
+  /** Menu toggle button first, then every focusable item of the mobile menu, in DOM order. */
+  private menuFocusables(): HTMLElement[] {
+    const button = this.menuButton()?.nativeElement;
+    const menu = this.mobileMenu()?.nativeElement;
+    const inMenu = menu ? Array.from(menu.querySelectorAll<HTMLElement>('a[href], button:not([disabled])')) : [];
+    return button ? [button, ...inMenu] : inMenu;
   }
 
   navigateToSection(sectionId: SectionId, event: MouseEvent): void {

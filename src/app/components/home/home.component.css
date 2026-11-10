@@ -308,7 +308,7 @@
   gap: 8px;
 }
 
-.chips span,
+.chips .has-tooltip,
 .chips small {
   border: 1px solid rgba(80, 115, 148, 0.17);
   border-radius: 999px;
@@ -328,8 +328,10 @@
 
 .has-tooltip {
   position: relative;
+  margin: 0;
+  line-height: inherit;
   cursor: help;
-  outline: none;
+  appearance: none;
 }
 
 .has-tooltip:focus-visible {
@@ -952,7 +954,8 @@
   .button,
   .project-card,
   .project-image img,
-  .service-card {
+  .service-card,
+  .has-tooltip::after {
     transition: none;
   }
 }
@@ -1076,7 +1079,7 @@
     border-radius: 24px;
   }
 
-  .chips span {
+  .chips .has-tooltip {
     display: inline-flex;
     align-items: center;
     min-height: 36px;

@@ -216,12 +216,12 @@ Objetivo: que nada de lo que ve un visitante parezca roto.
 
 ## Fase 4 — Accesibilidad
 
-- [ ] **F4.1 · Media — Menú móvil:** al abrir, mover el foco al primer enlace y mantenerlo dentro del menú; al cerrar, devolverlo al botón (esto último ya existe).
-- [ ] **F4.2 · Media — Chips con tooltip del stack:** convertirlos en `<button>` (o `role="button"` + `aria-expanded`) que se abran con Enter/Espacio.
-- [ ] **F4.3 · Media — Enlace "Saltar al contenido"** como primer elemento enfocable.
-- [ ] **F4.4 · Media — Foco visible global** con `:focus-visible` usando los tokens del tema.
-- [ ] **F4.5 · Media — Revisión con axe** (extensión de DevTools) en claro y oscuro, ES y EN; corregir contrastes y etiquetas.
-- [ ] **F4.6 · Baja — Movimiento reducido:** comprobar que con `prefers-reduced-motion` se desactivan las animaciones de aparición, la inclinación de tarjetas y las partículas.
+- [x] **F4.1 · Media — Menú móvil:** *(hecho 2026-11-10: foco al primer enlace al abrir y Tab/Shift+Tab en bucle entre el botón y el menú)* al abrir, mover el foco al primer enlace y mantenerlo dentro del menú; al cerrar, devolverlo al botón (esto último ya existe).
+- [x] **F4.2 · Media — Chips con tooltip del stack:** *(hecho 2026-11-10: son `<button>`; su entrada temporal de eslint se ha quitado)* convertirlos en `<button>` (o `role="button"` + `aria-expanded`) que se abran con Enter/Espacio.
+- [x] **F4.3 · Media — Enlace "Saltar al contenido"** *(hecho 2026-11-10: primer Tab de cada página; lleva el foco a `<main>` sin escribir el hash en la URL)* como primer elemento enfocable.
+- [x] **F4.4 · Media — Foco visible global** *(hecho 2026-11-10: token `--focus-ring` (≥5:1 en claro, ≥7:1 en oscuro), 3 px con separación)* con `:focus-visible` usando los tokens del tema.
+- [x] **F4.5 · Media — Revisión con axe** *(hecho 2026-11-10 con axe-core 4.14 (WCAG 2.2 AA + buenas prácticas) en portada, CV Generator y Ventas, claro/oscuro, ES/EN y menú móvil abierto. Corregido: nombre accesible del logo y del botón de idioma, que no incluía el texto visible (WCAG 2.5.3), y `<h1>` del CV Generator. Sin fallos de contraste. Pendiente en F5.5: etiquetas del selector de idioma y de los checkboxes AWS/Visual del CV Generator)* (extensión de DevTools) en claro y oscuro, ES y EN; corregir contrastes y etiquetas.
+- [x] **F4.6 · Baja — Movimiento reducido:** *(hecho 2026-11-10: todo ya respetaba la preferencia; además las partículas dibujan un único fotograma estático en vez de repintar a 60 fps, y los tooltips no se deslizan)* comprobar que con `prefers-reduced-motion` se desactivan las animaciones de aparición, la inclinación de tarjetas y las partículas.
 
 ---
 

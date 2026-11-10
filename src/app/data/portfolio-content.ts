@@ -54,6 +54,9 @@ export interface PortfolioContent {
     mainNavLabel: string;
     homeLabel: string;
     backToPortfolio: string;
+    skipToContent: string;
+    /** Accessible name of the language toggle after its visible code (ES/EN). */
+    switchLanguage: string;
   };
   hero: {
     eyebrow: string;
@@ -135,8 +138,10 @@ export const portfolioContent: Record<PortfolioLanguage, PortfolioContent> = {
       themeLight: 'Claro',
       themeDark: 'Oscuro',
       mainNavLabel: 'Navegación principal',
-      homeLabel: 'Ir al inicio del portfolio',
+      homeLabel: 'Razamy, inicio del portfolio',
       backToPortfolio: 'Volver al portfolio',
+      skipToContent: 'Saltar al contenido',
+      switchLanguage: 'cambiar a inglés',
     },
     hero: {
       eyebrow: 'Full Stack Developer · Angular · TypeScript',
@@ -338,8 +343,10 @@ export const portfolioContent: Record<PortfolioLanguage, PortfolioContent> = {
       themeLight: 'Light',
       themeDark: 'Dark',
       mainNavLabel: 'Main navigation',
-      homeLabel: 'Go to the portfolio home',
+      homeLabel: 'Razamy, portfolio home',
       backToPortfolio: 'Back to portfolio',
+      skipToContent: 'Skip to content',
+      switchLanguage: 'switch to Spanish',
     },
     hero: {
       eyebrow: 'Full Stack Developer · Angular · TypeScript',

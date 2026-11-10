@@ -30,6 +30,8 @@
   --stack-icon-color: #000000;
   --cta-halo: rgba(182, 108, 217, 0.45);
   --cta-shine: rgba(255, 255, 255, 0.42);
+  /* Keyboard focus ring: ≥5:1 against every light surface. */
+  --focus-ring: #8e44b8;
   --font-primary: 'Montserrat', sans-serif;
   --font-secondary: 'Open Sans', sans-serif;
   scroll-behavior: smooth;
@@ -62,6 +64,8 @@
   --stack-icon-color: #ecf6ff;
   --cta-halo: rgba(200, 122, 240, 0.5);
   --cta-shine: rgba(200, 122, 240, 0.34);
+  /* Keyboard focus ring: ≥7:1 against every dark surface. */
+  --focus-ring: #d9a3f5;
 }
 
 /* Registered so conic-gradient borders can animate their angle smoothly. */
@@ -141,6 +145,38 @@ button {
 
 img {
   max-width: 100%;
+}
+
+/* One visible focus style for every interactive element, shown only for keyboard focus. */
+:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 3px;
+}
+
+/* <main> receives focus programmatically from the skip link: no ring around the whole page. */
+main:focus {
+  outline: none;
+}
+
+/* First Tab stop on every page; hidden above the viewport until focused. */
+.skip-link {
+  position: fixed;
+  top: calc(12px + var(--safe-top));
+  left: 12px;
+  z-index: 100;
+  padding: 12px 18px;
+  border-radius: 999px;
+  background: var(--color-ink);
+  color: var(--color-on-ink);
+  font-family: var(--font-primary);
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  transform: translateY(calc(-100% - 24px));
+}
+
+.skip-link:focus {
+  transform: none;
 }
 
 /* Visually hidden but still read by screen readers (live regions, extra labels). */

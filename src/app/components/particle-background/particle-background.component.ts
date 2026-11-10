@@ -70,10 +70,14 @@ export class ParticleBackgroundComponent implements AfterViewInit, OnDestroy {
       if (widthChanged) {
         this.seedParticles();
       }
+      this.redrawIfStatic();
     };
     // Pause the loop while the tab is hidden to save battery.
     const visibilityHandler = () => (document.hidden ? this.stop() : this.start());
-    const themeObserver = new MutationObserver(() => this.readColors());
+    const themeObserver = new MutationObserver(() => {
+      this.readColors();
+      this.redrawIfStatic();
+    });
     themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
     const mouseMoveHandler = (event: MouseEvent) => {
       this.mouse.x = event.clientX;
@@ -132,7 +136,17 @@ export class ParticleBackgroundComponent implements AfterViewInit, OnDestroy {
     this.drawParticles();
     this.drawConnections();
 
-    this.animationFrame = requestAnimationFrame(() => this.render());
+    // Reduced motion: a single static frame instead of a 60 fps loop (no movement, no wasted CPU).
+    if (!this.reducedMotion) {
+      this.animationFrame = requestAnimationFrame(() => this.render());
+    }
+  }
+
+  // Resizing the canvas or switching theme clears/recolors it: the static frame must be drawn again.
+  private redrawIfStatic(): void {
+    if (this.reducedMotion) {
+      this.render();
+    }
   }
 
   private drawParticles(): void {

@@ -13,7 +13,13 @@
   </div>
 
   <div class="nav-actions">
-    <button type="button" class="language-toggle desktop-only" (click)="toggleLanguage()" [attr.aria-label]="content().language">
+    <!-- The accessible name starts with the visible code (WCAG 2.5.3, label in name). -->
+    <button
+      type="button"
+      class="language-toggle desktop-only"
+      (click)="toggleLanguage()"
+      [attr.aria-label]="language().toUpperCase() + ', ' + content().switchLanguage"
+    >
       {{ language().toUpperCase() }}
     </button>
     <!-- Shows the theme it switches to, like the language toggle shows its target language. -->
@@ -47,7 +53,7 @@
 
 <div class="menu-backdrop" [class.is-open]="menuOpen()" (click)="closeMenu()" aria-hidden="true"></div>
 
-<div id="mobile-menu" class="mobile-menu" [class.is-open]="menuOpen()" [attr.aria-hidden]="!menuOpen()" [attr.inert]="menuOpen() ? null : ''">
+<div #mobileMenu id="mobile-menu" class="mobile-menu" [class.is-open]="menuOpen()" [attr.aria-hidden]="!menuOpen()" [attr.inert]="menuOpen() ? null : ''">
   <ul class="mobile-links">
     @for (link of sectionLinks; track link; let i = $index) {
       <li [style.--item-index]="i">

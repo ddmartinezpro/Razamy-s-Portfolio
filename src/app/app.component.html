@@ -1,12 +1,13 @@
+<a class="skip-link" href="#main-content" (click)="skipToContent($event)">{{ skipLabel() }}</a>
+
 <app-particle-background></app-particle-background>
 
 <header>
   <app-navbar></app-navbar>
 </header>
 
-<main>
+<main #main id="main-content" tabindex="-1">
   <router-outlet></router-outlet>
 </main>
 
 <app-footer></app-footer>
-

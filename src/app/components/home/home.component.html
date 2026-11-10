@@ -80,9 +80,10 @@
         <h3>{{ group.title }}</h3>
         <div class="chips">
           @for (item of group.items; track item.name) {
-            <span
+            <!-- A real button: focusable and activated with Enter/Space; the label reads the description too. -->
+            <button
+              type="button"
               class="has-tooltip"
-              tabindex="0"
               [class.is-open]="openTooltip() === item.name"
               [class.align-end]="openTooltip() === item.name && tooltipAlignEnd()"
               [attr.data-tooltip]="item.description"
@@ -90,7 +91,7 @@
               (click)="toggleTooltip(item.name, $event)"
             >
               {{ item.name }}
-            </span>
+            </button>
           }
         </div>
       </article>
